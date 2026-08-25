@@ -1,18 +1,25 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
-import { Circle, PlayCircle, CheckCircle2, Award } from 'lucide-react'
+import { Circle, PlayCircle, Send, Clock, CheckCircle2, Award } from 'lucide-react'
 
 const STATUS_FLOW = {
   todo: { next: 'in_progress', label: 'Start', icon: PlayCircle },
-  in_progress: { next: 'done', label: 'Mark Done', icon: CheckCircle2 },
-  done: null,
+  in_progress: { next: 'submitted', label: 'Submit', icon: Send },
+  submitted: null,
+  confirmed: null,
 }
 
 const STATUS_STYLES = {
   todo: 'text-white/40',
   in_progress: 'text-amber-400',
-  done: 'text-green-400',
+  submitted: 'text-blue-400',
+  confirmed: 'text-green-400',
+}
+
+const STATUS_LABELS = {
+  submitted: 'Awaiting confirmation',
+  confirmed: 'Confirmed',
 }
 
 export default function MemberDashboard() {
@@ -48,10 +55,19 @@ export default function MemberDashboard() {
 
     if (!error) {
       setTasks((prev) => prev.map((t) => (t.id === task.id ? { ...t, status: next } : t)))
-      if (next === 'done') await refreshProfile()
     }
     setBusyId(null)
   }
+
+  // Points only change once a Leader/Excom/Admin confirms a task, so refresh
+  // the profile whenever we notice a task has moved to 'confirmed' since we
+  // last loaded it (covers the case where it was confirmed while this page
+  // was open).
+  useEffect(() => {
+    if (tasks.some((t) => t.status === 'confirmed')) {
+      refreshProfile()
+    }
+  }, [tasks])
 
   return (
     <div className="w-full max-w-2xl">
@@ -99,8 +115,15 @@ export default function MemberDashboard() {
                     <Icon size={14} /> {flow.label}
                   </button>
                 )}
-                {t.status === 'done' && (
-                  <span className="text-green-400 text-xs font-semibold shrink-0">Done</span>
+                {t.status === 'submitted' && (
+                  <span className={`text-xs font-semibold shrink-0 flex items-center gap-1.5 ${STATUS_STYLES.submitted}`}>
+                    <Clock size={14} /> {STATUS_LABELS.submitted}
+                  </span>
+                )}
+                {t.status === 'confirmed' && (
+                  <span className={`text-xs font-semibold shrink-0 flex items-center gap-1.5 ${STATUS_STYLES.confirmed}`}>
+                    <CheckCircle2 size={14} /> {STATUS_LABELS.confirmed}
+                  </span>
                 )}
               </div>
             )

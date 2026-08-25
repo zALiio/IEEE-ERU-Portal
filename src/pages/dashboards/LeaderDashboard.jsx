@@ -2,14 +2,16 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
-import { Users, Plus, X, BookUser } from 'lucide-react'
+import { Users, Plus, X, BookUser, ClipboardCheck, Check } from 'lucide-react'
 
 export default function LeaderDashboard() {
   const { profile } = useAuth()
   const [members, setMembers] = useState([])
+  const [pending, setPending] = useState([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [error, setError] = useState('')
+  const [confirmingId, setConfirmingId] = useState(null)
 
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -27,12 +29,33 @@ export default function LeaderDashboard() {
       .eq('status', 'active')
       .order('full_name')
     setMembers(data ?? [])
+
+    const { data: pendingTasks } = await supabase
+      .from('tasks')
+      .select('*')
+      .eq('status', 'submitted')
+      .in('assigned_to', (data ?? []).map((m) => m.id))
+      .order('created_at', { ascending: true })
+    setPending(pendingTasks ?? [])
+
     setLoading(false)
   }
 
   useEffect(() => {
     if (profile?.team_id) loadTeam()
   }, [profile?.team_id])
+
+  const confirmTask = async (taskId) => {
+    setConfirmingId(taskId)
+    const { error } = await supabase.rpc('confirm_task', { p_task_id: taskId })
+    setConfirmingId(null)
+
+    if (error) {
+      setError(error.message)
+      return
+    }
+    await loadTeam()
+  }
 
   const assignTask = async (e) => {
     e.preventDefault()
@@ -139,6 +162,41 @@ export default function LeaderDashboard() {
           </button>
         </form>
       )}
+
+      {pending.length > 0 && (
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-3">
+            <ClipboardCheck className="text-blue-400" size={18} />
+            <h2 className="text-lg font-bold uppercase tracking-tight text-white/70">
+              Pending Confirmation
+            </h2>
+          </div>
+          <div className="space-y-3">
+            {pending.map((t) => {
+              const assignee = members.find((m) => m.id === t.assigned_to)
+              return (
+                <div key={t.id} className="glass p-5 flex items-center justify-between gap-4 border border-blue-400/20">
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold truncate">{t.title}</p>
+                    <p className="text-white/40 text-xs mt-1">
+                      {assignee?.full_name ?? 'Unknown member'} · {t.points} pts
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => confirmTask(t.id)}
+                    disabled={confirmingId === t.id}
+                    className="btn-primary text-xs px-4 py-2 flex items-center gap-2 shrink-0 disabled:opacity-50"
+                  >
+                    <Check size={14} /> {confirmingId === t.id ? 'Confirming…' : 'Confirm'}
+                  </button>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {error && !showForm && <p className="text-red-400 text-xs mb-3">{error}</p>}
 
       {loading ? (
         <p className="text-white/40 text-sm">Loading…</p>
