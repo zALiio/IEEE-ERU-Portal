@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, ShieldCheck, Eye, EyeOff } from 'lucide-react'
+import logo from '../assets/img/falg-blue.webp'
 
 export default function LoginPage() {
   const { isDark, toggleTheme } = useTheme()
@@ -41,7 +42,7 @@ export default function LoginPage() {
       </button>
 
       <div className="glass p-10 max-w-md w-full text-center">
-        <ShieldCheck className="mx-auto mb-6 text-primary" size={40} />
+        <img src={logo} alt="IEEE ERU" className="mx-auto mb-6 h-14 w-14 object-contain" />
         <h1 className="text-3xl font-black uppercase tracking-tight mb-2 glow-text">
           IEEE ERU Portal
         </h1>
