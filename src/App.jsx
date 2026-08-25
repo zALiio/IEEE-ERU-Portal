@@ -1,14 +1,49 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
+import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
 import LoginPage from './pages/LoginPage'
+import SignupPage from './pages/SignupPage'
+import PendingApprovalPage from './pages/PendingApprovalPage'
+import DashboardPage from './pages/DashboardPage'
+import ApprovalPage from './pages/ApprovalPage'
+import MemberDirectoryPage from './pages/MemberDirectoryPage'
 
 function App() {
   return (
     <ThemeProvider>
       <Router>
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/pending" element={<PendingApprovalPage />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/approve"
+              element={
+                <ProtectedRoute allowedRoles={['excom', 'admin']}>
+                  <ApprovalPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/directory"
+              element={
+                <ProtectedRoute allowedRoles={['leader', 'excom', 'admin']}>
+                  <MemberDirectoryPage />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </AuthProvider>
       </Router>
     </ThemeProvider>
   )
