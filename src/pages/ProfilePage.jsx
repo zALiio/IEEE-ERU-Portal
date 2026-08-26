@@ -12,14 +12,18 @@ export default function ProfilePage() {
   const { profile, refreshProfile } = useAuth()
   const navigate = useNavigate()
   const [fullName, setFullName] = useState(profile?.full_name ?? '')
-  const [uploading, setUploading] = useState(false)
-  const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [saving, setSaving] = useState(false)
 
+  // Cropper modal state
   const [imageSrc, setImageSrc] = useState(null)
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [croppedPixels, setCroppedPixels] = useState(null)
+
+  // Staged (not-yet-saved) avatar
+  const [pendingBlob, setPendingBlob] = useState(null)
+  const [previewUrl, setPreviewUrl] = useState(null)
 
   const onFileChange = (e) => {
     const file = e.target.files?.[0]
@@ -34,51 +38,46 @@ export default function ProfilePage() {
   }, [])
 
   const confirmCrop = async () => {
-    setError('')
-    setUploading(true)
-    try {
-      const blob = await getCroppedBlob(imageSrc, croppedPixels)
-      const path = `${profile.id}/avatar.jpg`
-
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(path, blob, { upsert: true, contentType: 'image/jpeg' })
-      if (uploadError) throw uploadError
-
-      const { data } = supabase.storage.from('avatars').getPublicUrl(path)
-      const avatarUrl = `${data.publicUrl}?t=${Date.now()}`
-
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({ avatar_url: avatarUrl })
-        .eq('id', profile.id)
-      if (updateError) throw updateError
-
-      await refreshProfile()
-      setImageSrc(null)
-      navigate('/')
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setUploading(false)
-    }
+    const blob = await getCroppedBlob(imageSrc, croppedPixels)
+    setPendingBlob(blob)
+    setPreviewUrl(URL.createObjectURL(blob))
+    setImageSrc(null)
   }
 
-  const saveName = async (e) => {
-    e.preventDefault()
+  const dirty = pendingBlob || fullName.trim() !== (profile?.full_name ?? '')
+
+  const saveAll = async () => {
     setError('')
     if (!fullName.trim()) { setError('Name is required'); return }
     setSaving(true)
 
-    const { error } = await supabase
-      .from('profiles')
-      .update({ full_name: fullName.trim() })
-      .eq('id', profile.id)
+    try {
+      const updates = { full_name: fullName.trim() }
 
-    setSaving(false)
-    if (error) { setError(error.message); return }
-    await refreshProfile()
-    navigate('/')
+      if (pendingBlob) {
+        const path = `${profile.id}/avatar.jpg`
+        const { error: uploadError } = await supabase.storage
+          .from('avatars')
+          .upload(path, pendingBlob, { upsert: true, contentType: 'image/jpeg' })
+        if (uploadError) throw uploadError
+
+        const { data } = supabase.storage.from('avatars').getPublicUrl(path)
+        updates.avatar_url = `${data.publicUrl}?t=${Date.now()}`
+      }
+
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update(updates)
+        .eq('id', profile.id)
+      if (updateError) throw updateError
+
+      await refreshProfile()
+      navigate('/')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -103,8 +102,8 @@ export default function ProfilePage() {
 
         <div className="glass p-6 mb-4 flex flex-col items-center">
           <div className="relative">
-            {profile?.avatar_url ? (
-              <img src={profile.avatar_url} alt="Avatar" className="w-24 h-24 rounded-full object-cover border border-foreground/10" />
+            {previewUrl || profile?.avatar_url ? (
+              <img src={previewUrl ?? profile.avatar_url} alt="Avatar" className="w-24 h-24 rounded-full object-cover border border-foreground/10" />
             ) : (
               <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center">
                 <User size={32} className="text-primary" />
@@ -112,20 +111,20 @@ export default function ProfilePage() {
             )}
             <label className="absolute -bottom-1 -right-1 glass-pill p-2 cursor-pointer hover:bg-primary/10 transition-colors">
               <Upload size={14} />
-              <input type="file" accept="image/*" onChange={onFileChange} className="hidden" disabled={uploading} />
+              <input type="file" accept="image/*" onChange={onFileChange} className="hidden" />
             </label>
           </div>
-          {error && <p className="text-red-400 text-xs mt-3">{error}</p>}
         </div>
 
-        <form onSubmit={saveName} className="glass p-6 space-y-3">
+        <div className="glass p-6 space-y-3">
           <label className="text-xs uppercase tracking-wide text-foreground/50">Full Name</label>
           <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required
             className="w-full glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm" />
-          <button type="submit" disabled={saving} className="btn-primary w-full text-sm disabled:opacity-50">
+          {error && <p className="text-red-400 text-xs">{error}</p>}
+          <button onClick={saveAll} disabled={saving || !dirty} className="btn-primary w-full text-sm disabled:opacity-50">
             {saving ? 'Saving…' : 'Save'}
           </button>
-        </form>
+        </div>
       </div>
 
       {imageSrc && (
@@ -146,13 +145,11 @@ export default function ProfilePage() {
             onChange={(e) => setZoom(Number(e.target.value))}
             className="w-full max-w-sm mt-4" />
           <div className="flex gap-3 mt-4 w-full max-w-sm">
-            <button onClick={() => setImageSrc(null)} disabled={uploading}
-              className="glass-pill flex-1 py-2.5 text-sm hover:bg-primary/10 transition-colors disabled:opacity-50">
+            <button onClick={() => setImageSrc(null)} className="glass-pill flex-1 py-2.5 text-sm hover:bg-primary/10 transition-colors">
               Cancel
             </button>
-            <button onClick={confirmCrop} disabled={uploading}
-              className="btn-primary flex-1 text-sm disabled:opacity-50">
-              {uploading ? 'Saving…' : 'Save'}
+            <button onClick={confirmCrop} className="btn-primary flex-1 text-sm">
+              Use Photo
             </button>
           </div>
         </div>
