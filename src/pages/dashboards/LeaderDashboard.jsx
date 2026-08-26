@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
 import { Users, Plus, X, BookUser, ClipboardCheck, Check, Trophy, Calendar } from 'lucide-react'
+import NavDrawer from '../../components/NavDrawer'
 
 export default function LeaderDashboard() {
   const { profile } = useAuth()
@@ -112,7 +113,7 @@ export default function LeaderDashboard() {
             {profile?.teams?.name ?? 'Your Team'}
           </h2>
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="hidden lg:flex items-center gap-2 flex-wrap">
           <Link to="/leaderboard" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
             <Trophy size={14} /> Leaderboard
           </Link>
@@ -130,6 +131,14 @@ export default function LeaderDashboard() {
             {showForm ? 'Cancel' : 'Assign Task'}
           </button>
         </div>
+        <NavDrawer
+          items={[
+            { label: 'Leaderboard', icon: Trophy, to: '/leaderboard' },
+            { label: 'Events', icon: Calendar, to: '/events' },
+            { label: 'Directory', icon: BookUser, to: '/directory' },
+            { label: showForm ? 'Cancel' : 'Assign Task', icon: showForm ? X : Plus, onClick: () => setShowForm((p) => !p), primary: true },
+          ]}
+        />
       </div>
 
       {showForm && (
