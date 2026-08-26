@@ -214,6 +214,11 @@ export default function ExcomAdminDashboard() {
                     <p className="text-white/40 text-xs mt-1">
                       {assignee?.full_name ?? 'Unknown member'} · {t.points} pts
                     </p>
+                    {t.proof_url && (
+                      <a href={t.proof_url} target="_blank" rel="noreferrer" className="text-blue-400 text-xs underline mt-1 inline-block">
+                        View Proof
+                      </a>
+                    )}
                   </div>
                   <button
                     onClick={() => confirmTask(t.id)}

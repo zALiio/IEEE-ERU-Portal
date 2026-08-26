@@ -47,15 +47,22 @@ export default function MemberDashboard() {
   const advance = async (task) => {
     const next = STATUS_FLOW[task.status]?.next
     if (!next) return
+
+    let proofUrl = task.proof_url
+    if (next === 'submitted') {
+      proofUrl = window.prompt('Paste your Drive link with the completed work:')
+      if (!proofUrl) return
+    }
+
     setBusyId(task.id)
 
     const { error } = await supabase
       .from('tasks')
-      .update({ status: next })
+      .update({ status: next, proof_url: proofUrl })
       .eq('id', task.id)
 
     if (!error) {
-      setTasks((prev) => prev.map((t) => (t.id === task.id ? { ...t, status: next } : t)))
+      setTasks((prev) => prev.map((t) => (t.id === task.id ? { ...t, status: next, proof_url: proofUrl } : t)))
     }
     setBusyId(null)
   }
