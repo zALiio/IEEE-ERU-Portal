@@ -82,6 +82,20 @@ export default function ExcomAdminDashboard() {
     await load()
   }
 
+  const rejectTask = async (taskId) => {
+    const note = window.prompt('Reason for rejecting (optional):')
+    if (note === null) return
+    setConfirmingId(taskId)
+    const { error } = await supabase.rpc('reject_task', { p_task_id: taskId, p_note: note || null })
+    setConfirmingId(null)
+
+    if (error) {
+      setError(error.message)
+      return
+    }
+    await load()
+  }
+
   const assignTask = async (e) => {
     e.preventDefault()
     setError('')
@@ -226,6 +240,13 @@ export default function ExcomAdminDashboard() {
                     className="btn-primary text-xs px-4 py-2 flex items-center gap-2 shrink-0 disabled:opacity-50"
                   >
                     <Check size={14} /> {confirmingId === t.id ? 'Confirming…' : 'Confirm'}
+                  </button>
+                  <button
+                    onClick={() => rejectTask(t.id)}
+                    disabled={confirmingId === t.id}
+                    className="glass-pill text-xs px-4 py-2 flex items-center gap-2 shrink-0 text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                  >
+                    <X size={14} /> Reject
                   </button>
                 </div>
               )

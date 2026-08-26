@@ -119,6 +119,9 @@ export default function MemberDashboard() {
                   {t.description && (
                     <p className="text-white/40 text-xs mt-1 truncate">{t.description}</p>
                   )}
+                  {t.status === 'in_progress' && t.reject_note && (
+                    <p className="text-red-400 text-xs mt-1">Rejected: {t.reject_note}</p>
+                  )}
                   <p className="text-white/30 text-xs mt-1">
                     {t.points} pts{t.due_date ? ` · due ${t.due_date}` : ''}
                   </p>
