@@ -25,18 +25,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
-      <div className="absolute top-6 right-6 flex items-center gap-2">
-        <NotificationBell />
-        <button
-          onClick={toggleTheme}
-          className="p-3 glass-pill hover:bg-primary/10 transition-colors"
-          aria-label="Toggle theme"
-        >
-          {isDark ? <Sun size={18} /> : <Moon size={18} />}
-        </button>
-      </div>
-
-      <div className="w-full max-w-2xl flex items-center justify-between gap-3 mb-8">
+      <div className="w-full max-w-2xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div className="min-w-0">
           <h1 className="text-xl font-black uppercase tracking-tight glow-text truncate">
             {profile?.full_name}
@@ -45,12 +34,22 @@ export default function DashboardPage() {
             {profile?.role} · {profile?.teams?.name ?? 'No team'}
           </p>
         </div>
-        <button
-          onClick={signOut}
-          className="glass-pill px-4 py-2.5 flex items-center gap-2 text-xs hover:bg-primary/10 transition-colors shrink-0"
-        >
-          <LogOut size={14} /> Sign Out
-        </button>
+        <div className="flex items-center gap-2 shrink-0">
+          <NotificationBell />
+          <button
+            onClick={toggleTheme}
+            className="p-3 glass-pill hover:bg-primary/10 transition-colors"
+            aria-label="Toggle theme"
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+          <button
+            onClick={signOut}
+            className="glass-pill px-4 py-2.5 flex items-center gap-2 text-xs hover:bg-primary/10 transition-colors"
+          >
+            <LogOut size={14} /> Sign Out
+          </button>
+        </div>
       </div>
 
       {renderRoleView()}
