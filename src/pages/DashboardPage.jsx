@@ -37,7 +37,7 @@ export default function DashboardPage() {
           <h1 className="text-xl font-black uppercase tracking-tight glow-text truncate">
             {profile?.full_name}
           </h1>
-          <p className="text-white/40 text-xs uppercase tracking-[0.2em] mt-1 truncate">
+          <p className="text-foreground/40 text-xs uppercase tracking-[0.2em] mt-1 truncate">
             {profile?.role} · {profile?.teams?.name ?? 'No team'}
           </p>
         </div>

@@ -58,7 +58,7 @@ export default function MemberDirectoryPage() {
       <div className="max-w-2xl w-full">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-sm mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors"
         >
           <ArrowLeft size={16} /> Back to dashboard
         </Link>
@@ -71,10 +71,10 @@ export default function MemberDirectoryPage() {
         </div>
 
         {loading ? (
-          <p className="text-white/40 text-sm">Loading…</p>
+          <p className="text-foreground/40 text-sm">Loading…</p>
         ) : members.length === 0 ? (
           <div className="glass p-8 text-center">
-            <p className="text-white/40 text-sm">No active members to show.</p>
+            <p className="text-foreground/40 text-sm">No active members to show.</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -86,13 +86,13 @@ export default function MemberDirectoryPage() {
               >
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold truncate">{m.full_name}</p>
-                  <p className="text-white/40 text-xs uppercase tracking-wide truncate">
+                  <p className="text-foreground/40 text-xs uppercase tracking-wide truncate">
                     {m.role} · {m.teams?.name ?? 'No team'}
                   </p>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
                   <p className="text-primary font-bold">{m.points} pts</p>
-                  <ChevronRight size={16} className="text-white/30" />
+                  <ChevronRight size={16} className="text-foreground/30" />
                 </div>
               </button>
             ))}
@@ -278,17 +278,17 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
         <div className="flex items-start justify-between mb-6">
           <div>
             <h2 className="text-xl font-black uppercase tracking-tight glow-text">{member.full_name}</h2>
-            <p className="text-white/40 text-xs uppercase tracking-wide mt-1">
+            <p className="text-foreground/40 text-xs uppercase tracking-wide mt-1">
               {member.role} · {member.teams?.name ?? 'No team'}
             </p>
           </div>
-          <button onClick={onClose} className="text-white/40 hover:text-white/70 transition-colors">
+          <button onClick={onClose} className="text-foreground/40 hover:text-foreground/70 transition-colors">
             <X size={20} />
           </button>
         </div>
 
         <div className="glass p-4 mb-6 flex items-center justify-between">
-          <span className="text-white/50 text-xs uppercase tracking-[0.2em]">Total Points</span>
+          <span className="text-foreground/50 text-xs uppercase tracking-[0.2em]">Total Points</span>
           <span className="text-2xl font-black text-primary">{member.points}</span>
         </div>
 
@@ -298,7 +298,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
           <>
             {/* Role change */}
             <div className="glass p-4 mb-4">
-              <p className="text-white/50 text-xs uppercase tracking-wide mb-2 flex items-center gap-2">
+              <p className="text-foreground/50 text-xs uppercase tracking-wide mb-2 flex items-center gap-2">
                 <ShieldCheck size={13} /> Change Role
               </p>
               <div className="flex gap-2">
@@ -322,7 +322,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
                 </button>
               </div>
               {newRoleHasNoTeam && (
-                <p className="text-white/30 text-[10px] uppercase tracking-wide mt-2">
+                <p className="text-foreground/30 text-[10px] uppercase tracking-wide mt-2">
                   Excom & Admin are founders' roles — no team assignment
                 </p>
               )}
@@ -331,7 +331,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
             {/* Team transfer — hidden entirely for Excom/Admin, who don't belong to any team */}
             {!newRoleHasNoTeam && (
               <div className="glass p-4 mb-4">
-                <p className="text-white/50 text-xs uppercase tracking-wide mb-2 flex items-center gap-2">
+                <p className="text-foreground/50 text-xs uppercase tracking-wide mb-2 flex items-center gap-2">
                   <Shuffle size={13} /> Transfer Team
                 </p>
                 <div className="flex gap-2">
@@ -357,7 +357,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
 
             {/* Points adjustment */}
             <form onSubmit={submitAdjustment} className="glass p-4 mb-4 space-y-2">
-              <p className="text-white/50 text-xs uppercase tracking-wide mb-2">Adjust Points</p>
+              <p className="text-foreground/50 text-xs uppercase tracking-wide mb-2">Adjust Points</p>
               <div className="flex gap-2">
                 <input
                   type="number"
@@ -385,7 +385,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
 
             {/* Warnings + termination */}
             <div className="glass p-4 mb-6">
-              <p className="text-white/50 text-xs uppercase tracking-wide mb-3 flex items-center gap-2">
+              <p className="text-foreground/50 text-xs uppercase tracking-wide mb-3 flex items-center gap-2">
                 <AlertTriangle size={13} /> Disciplinary Actions
               </p>
               <div className="flex flex-wrap gap-2">
@@ -416,29 +416,29 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
         )}
 
         {loading ? (
-          <p className="text-white/40 text-sm">Loading…</p>
+          <p className="text-foreground/40 text-sm">Loading…</p>
         ) : (
           <>
-            <p className="text-white/50 text-xs uppercase tracking-wide mb-2">Tasks</p>
+            <p className="text-foreground/50 text-xs uppercase tracking-wide mb-2">Tasks</p>
             <div className="space-y-2 mb-6">
-              {tasks.length === 0 && <p className="text-white/30 text-xs">No tasks yet.</p>}
+              {tasks.length === 0 && <p className="text-foreground/30 text-xs">No tasks yet.</p>}
               {tasks.map((t) => (
                 <div key={t.id} className="flex items-center justify-between text-sm py-1.5 border-b border-white/5">
                   <span className="truncate">{t.title}</span>
-                  <span className="text-white/40 text-xs uppercase shrink-0 ml-2">{t.status.replace('_', ' ')}</span>
+                  <span className="text-foreground/40 text-xs uppercase shrink-0 ml-2">{t.status.replace('_', ' ')}</span>
                 </div>
               ))}
             </div>
 
-            <p className="text-white/50 text-xs uppercase tracking-wide mb-2">Points History</p>
+            <p className="text-foreground/50 text-xs uppercase tracking-wide mb-2">Points History</p>
             <div className="space-y-2">
-              {log.length === 0 && <p className="text-white/30 text-xs">No history yet.</p>}
+              {log.length === 0 && <p className="text-foreground/30 text-xs">No history yet.</p>}
               {log.map((l) => (
                 <div key={l.id} className="flex items-center justify-between text-sm py-1.5 border-b border-white/5">
                   <div className="min-w-0 flex-1">
                     <span className="truncate block">{l.note}</span>
                     {l.entry_type && l.entry_type !== 'adjustment' && (
-                      <span className={`text-[10px] uppercase tracking-wide ${l.entry_type === 'warning' ? 'text-orange-400' : 'text-white/30'}`}>
+                      <span className={`text-[10px] uppercase tracking-wide ${l.entry_type === 'warning' ? 'text-orange-400' : 'text-foreground/30'}`}>
                         {l.entry_type}
                       </span>
                     )}
@@ -496,7 +496,7 @@ function ConfirmDialog({ action, memberName, busy, onCancel, onConfirm }) {
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center px-4 z-[60]" onClick={onCancel}>
       <div className="glass p-6 max-w-sm w-full" onClick={(e) => e.stopPropagation()}>
         <h3 className="font-bold text-lg mb-2">{copy.title}</h3>
-        <p className="text-white/60 text-sm mb-6">{copy.body}</p>
+        <p className="text-foreground/60 text-sm mb-6">{copy.body}</p>
         <div className="flex gap-3">
           <button
             onClick={onCancel}

@@ -6,7 +6,7 @@ import { Sun, Moon, ArrowLeft, Trophy, Medal } from 'lucide-react'
 
 const RANK_STYLES = {
   0: 'text-yellow-400',
-  1: 'text-white/60',
+  1: 'text-foreground/60',
   2: 'text-amber-600',
 }
 
@@ -55,7 +55,7 @@ export default function LeaderboardPage() {
       <div className="max-w-2xl w-full">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-sm mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors"
         >
           <ArrowLeft size={16} /> Back to dashboard
         </Link>
@@ -81,10 +81,10 @@ export default function LeaderboardPage() {
         {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
 
         {loading ? (
-          <p className="text-white/40 text-sm">Loading…</p>
+          <p className="text-foreground/40 text-sm">Loading…</p>
         ) : visible.length === 0 ? (
           <div className="glass p-8 text-center">
-            <p className="text-white/40 text-sm">No members to rank yet.</p>
+            <p className="text-foreground/40 text-sm">No members to rank yet.</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -95,12 +95,12 @@ export default function LeaderboardPage() {
                     {i < 3 ? (
                       <Medal className={RANK_STYLES[i]} size={22} />
                     ) : (
-                      <span className="text-white/40 text-sm font-bold">{i + 1}</span>
+                      <span className="text-foreground/40 text-sm font-bold">{i + 1}</span>
                     )}
                   </div>
                   <div className="min-w-0">
                     <p className="font-semibold truncate">{m.full_name}</p>
-                    <p className="text-white/40 text-xs uppercase tracking-wide">
+                    <p className="text-foreground/40 text-xs uppercase tracking-wide">
                       {m.role} · {m.teams?.name ?? 'No team'}
                     </p>
                   </div>

@@ -46,7 +46,7 @@ export default function LoginPage() {
         <h1 className="text-3xl font-black uppercase tracking-tight mb-2 glow-text">
           IEEE ERU Portal
         </h1>
-        <p className="text-white/50 text-sm uppercase tracking-[0.3em] mb-8">
+        <p className="text-foreground/50 text-sm uppercase tracking-[0.3em] mb-8">
           Member Login
         </p>
 
@@ -71,7 +71,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-foreground/70 transition-colors"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
               tabIndex={-1}
             >
@@ -88,7 +88,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <p className="text-white/40 text-xs text-center mt-6">
+        <p className="text-foreground/40 text-xs text-center mt-6">
           Don't have an account?{' '}
           <Link to="/signup" className="text-primary hover:underline">Sign up</Link>
         </p>

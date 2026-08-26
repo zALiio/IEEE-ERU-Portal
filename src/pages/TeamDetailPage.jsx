@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, ArrowLeft, Users, X, ClipboardList, History } from 'lucide-react'
 
 const TASK_STATUS_STYLES = {
-  todo: 'text-white/40',
+  todo: 'text-foreground/40',
   in_progress: 'text-amber-400',
   submitted: 'text-blue-400',
   confirmed: 'text-green-400',
@@ -94,7 +94,7 @@ export default function TeamDetailPage() {
       <div className="max-w-2xl w-full">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-sm mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors"
         >
           <ArrowLeft size={16} /> Back to dashboard
         </Link>
@@ -109,10 +109,10 @@ export default function TeamDetailPage() {
         {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
 
         {loading ? (
-          <p className="text-white/40 text-sm">Loading…</p>
+          <p className="text-foreground/40 text-sm">Loading…</p>
         ) : members.length === 0 ? (
           <div className="glass p-8 text-center">
-            <p className="text-white/40 text-sm">No active members on this team yet.</p>
+            <p className="text-foreground/40 text-sm">No active members on this team yet.</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -124,7 +124,7 @@ export default function TeamDetailPage() {
               >
                 <div>
                   <p className="font-semibold">{m.full_name}</p>
-                  <p className="text-white/40 text-xs uppercase tracking-wide">{m.role}</p>
+                  <p className="text-foreground/40 text-xs uppercase tracking-wide">{m.role}</p>
                 </div>
                 <p className="text-primary font-bold">{m.points} pts</p>
               </button>
@@ -142,7 +142,7 @@ export default function TeamDetailPage() {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-lg font-black uppercase tracking-tight">{selectedMember.full_name}</h2>
-                <p className="text-white/40 text-xs uppercase tracking-wide">{selectedMember.role} · {selectedMember.points} pts</p>
+                <p className="text-foreground/40 text-xs uppercase tracking-wide">{selectedMember.role} · {selectedMember.points} pts</p>
               </div>
               <button onClick={closeMember} className="p-2 glass-pill hover:bg-primary/10 transition-colors" aria-label="Close">
                 <X size={16} />
@@ -150,22 +150,22 @@ export default function TeamDetailPage() {
             </div>
 
             {detailLoading ? (
-              <p className="text-white/40 text-sm">Loading…</p>
+              <p className="text-foreground/40 text-sm">Loading…</p>
             ) : (
               <>
                 <div className="mb-6">
                   <div className="flex items-center gap-2 mb-3">
                     <ClipboardList size={16} className="text-primary" />
-                    <h3 className="text-sm font-bold uppercase tracking-wide text-white/70">Tasks</h3>
+                    <h3 className="text-sm font-bold uppercase tracking-wide text-foreground/70">Tasks</h3>
                   </div>
                   {memberTasks.length === 0 ? (
-                    <p className="text-white/40 text-xs">No tasks assigned.</p>
+                    <p className="text-foreground/40 text-xs">No tasks assigned.</p>
                   ) : (
                     <div className="space-y-2">
                       {memberTasks.map((t) => (
                         <div key={t.id} className="glass-pill px-4 py-2.5 flex items-center justify-between gap-3">
                           <p className="text-sm truncate">{t.title}</p>
-                          <span className={`text-xs font-semibold shrink-0 ${TASK_STATUS_STYLES[t.status] ?? 'text-white/40'}`}>
+                          <span className={`text-xs font-semibold shrink-0 ${TASK_STATUS_STYLES[t.status] ?? 'text-foreground/40'}`}>
                             {t.status}
                           </span>
                         </div>
@@ -177,17 +177,17 @@ export default function TeamDetailPage() {
                 <div>
                   <div className="flex items-center gap-2 mb-3">
                     <History size={16} className="text-primary" />
-                    <h3 className="text-sm font-bold uppercase tracking-wide text-white/70">Points History</h3>
+                    <h3 className="text-sm font-bold uppercase tracking-wide text-foreground/70">Points History</h3>
                   </div>
                   {memberPoints.length === 0 ? (
-                    <p className="text-white/40 text-xs">No points history yet.</p>
+                    <p className="text-foreground/40 text-xs">No points history yet.</p>
                   ) : (
                     <div className="space-y-2">
                       {memberPoints.map((p) => (
                         <div key={p.id} className="glass-pill px-4 py-2.5 flex items-center justify-between gap-3">
                           <div className="min-w-0">
                             <p className="text-sm truncate">{p.note}</p>
-                            <p className="text-white/30 text-[10px] uppercase tracking-wide">{p.entry_type}</p>
+                            <p className="text-foreground/30 text-[10px] uppercase tracking-wide">{p.entry_type}</p>
                           </div>
                           <span className={`text-sm font-bold shrink-0 ${p.points >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                             {p.points >= 0 ? '+' : ''}{p.points}

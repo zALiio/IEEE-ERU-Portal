@@ -12,7 +12,7 @@ const STATUS_FLOW = {
 }
 
 const STATUS_STYLES = {
-  todo: 'text-white/40',
+  todo: 'text-foreground/40',
   in_progress: 'text-amber-400',
   submitted: 'text-blue-400',
   confirmed: 'text-green-400',
@@ -81,7 +81,7 @@ export default function MemberDashboard() {
     <div className="w-full max-w-2xl">
       <div className="glass p-6 mb-6 flex items-center justify-between">
         <div>
-          <p className="text-white/50 text-xs uppercase tracking-[0.2em]">Total Points</p>
+          <p className="text-foreground/50 text-xs uppercase tracking-[0.2em]">Total Points</p>
           <p className="text-3xl font-black glow-text">{profile?.points ?? 0}</p>
         </div>
         <div className="flex items-center gap-3">
@@ -96,13 +96,13 @@ export default function MemberDashboard() {
         </div>
       </div>
 
-      <h2 className="text-lg font-bold uppercase tracking-tight mb-3 text-white/70">Your Tasks</h2>
+      <h2 className="text-lg font-bold uppercase tracking-tight mb-3 text-foreground/70">Your Tasks</h2>
 
       {loading ? (
-        <p className="text-white/40 text-sm">Loading…</p>
+        <p className="text-foreground/40 text-sm">Loading…</p>
       ) : tasks.length === 0 ? (
         <div className="glass p-8 text-center">
-          <p className="text-white/40 text-sm">No tasks assigned yet.</p>
+          <p className="text-foreground/40 text-sm">No tasks assigned yet.</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -117,12 +117,12 @@ export default function MemberDashboard() {
                     <p className="font-semibold truncate">{t.title}</p>
                   </div>
                   {t.description && (
-                    <p className="text-white/40 text-xs mt-1 truncate">{t.description}</p>
+                    <p className="text-foreground/40 text-xs mt-1 truncate">{t.description}</p>
                   )}
                   {t.status === 'in_progress' && t.reject_note && (
                     <p className="text-red-400 text-xs mt-1">Rejected: {t.reject_note}</p>
                   )}
-                  <p className="text-white/30 text-xs mt-1">
+                  <p className="text-foreground/30 text-xs mt-1">
                     {t.points} pts{t.due_date ? ` · due ${t.due_date}` : ''}
                   </p>
                 </div>

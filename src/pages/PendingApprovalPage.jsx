@@ -21,7 +21,7 @@ export default function PendingApprovalPage() {
         <h1 className="text-2xl font-black uppercase tracking-tight mb-2 glow-text">
           Awaiting Approval
         </h1>
-        <p className="text-white/50 text-sm leading-relaxed mb-8">
+        <p className="text-foreground/50 text-sm leading-relaxed mb-8">
           {profile?.full_name ? `Hi ${profile.full_name}, y` : 'Y'}our account has been created
           and is waiting for an Excom or Admin member to approve it.
           You'll be able to log in normally once approved.

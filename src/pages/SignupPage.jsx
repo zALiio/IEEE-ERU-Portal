@@ -66,7 +66,7 @@ export default function SignupPage() {
           <h1 className="text-2xl font-black uppercase tracking-tight glow-text">
             Join IEEE ERU
           </h1>
-          <p className="text-white/50 text-sm mt-2">Create your member account</p>
+          <p className="text-foreground/50 text-sm mt-2">Create your member account</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -99,7 +99,7 @@ export default function SignupPage() {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground/40 hover:text-foreground/70 transition-colors"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
               tabIndex={-1}
             >
@@ -129,7 +129,7 @@ export default function SignupPage() {
           </button>
         </form>
 
-        <p className="text-white/40 text-xs text-center mt-6">
+        <p className="text-foreground/40 text-xs text-center mt-6">
           Already have an account?{' '}
           <Link to="/login" className="text-primary hover:underline">Log in</Link>
         </p>

@@ -108,7 +108,7 @@ export default function LeaderDashboard() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
           <Users className="text-primary" size={24} />
-          <h2 className="text-lg font-bold uppercase tracking-tight text-white/70">
+          <h2 className="text-lg font-bold uppercase tracking-tight text-foreground/70">
             {profile?.teams?.name ?? 'Your Team'}
           </h2>
         </div>
@@ -184,7 +184,7 @@ export default function LeaderDashboard() {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-3">
             <ClipboardCheck className="text-blue-400" size={18} />
-            <h2 className="text-lg font-bold uppercase tracking-tight text-white/70">
+            <h2 className="text-lg font-bold uppercase tracking-tight text-foreground/70">
               Pending Confirmation
             </h2>
           </div>
@@ -195,7 +195,7 @@ export default function LeaderDashboard() {
                 <div key={t.id} className="glass p-5 flex items-center justify-between gap-4 border border-blue-400/20">
                   <div className="min-w-0 flex-1">
                     <p className="font-semibold truncate">{t.title}</p>
-                    <p className="text-white/40 text-xs mt-1">
+                    <p className="text-foreground/40 text-xs mt-1">
                       {assignee?.full_name ?? 'Unknown member'} · {t.points} pts
                     </p>
                     {t.proof_url && (
@@ -228,10 +228,10 @@ export default function LeaderDashboard() {
       {error && !showForm && <p className="text-red-400 text-xs mb-3">{error}</p>}
 
       {loading ? (
-        <p className="text-white/40 text-sm">Loading…</p>
+        <p className="text-foreground/40 text-sm">Loading…</p>
       ) : members.length === 0 ? (
         <div className="glass p-8 text-center">
-          <p className="text-white/40 text-sm">No active members on your team yet.</p>
+          <p className="text-foreground/40 text-sm">No active members on your team yet.</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -239,7 +239,7 @@ export default function LeaderDashboard() {
             <div key={m.id} className="glass p-5 flex items-center justify-between">
               <div>
                 <p className="font-semibold">{m.full_name}</p>
-                <p className="text-white/40 text-xs uppercase tracking-wide">{m.role}</p>
+                <p className="text-foreground/40 text-xs uppercase tracking-wide">{m.role}</p>
               </div>
               <p className="text-primary font-bold">{m.points} pts</p>
             </div>

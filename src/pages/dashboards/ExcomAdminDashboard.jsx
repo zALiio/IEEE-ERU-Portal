@@ -133,7 +133,7 @@ export default function ExcomAdminDashboard() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
           <Building2 className="text-primary" size={24} />
-          <h2 className="text-lg font-bold uppercase tracking-tight text-white/70">
+          <h2 className="text-lg font-bold uppercase tracking-tight text-foreground/70">
             All Teams
           </h2>
         </div>
@@ -214,7 +214,7 @@ export default function ExcomAdminDashboard() {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-3">
             <ClipboardCheck className="text-blue-400" size={18} />
-            <h2 className="text-lg font-bold uppercase tracking-tight text-white/70">
+            <h2 className="text-lg font-bold uppercase tracking-tight text-foreground/70">
               Pending Confirmation
             </h2>
           </div>
@@ -225,7 +225,7 @@ export default function ExcomAdminDashboard() {
                 <div key={t.id} className="glass p-5 flex items-center justify-between gap-4 border border-blue-400/20">
                   <div className="min-w-0 flex-1">
                     <p className="font-semibold truncate">{t.title}</p>
-                    <p className="text-white/40 text-xs mt-1">
+                    <p className="text-foreground/40 text-xs mt-1">
                       {assignee?.full_name ?? 'Unknown member'} · {t.points} pts
                     </p>
                     {t.proof_url && (
@@ -258,7 +258,7 @@ export default function ExcomAdminDashboard() {
       {error && !showForm && <p className="text-red-400 text-xs mb-3">{error}</p>}
 
       {loading ? (
-        <p className="text-white/40 text-sm">Loading…</p>
+        <p className="text-foreground/40 text-sm">Loading…</p>
       ) : (
         <div className="space-y-3">
           {teams.map((t) => (
@@ -269,7 +269,7 @@ export default function ExcomAdminDashboard() {
             >
               <div>
                 <p className="font-semibold">{t.name}</p>
-                <p className="text-white/40 text-xs">{t.memberCount} active member{t.memberCount === 1 ? '' : 's'}</p>
+                <p className="text-foreground/40 text-xs">{t.memberCount} active member{t.memberCount === 1 ? '' : 's'}</p>
               </div>
               <p className="text-primary font-bold">{t.totalPoints} pts</p>
             </Link>

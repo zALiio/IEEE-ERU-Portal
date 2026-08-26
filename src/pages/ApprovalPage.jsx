@@ -105,7 +105,7 @@ export default function ApprovalPage() {
       <div className="max-w-2xl w-full">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-white/50 hover:text-white/80 text-sm mb-6 transition-colors"
+          className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors"
         >
           <ArrowLeft size={16} /> Back to dashboard
         </Link>
@@ -122,10 +122,10 @@ export default function ApprovalPage() {
         )}
 
         {loading ? (
-          <p className="text-white/40 text-sm">Loading…</p>
+          <p className="text-foreground/40 text-sm">Loading…</p>
         ) : pending.length === 0 ? (
           <div className="glass p-8 text-center">
-            <p className="text-white/40 text-sm">No pending signups right now.</p>
+            <p className="text-foreground/40 text-sm">No pending signups right now.</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -133,8 +133,8 @@ export default function ApprovalPage() {
               <div key={p.id} className="glass p-5 flex items-center justify-between gap-4">
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold truncate">{p.full_name}</p>
-                  <p className="text-white/40 text-xs truncate">{p.email}</p>
-                  <p className="text-white/40 text-xs mt-1 uppercase tracking-wide">
+                  <p className="text-foreground/40 text-xs truncate">{p.email}</p>
+                  <p className="text-foreground/40 text-xs mt-1 uppercase tracking-wide">
                     {p.teams?.name ?? 'No team'}
                   </p>
                 </div>
