@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
-import { Building2, Users, BookUser, ClipboardCheck, Check, Trophy, Plus, X, Calendar } from 'lucide-react'
+import { Building2, Users, BookUser, ClipboardCheck, Check, Trophy, Plus, X, Calendar, BarChart3 } from 'lucide-react'
 import NavDrawer from '../../components/NavDrawer'
 
 export default function ExcomAdminDashboard() {
@@ -148,6 +148,9 @@ export default function ExcomAdminDashboard() {
           <Link to="/directory" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
             <BookUser size={14} /> Directory
           </Link>
+          <Link to="/analytics" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
+            <BarChart3 size={14} /> Analytics
+          </Link>
           <Link to="/approve" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
             <Users size={14} /> Approve Members
           </Link>
@@ -164,6 +167,7 @@ export default function ExcomAdminDashboard() {
             { label: 'Leaderboard', icon: Trophy, to: '/leaderboard' },
             { label: 'Events', icon: Calendar, to: '/events' },
             { label: 'Directory', icon: BookUser, to: '/directory' },
+            { label: 'Analytics', icon: BarChart3, to: '/analytics' },
             { label: 'Approve Members', icon: Users, to: '/approve' },
             { label: showForm ? 'Cancel' : 'Assign Task', icon: showForm ? X : Plus, onClick: () => setShowForm((p) => !p), primary: true },
           ]}

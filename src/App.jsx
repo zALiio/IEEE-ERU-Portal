@@ -12,6 +12,7 @@ import TeamDetailPage from './pages/TeamDetailPage'
 import LeaderboardPage from './pages/LeaderboardPage'
 import EventsPage from './pages/EventsPage'
 import ProfilePage from './pages/ProfilePage'
+import AnalyticsPage from './pages/AnalyticsPage'
 
 function App() {
   return (
@@ -59,6 +60,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/analytics"
+              element={
+                <ProtectedRoute allowedRoles={['excom', 'admin']}>
+                  <AnalyticsPage />
                 </ProtectedRoute>
               }
             />
