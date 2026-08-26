@@ -1,6 +1,7 @@
 import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
 import { Sun, Moon, LogOut } from 'lucide-react'
+import NotificationBell from '../components/NotificationBell'
 import MemberDashboard from './dashboards/MemberDashboard'
 import LeaderDashboard from './dashboards/LeaderDashboard'
 import ExcomAdminDashboard from './dashboards/ExcomAdminDashboard'
@@ -24,13 +25,16 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
-      <button
-        onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors"
-        aria-label="Toggle theme"
-      >
-        {isDark ? <Sun size={18} /> : <Moon size={18} />}
-      </button>
+      <div className="absolute top-6 right-6 flex items-center gap-2">
+        <NotificationBell />
+        <button
+          onClick={toggleTheme}
+          className="p-3 glass-pill hover:bg-primary/10 transition-colors"
+          aria-label="Toggle theme"
+        >
+          {isDark ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
+      </div>
 
       <div className="w-full max-w-2xl flex items-center justify-between gap-3 mb-8">
         <div className="min-w-0">
