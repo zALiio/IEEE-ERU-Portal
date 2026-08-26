@@ -23,6 +23,9 @@ const STATUS_LABELS = {
   confirmed: 'Confirmed',
 }
 
+const isOverdue = (task) =>
+  task.due_date && task.status !== 'submitted' && task.status !== 'confirmed' && new Date(task.due_date) < new Date().setHours(0, 0, 0, 0)
+
 export default function MemberDashboard() {
   const { profile, refreshProfile } = useAuth()
   const [tasks, setTasks] = useState([])
@@ -117,7 +120,7 @@ export default function MemberDashboard() {
             const flow = STATUS_FLOW[t.status]
             const Icon = flow?.icon
             return (
-              <div key={t.id} className="glass p-5 flex items-center justify-between gap-4">
+              <div key={t.id} className={`glass p-5 flex items-center justify-between gap-4 ${isOverdue(t) ? 'border border-red-500/40' : ''}`}>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <Circle size={8} className={`fill-current ${STATUS_STYLES[t.status]}`} />
@@ -129,8 +132,8 @@ export default function MemberDashboard() {
                   {t.status === 'in_progress' && t.reject_note && (
                     <p className="text-red-400 text-xs mt-1">Rejected: {t.reject_note}</p>
                   )}
-                  <p className="text-foreground/30 text-xs mt-1">
-                    {t.points} pts{t.due_date ? ` · due ${t.due_date}` : ''}
+                  <p className={`text-xs mt-1 ${isOverdue(t) ? 'text-red-400 font-semibold' : 'text-foreground/30'}`}>
+                    {t.points} pts{t.due_date ? ` · due ${t.due_date}${isOverdue(t) ? ' (overdue)' : ''}` : ''}
                   </p>
                 </div>
                 {flow && (
