@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import { supabase } from '../lib/supabaseClient'
 import getCroppedBlob from '../lib/cropImage'
-import { Sun, Moon, ArrowLeft, User, Upload } from 'lucide-react'
+import { Sun, Moon, ArrowLeft, User, Upload, Mail, Calendar, Lock } from 'lucide-react'
 
 export default function ProfilePage() {
   const { isDark, toggleTheme } = useTheme()
@@ -45,6 +45,29 @@ export default function ProfilePage() {
   }
 
   const dirty = pendingBlob || fullName.trim() !== (profile?.full_name ?? '')
+
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [pwError, setPwError] = useState('')
+  const [pwSuccess, setPwSuccess] = useState(false)
+  const [pwSaving, setPwSaving] = useState(false)
+
+  const changePassword = async (e) => {
+    e.preventDefault()
+    setPwError('')
+    setPwSuccess(false)
+    if (newPassword.length < 6) { setPwError('Password must be at least 6 characters'); return }
+    if (newPassword !== confirmPassword) { setPwError('Passwords do not match'); return }
+    setPwSaving(true)
+
+    const { error } = await supabase.auth.updateUser({ password: newPassword })
+
+    setPwSaving(false)
+    if (error) { setPwError(error.message); return }
+    setPwSuccess(true)
+    setNewPassword('')
+    setConfirmPassword('')
+  }
 
   const saveAll = async () => {
     setError('')
@@ -125,6 +148,36 @@ export default function ProfilePage() {
             {saving ? 'Saving…' : 'Save'}
           </button>
         </div>
+
+        <div className="glass p-6 mt-4 space-y-2.5 text-sm">
+          <div className="flex items-center gap-2.5 text-foreground/60">
+            <Mail size={14} className="text-primary shrink-0" />
+            <span className="truncate">{profile?.email}</span>
+          </div>
+          <div className="flex items-center gap-2.5 text-foreground/60">
+            <Calendar size={14} className="text-primary shrink-0" />
+            <span>Joined {profile?.created_at ? new Date(profile.created_at).toLocaleDateString(undefined, { dateStyle: 'medium' }) : '—'}</span>
+          </div>
+          <div className="flex items-center gap-2.5 text-foreground/60">
+            <User size={14} className="text-primary shrink-0" />
+            <span className="capitalize">{profile?.role} · {profile?.teams?.name ?? 'No team'}</span>
+          </div>
+        </div>
+
+        <form onSubmit={changePassword} className="glass p-6 mt-4 space-y-3">
+          <div className="flex items-center gap-2 text-xs uppercase tracking-wide text-foreground/50">
+            <Lock size={12} /> Change Password
+          </div>
+          <input type="password" placeholder="New password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)}
+            className="w-full glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm" />
+          <input type="password" placeholder="Confirm new password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm" />
+          {pwError && <p className="text-red-400 text-xs">{pwError}</p>}
+          {pwSuccess && <p className="text-green-400 text-xs">Password updated.</p>}
+          <button type="submit" disabled={pwSaving || !newPassword} className="btn-primary w-full text-sm disabled:opacity-50">
+            {pwSaving ? 'Updating…' : 'Update Password'}
+          </button>
+        </form>
       </div>
 
       {imageSrc && (
