@@ -10,6 +10,7 @@ import ApprovalPage from './pages/ApprovalPage'
 import MemberDirectoryPage from './pages/MemberDirectoryPage'
 import TeamDetailPage from './pages/TeamDetailPage'
 import LeaderboardPage from './pages/LeaderboardPage'
+import EventsPage from './pages/EventsPage'
 
 function App() {
   return (
@@ -57,6 +58,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <LeaderboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/events"
+              element={
+                <ProtectedRoute>
+                  <EventsPage />
                 </ProtectedRoute>
               }
             />
