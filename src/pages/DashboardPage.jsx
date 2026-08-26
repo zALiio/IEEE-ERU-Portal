@@ -2,6 +2,7 @@ import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
 import { Sun, Moon, LogOut } from 'lucide-react'
 import NotificationBell from '../components/NotificationBell'
+import AnnouncementsFeed from '../components/AnnouncementsFeed'
 import MemberDashboard from './dashboards/MemberDashboard'
 import LeaderDashboard from './dashboards/LeaderDashboard'
 import ExcomAdminDashboard from './dashboards/ExcomAdminDashboard'
@@ -52,6 +53,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      <AnnouncementsFeed />
       {renderRoleView()}
     </div>
   )
