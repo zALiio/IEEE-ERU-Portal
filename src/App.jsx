@@ -11,6 +11,7 @@ import MemberDirectoryPage from './pages/MemberDirectoryPage'
 import TeamDetailPage from './pages/TeamDetailPage'
 import LeaderboardPage from './pages/LeaderboardPage'
 import EventsPage from './pages/EventsPage'
+import ProfilePage from './pages/ProfilePage'
 
 function App() {
   return (
@@ -50,6 +51,14 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={['excom', 'admin']}>
                   <TeamDetailPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
                 </ProtectedRoute>
               }
             />

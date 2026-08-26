@@ -1,6 +1,7 @@
 import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
 import { Sun, Moon, LogOut } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import NotificationBell from '../components/NotificationBell'
 import AnnouncementsFeed from '../components/AnnouncementsFeed'
 import MemberDashboard from './dashboards/MemberDashboard'
@@ -27,14 +28,14 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
       <div className="w-full max-w-2xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-        <div className="min-w-0">
+        <Link to="/profile" className="min-w-0 hover:opacity-80 transition-opacity">
           <h1 className="text-xl font-black uppercase tracking-tight glow-text truncate">
             {profile?.full_name}
           </h1>
           <p className="text-foreground/40 text-xs uppercase tracking-[0.2em] mt-1 truncate">
             {profile?.role} · {profile?.teams?.name ?? 'No team'}
           </p>
-        </div>
+        </Link>
         <div className="flex items-center gap-2 shrink-0">
           <NotificationBell />
           <button
