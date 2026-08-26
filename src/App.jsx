@@ -9,6 +9,7 @@ import DashboardPage from './pages/DashboardPage'
 import ApprovalPage from './pages/ApprovalPage'
 import MemberDirectoryPage from './pages/MemberDirectoryPage'
 import TeamDetailPage from './pages/TeamDetailPage'
+import LeaderboardPage from './pages/LeaderboardPage'
 
 function App() {
   return (
@@ -48,6 +49,14 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={['excom', 'admin']}>
                   <TeamDetailPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/leaderboard"
+              element={
+                <ProtectedRoute>
+                  <LeaderboardPage />
                 </ProtectedRoute>
               }
             />

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
-import { Users, Plus, X, BookUser, ClipboardCheck, Check } from 'lucide-react'
+import { Users, Plus, X, BookUser, ClipboardCheck, Check, Trophy } from 'lucide-react'
 
 export default function LeaderDashboard() {
   const { profile } = useAuth()
@@ -99,6 +99,9 @@ export default function LeaderDashboard() {
           </h2>
         </div>
         <div className="flex items-center gap-2">
+          <Link to="/leaderboard" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
+            <Trophy size={14} /> Leaderboard
+          </Link>
           <Link to="/directory" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
             <BookUser size={14} /> Directory
           </Link>

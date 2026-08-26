@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
-import { Circle, PlayCircle, Send, Clock, CheckCircle2, Award } from 'lucide-react'
+import { Circle, PlayCircle, Send, Clock, CheckCircle2, Award, Trophy } from 'lucide-react'
 
 const STATUS_FLOW = {
   todo: { next: 'in_progress', label: 'Start', icon: PlayCircle },
@@ -76,7 +77,16 @@ export default function MemberDashboard() {
           <p className="text-white/50 text-xs uppercase tracking-[0.2em]">Total Points</p>
           <p className="text-3xl font-black glow-text">{profile?.points ?? 0}</p>
         </div>
-        <Award className="text-primary" size={32} />
+        <div className="flex items-center gap-3">
+          <Link
+            to="/leaderboard"
+            className="glass-pill p-3 hover:bg-primary/10 transition-colors"
+            aria-label="Leaderboard"
+          >
+            <Trophy size={20} className="text-primary" />
+          </Link>
+          <Award className="text-primary" size={32} />
+        </div>
       </div>
 
       <h2 className="text-lg font-bold uppercase tracking-tight mb-3 text-white/70">Your Tasks</h2>
