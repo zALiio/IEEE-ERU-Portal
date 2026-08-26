@@ -32,18 +32,18 @@ export default function DashboardPage() {
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <div className="w-full max-w-2xl flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-xl font-black uppercase tracking-tight glow-text">
+      <div className="w-full max-w-2xl flex items-center justify-between gap-3 mb-8">
+        <div className="min-w-0">
+          <h1 className="text-xl font-black uppercase tracking-tight glow-text truncate">
             {profile?.full_name}
           </h1>
-          <p className="text-white/40 text-xs uppercase tracking-[0.2em] mt-1">
+          <p className="text-white/40 text-xs uppercase tracking-[0.2em] mt-1 truncate">
             {profile?.role} · {profile?.teams?.name ?? 'No team'}
           </p>
         </div>
         <button
           onClick={signOut}
-          className="glass-pill px-4 py-2.5 flex items-center gap-2 text-xs hover:bg-primary/10 transition-colors"
+          className="glass-pill px-4 py-2.5 flex items-center gap-2 text-xs hover:bg-primary/10 transition-colors shrink-0"
         >
           <LogOut size={14} /> Sign Out
         </button>

@@ -84,13 +84,13 @@ export default function MemberDirectoryPage() {
                 onClick={() => setSelected(m)}
                 className="w-full glass p-5 flex items-center justify-between text-left hover:bg-primary/5 transition-colors"
               >
-                <div>
-                  <p className="font-semibold">{m.full_name}</p>
-                  <p className="text-white/40 text-xs uppercase tracking-wide">
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold truncate">{m.full_name}</p>
+                  <p className="text-white/40 text-xs uppercase tracking-wide truncate">
                     {m.role} · {m.teams?.name ?? 'No team'}
                   </p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 shrink-0">
                   <p className="text-primary font-bold">{m.points} pts</p>
                   <ChevronRight size={16} className="text-white/30" />
                 </div>

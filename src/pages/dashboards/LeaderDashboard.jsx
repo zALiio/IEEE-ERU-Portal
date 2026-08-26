@@ -91,14 +91,14 @@ export default function LeaderDashboard() {
 
   return (
     <div className="w-full max-w-2xl">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
           <Users className="text-primary" size={24} />
           <h2 className="text-lg font-bold uppercase tracking-tight text-white/70">
             {profile?.teams?.name ?? 'Your Team'}
           </h2>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Link to="/leaderboard" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
             <Trophy size={14} /> Leaderboard
           </Link>
