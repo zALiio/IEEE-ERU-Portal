@@ -138,7 +138,7 @@ export default function LeaderDashboard() {
             className="w-full glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
           >
             <option value="" disabled>Assign to…</option>
-            {members.map((m) => (
+            {members.filter((m) => m.id !== profile.id).map((m) => (
               <option key={m.id} value={m.id} className="bg-background">{m.full_name}</option>
             ))}
           </select>
