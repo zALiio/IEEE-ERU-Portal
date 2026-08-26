@@ -131,7 +131,7 @@ export default function ExcomAdminDashboard() {
 
   return (
     <div className="w-full max-w-2xl">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div className="flex items-start justify-between gap-3 mb-6">
         <div className="flex items-center gap-3">
           <Building2 className="text-primary" size={24} />
           <h2 className="text-lg font-bold uppercase tracking-tight text-foreground/70">
