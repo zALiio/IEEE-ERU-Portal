@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
 import { Sun, Moon, Clock } from 'lucide-react'
@@ -5,6 +6,12 @@ import { Sun, Moon, Clock } from 'lucide-react'
 export default function PendingApprovalPage() {
   const { isDark, toggleTheme } = useTheme()
   const { signOut, profile } = useAuth()
+  const navigate = useNavigate()
+
+  const handleSignOut = async () => {
+    await signOut()
+    navigate('/login')
+  }
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4">
@@ -26,7 +33,7 @@ export default function PendingApprovalPage() {
           and is waiting for an Excom or Admin member to approve it.
           You'll be able to log in normally once approved.
         </p>
-        <button onClick={signOut} className="btn-primary w-full">
+        <button onClick={handleSignOut} className="btn-primary w-full">
           Sign Out
         </button>
       </div>
