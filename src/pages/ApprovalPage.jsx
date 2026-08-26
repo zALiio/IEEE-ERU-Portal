@@ -66,7 +66,7 @@ export default function ApprovalPage() {
     if (chosenRole === 'leader' && p.team_id) {
       const { error: leadError } = await supabase
         .from('team_leads')
-        .insert({ profile_id: p.id, team_id: p.team_id })
+        .insert({ profile_id: p.id, team_id: p.team_id, position: 'vice_head' })
 
       if (leadError) {
         setError(`Approved, but failed to link as team lead: ${leadError.message}`)

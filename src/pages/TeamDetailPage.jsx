@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { supabase } from '../lib/supabaseClient'
-import { Sun, Moon, ArrowLeft, Users, X, ClipboardList, History } from 'lucide-react'
+import { Sun, Moon, ArrowLeft, Users, X, ClipboardList, History, Crown, Shield } from 'lucide-react'
 
 const TASK_STATUS_STYLES = {
   todo: 'text-foreground/40',
@@ -17,6 +17,7 @@ export default function TeamDetailPage() {
 
   const [team, setTeam] = useState(null)
   const [members, setMembers] = useState([])
+  const [leads, setLeads] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -48,6 +49,13 @@ export default function TeamDetailPage() {
         .eq('status', 'active')
         .order('full_name')
       setMembers(memberRows ?? [])
+
+      const { data: leadRows } = await supabase
+        .from('team_leads')
+        .select('id, position, profile_id, profiles(full_name)')
+        .eq('team_id', teamId)
+      setLeads(leadRows ?? [])
+
       setLoading(false)
     }
     load()
@@ -108,6 +116,25 @@ export default function TeamDetailPage() {
 
         {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
 
+        {!loading && leads.length > 0 && (
+          <div className="glass p-5 mb-6 space-y-2">
+            {leads.filter((l) => l.position === 'head').map((l) => (
+              <div key={l.id} className="flex items-center gap-2 text-sm">
+                <Crown size={15} className="text-yellow-400" />
+                <span className="font-semibold">{l.profiles?.full_name}</span>
+                <span className="text-foreground/40 text-xs uppercase tracking-wide">Head</span>
+              </div>
+            ))}
+            {leads.filter((l) => l.position === 'vice_head').map((l) => (
+              <div key={l.id} className="flex items-center gap-2 text-sm">
+                <Shield size={14} className="text-foreground/50" />
+                <span className="font-semibold">{l.profiles?.full_name}</span>
+                <span className="text-foreground/40 text-xs uppercase tracking-wide">Vice Head</span>
+              </div>
+            ))}
+          </div>
+        )}
+
         {loading ? (
           <p className="text-foreground/40 text-sm">Loading…</p>
         ) : members.length === 0 ? (
@@ -116,19 +143,24 @@ export default function TeamDetailPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {members.map((m) => (
-              <button
-                key={m.id}
-                onClick={() => openMember(m)}
-                className="w-full glass p-5 flex items-center justify-between text-left hover:bg-primary/10 transition-colors"
-              >
-                <div>
-                  <p className="font-semibold">{m.full_name}</p>
-                  <p className="text-foreground/40 text-xs uppercase tracking-wide">{m.role}</p>
-                </div>
-                <p className="text-primary font-bold">{m.points} pts</p>
-              </button>
-            ))}
+            {members.map((m) => {
+              const lead = leads.find((l) => l.profile_id === m.id)
+              return (
+                <button
+                  key={m.id}
+                  onClick={() => openMember(m)}
+                  className="w-full glass p-5 flex items-center justify-between text-left hover:bg-primary/10 transition-colors"
+                >
+                  <div>
+                    <p className="font-semibold">{m.full_name}</p>
+                    <p className="text-foreground/40 text-xs uppercase tracking-wide">
+                      {m.role}{lead ? ` (${lead.position === 'head' ? 'Head' : 'Vice Head'})` : ''}
+                    </p>
+                  </div>
+                  <p className="text-primary font-bold">{m.points} pts</p>
+                </button>
+              )
+            })}
           </div>
         )}
       </div>

@@ -34,7 +34,11 @@ export default function MemberDirectoryPage() {
     }
 
     const { data } = await query
-    setMembers(data ?? [])
+    const { data: leadRows } = await supabase.from('team_leads').select('profile_id, position')
+    const positionByProfile = {}
+    for (const l of leadRows ?? []) positionByProfile[l.profile_id] = l.position
+
+    setMembers((data ?? []).map((m) => ({ ...m, leadPosition: positionByProfile[m.id] ?? null })))
     setLoading(false)
   }
 
@@ -87,7 +91,7 @@ export default function MemberDirectoryPage() {
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold truncate">{m.full_name}</p>
                   <p className="text-foreground/40 text-xs uppercase tracking-wide truncate">
-                    {m.role} · {m.teams?.name ?? 'No team'}
+                    {m.role}{m.leadPosition ? ` (${m.leadPosition === 'head' ? 'Head' : 'Vice Head'})` : ''} · {m.teams?.name ?? 'No team'}
                   </p>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
@@ -129,6 +133,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
 
   const [newRole, setNewRole] = useState(member.role)
   const [newTeam, setNewTeam] = useState(member.team_id ?? '')
+  const [newPosition, setNewPosition] = useState(member.leadPosition ?? 'vice_head')
 
   const [confirmAction, setConfirmAction] = useState(null) // 'warning1' | 'warning2' | 'terminate' | null
 
@@ -149,11 +154,13 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
     load()
   }, [member.id])
 
-  const syncTeamLead = async (profileId, role, teamId) => {
+  const syncTeamLead = async (profileId, role, teamId, position = 'vice_head') => {
     await supabase.from('team_leads').delete().eq('profile_id', profileId)
     if (role === 'leader' && teamId) {
-      await supabase.from('team_leads').insert({ profile_id: profileId, team_id: teamId })
+      const { error } = await supabase.from('team_leads').insert({ profile_id: profileId, team_id: teamId, position })
+      if (error) return error
     }
+    return null
   }
 
   const submitAdjustment = async (e) => {
@@ -190,7 +197,8 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
 
   const applyRoleChange = async () => {
     setError('')
-    if (newRole === member.role) return
+    const positionOnlyChange = newRole === 'leader' && newRole === member.role && newPosition !== (member.leadPosition ?? 'vice_head')
+    if (newRole === member.role && !positionOnlyChange) return
     setBusy(true)
 
     // Excom and Admin are the founders' roles and don't belong to any of the
@@ -206,8 +214,9 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
 
     if (roleError) { setError(roleError.message); setBusy(false); return }
 
-    await syncTeamLead(member.id, newRole, effectiveTeamId)
+    const leadError = await syncTeamLead(member.id, newRole, effectiveTeamId, newPosition)
     setBusy(false)
+    if (leadError) { setError(newRole === 'leader' ? `Role updated, but: ${leadError.message} (this team may already have a Head)` : leadError.message); return }
     onMemberChanged()
   }
 
@@ -223,7 +232,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
 
     if (teamError) { setError(teamError.message); setBusy(false); return }
 
-    await syncTeamLead(member.id, member.role, newTeam)
+    await syncTeamLead(member.id, member.role, newTeam, newPosition)
     setBusy(false)
     onMemberChanged()
   }
@@ -279,7 +288,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
           <div>
             <h2 className="text-xl font-black uppercase tracking-tight glow-text">{member.full_name}</h2>
             <p className="text-foreground/40 text-xs uppercase tracking-wide mt-1">
-              {member.role} · {member.teams?.name ?? 'No team'}
+              {member.role}{member.leadPosition ? ` (${member.leadPosition === 'head' ? 'Head' : 'Vice Head'})` : ''} · {member.teams?.name ?? 'No team'}
             </p>
           </div>
           <button onClick={onClose} className="text-foreground/40 hover:text-foreground/70 transition-colors">
@@ -315,7 +324,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
                 </select>
                 <button
                   onClick={applyRoleChange}
-                  disabled={busy || newRole === member.role}
+                  disabled={busy || (newRole === member.role && !(newRole === 'leader' && newPosition !== (member.leadPosition ?? 'vice_head')))}
                   className="btn-primary px-4 text-sm disabled:opacity-40"
                 >
                   Apply
@@ -325,6 +334,19 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
                 <p className="text-foreground/30 text-[10px] uppercase tracking-wide mt-2">
                   Excom & Admin are founders' roles — no team assignment
                 </p>
+              )}
+              {newRole === 'leader' && (
+                <div className="mt-3">
+                  <p className="text-foreground/50 text-xs uppercase tracking-wide mb-2">Position</p>
+                  <select
+                    value={newPosition}
+                    onChange={(e) => setNewPosition(e.target.value)}
+                    className="w-full glass-pill px-3 py-2 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
+                  >
+                    <option value="head" className="bg-background">Head</option>
+                    <option value="vice_head" className="bg-background">Vice Head</option>
+                  </select>
+                </div>
               )}
             </div>
 
