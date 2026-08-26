@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 
 const ROLE_OPTIONS = ['member', 'leader', 'excom', 'admin']
+const FOUNDER_ROLES = ['excom', 'admin']
 
 export default function MemberDirectoryPage() {
   const { isDark, toggleTheme } = useTheme()
@@ -132,6 +133,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
   const [confirmAction, setConfirmAction] = useState(null) // 'warning1' | 'warning2' | 'terminate' | null
 
   const availableRoles = isAdmin ? ROLE_OPTIONS : ROLE_OPTIONS.filter((r) => r !== 'admin')
+  const newRoleHasNoTeam = FOUNDER_ROLES.includes(newRole)
 
   useEffect(() => {
     const load = async () => {
@@ -191,14 +193,20 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
     if (newRole === member.role) return
     setBusy(true)
 
+    // Excom and Admin are the founders' roles and don't belong to any of the
+    // 6 operational teams, so promoting into either clears team_id (and pulls
+    // them out of team_leads if they were a Leader) automatically.
+    const isFounderRole = FOUNDER_ROLES.includes(newRole)
+    const effectiveTeamId = isFounderRole ? null : member.team_id
+
     const { error: roleError } = await supabase
       .from('profiles')
-      .update({ role: newRole })
+      .update({ role: newRole, team_id: effectiveTeamId })
       .eq('id', member.id)
 
     if (roleError) { setError(roleError.message); setBusy(false); return }
 
-    await syncTeamLead(member.id, newRole, member.team_id)
+    await syncTeamLead(member.id, newRole, effectiveTeamId)
     setBusy(false)
     onMemberChanged()
   }
@@ -313,32 +321,39 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
                   Apply
                 </button>
               </div>
+              {newRoleHasNoTeam && (
+                <p className="text-white/30 text-[10px] uppercase tracking-wide mt-2">
+                  Excom & Admin are founders' roles — no team assignment
+                </p>
+              )}
             </div>
 
-            {/* Team transfer */}
-            <div className="glass p-4 mb-4">
-              <p className="text-white/50 text-xs uppercase tracking-wide mb-2 flex items-center gap-2">
-                <Shuffle size={13} /> Transfer Team
-              </p>
-              <div className="flex gap-2">
-                <select
-                  value={newTeam}
-                  onChange={(e) => setNewTeam(e.target.value)}
-                  className="flex-1 glass-pill px-3 py-2 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
-                >
-                  {teams.map((t) => (
-                    <option key={t.id} value={t.id} className="bg-background">{t.name}</option>
-                  ))}
-                </select>
-                <button
-                  onClick={applyTeamTransfer}
-                  disabled={busy || newTeam === member.team_id}
-                  className="btn-primary px-4 text-sm disabled:opacity-40"
-                >
-                  Apply
-                </button>
+            {/* Team transfer — hidden entirely for Excom/Admin, who don't belong to any team */}
+            {!newRoleHasNoTeam && (
+              <div className="glass p-4 mb-4">
+                <p className="text-white/50 text-xs uppercase tracking-wide mb-2 flex items-center gap-2">
+                  <Shuffle size={13} /> Transfer Team
+                </p>
+                <div className="flex gap-2">
+                  <select
+                    value={newTeam}
+                    onChange={(e) => setNewTeam(e.target.value)}
+                    className="flex-1 glass-pill px-3 py-2 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
+                  >
+                    {teams.map((t) => (
+                      <option key={t.id} value={t.id} className="bg-background">{t.name}</option>
+                    ))}
+                  </select>
+                  <button
+                    onClick={applyTeamTransfer}
+                    disabled={busy || newTeam === member.team_id}
+                    className="btn-primary px-4 text-sm disabled:opacity-40"
+                  >
+                    Apply
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Points adjustment */}
             <form onSubmit={submitAdjustment} className="glass p-4 mb-4 space-y-2">

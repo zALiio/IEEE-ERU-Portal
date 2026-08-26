@@ -8,6 +8,7 @@ import PendingApprovalPage from './pages/PendingApprovalPage'
 import DashboardPage from './pages/DashboardPage'
 import ApprovalPage from './pages/ApprovalPage'
 import MemberDirectoryPage from './pages/MemberDirectoryPage'
+import TeamDetailPage from './pages/TeamDetailPage'
 
 function App() {
   return (
@@ -39,6 +40,14 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={['leader', 'excom', 'admin']}>
                   <MemberDirectoryPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/team/:teamId"
+              element={
+                <ProtectedRoute allowedRoles={['excom', 'admin']}>
+                  <TeamDetailPage />
                 </ProtectedRoute>
               }
             />

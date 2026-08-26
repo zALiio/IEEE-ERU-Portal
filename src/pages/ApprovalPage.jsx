@@ -1,5 +1,3 @@
-mkdir -p /home/claude/portal/src/pages /home/claude/portal/src/context /home/claude/portal/src/components
-cat > /home/claude/portal/src/pages/ApprovalPage.jsx << 'ORIGEOF'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
@@ -48,14 +46,14 @@ export default function ApprovalPage() {
     setBusyId(p.id)
     setError('')
     const chosenRole = roleChoice[p.id] ?? 'member'
-    const isTeamless = chosenRole === 'excom' || chosenRole === 'admin'
+    const isFounderRole = chosenRole === 'excom' || chosenRole === 'admin'
 
     const { error: updateError } = await supabase
       .from('profiles')
       .update({
         status: 'active',
         role: chosenRole,
-        team_id: isTeamless ? null : p.team_id,
+        team_id: isFounderRole ? null : p.team_id,
       })
       .eq('id', p.id)
 
@@ -131,51 +129,48 @@ export default function ApprovalPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {pending.map((p) => {
-              const isTeamless = roleChoice[p.id] === 'excom' || roleChoice[p.id] === 'admin'
-              return (
-                <div key={p.id} className="glass p-5 flex items-center justify-between gap-4">
-                  <div className="min-w-0 flex-1">
-                    <p className="font-semibold truncate">{p.full_name}</p>
-                    <p className="text-white/40 text-xs truncate">{p.email}</p>
-                    <p className="text-white/40 text-xs mt-1 uppercase tracking-wide">
-                      {isTeamless ? 'No team (Excom/Admin)' : (p.teams?.name ?? 'No team')}
-                    </p>
-                  </div>
-
-                  <select
-                    value={roleChoice[p.id] ?? 'member'}
-                    onChange={(e) => setRoleChoice((prev) => ({ ...prev, [p.id]: e.target.value }))}
-                    className="glass-pill px-3 py-2 bg-transparent outline-none focus:ring-1 focus:ring-primary text-xs shrink-0"
-                  >
-                    {availableRoles.map((r) => (
-                      <option key={r} value={r} className="bg-background">
-                        {r.charAt(0).toUpperCase() + r.slice(1)}
-                      </option>
-                    ))}
-                  </select>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    <button
-                      onClick={() => approve(p)}
-                      disabled={busyId === p.id}
-                      className="p-2.5 rounded-full bg-green-500/15 text-green-400 hover:bg-green-500/25 transition-colors disabled:opacity-50"
-                      aria-label="Approve"
-                    >
-                      <Check size={18} />
-                    </button>
-                    <button
-                      onClick={() => reject(p.id)}
-                      disabled={busyId === p.id}
-                      className="p-2.5 rounded-full bg-red-500/15 text-red-400 hover:bg-red-500/25 transition-colors disabled:opacity-50"
-                      aria-label="Reject"
-                    >
-                      <X size={18} />
-                    </button>
-                  </div>
+            {pending.map((p) => (
+              <div key={p.id} className="glass p-5 flex items-center justify-between gap-4">
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold truncate">{p.full_name}</p>
+                  <p className="text-white/40 text-xs truncate">{p.email}</p>
+                  <p className="text-white/40 text-xs mt-1 uppercase tracking-wide">
+                    {p.teams?.name ?? 'No team'}
+                  </p>
                 </div>
-              )
-            })}
+
+                <select
+                  value={roleChoice[p.id] ?? 'member'}
+                  onChange={(e) => setRoleChoice((prev) => ({ ...prev, [p.id]: e.target.value }))}
+                  className="glass-pill px-3 py-2 bg-transparent outline-none focus:ring-1 focus:ring-primary text-xs shrink-0"
+                >
+                  {availableRoles.map((r) => (
+                    <option key={r} value={r} className="bg-background">
+                      {r.charAt(0).toUpperCase() + r.slice(1)}
+                    </option>
+                  ))}
+                </select>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    onClick={() => approve(p)}
+                    disabled={busyId === p.id}
+                    className="p-2.5 rounded-full bg-green-500/15 text-green-400 hover:bg-green-500/25 transition-colors disabled:opacity-50"
+                    aria-label="Approve"
+                  >
+                    <Check size={18} />
+                  </button>
+                  <button
+                    onClick={() => reject(p.id)}
+                    disabled={busyId === p.id}
+                    className="p-2.5 rounded-full bg-red-500/15 text-red-400 hover:bg-red-500/25 transition-colors disabled:opacity-50"
+                    aria-label="Reject"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

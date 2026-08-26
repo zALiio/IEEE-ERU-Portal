@@ -118,13 +118,17 @@ export default function ExcomAdminDashboard() {
       ) : (
         <div className="space-y-3">
           {teams.map((t) => (
-            <div key={t.id} className="glass p-5 flex items-center justify-between">
+            <Link
+              key={t.id}
+              to={`/team/${t.id}`}
+              className="glass p-5 flex items-center justify-between hover:bg-primary/10 transition-colors"
+            >
               <div>
                 <p className="font-semibold">{t.name}</p>
                 <p className="text-white/40 text-xs">{t.memberCount} active member{t.memberCount === 1 ? '' : 's'}</p>
               </div>
               <p className="text-primary font-bold">{t.totalPoints} pts</p>
-            </div>
+            </Link>
           ))}
         </div>
       )}
