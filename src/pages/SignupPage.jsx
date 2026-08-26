@@ -37,7 +37,8 @@ export default function SignupPage() {
       email,
       password,
       options: {
-        data: { full_name: fullName, team_id: teamId }
+        data: { full_name: fullName, team_id: teamId },
+        emailRedirectTo: 'https://hub.ieee-eru.org/'
       }
     })
     setSubmitting(false)
