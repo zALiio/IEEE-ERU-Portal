@@ -13,6 +13,7 @@ import LeaderboardPage from './pages/LeaderboardPage'
 import EventsPage from './pages/EventsPage'
 import ProfilePage from './pages/ProfilePage'
 import AnalyticsPage from './pages/AnalyticsPage'
+import AnnouncementsPage from './pages/AnnouncementsPage'
 
 function App() {
   return (
@@ -60,6 +61,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/announcements"
+              element={
+                <ProtectedRoute>
+                  <AnnouncementsPage />
                 </ProtectedRoute>
               }
             />
