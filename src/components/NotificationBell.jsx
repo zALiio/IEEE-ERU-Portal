@@ -5,6 +5,28 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabaseClient'
 
+// Routes that exist in the portal – anything else falls back to /.
+const KNOWN_ROUTES = [
+  '/announcements',
+  '/events',
+  '/leaderboard',
+  '/directory',
+  '/analytics',
+  '/profile',
+  '/approve',
+  '/team',
+  '/login',
+  '/signup',
+  '/pending',
+]
+
+function resolveLink(link) {
+  if (!link) return '/'
+  // Exact match for known routes or paths under a known segment.
+  if (KNOWN_ROUTES.some((r) => link === r || link.startsWith(r + '/'))) return link
+  return '/'
+}
+
 export default function NotificationBell() {
   const { profile } = useAuth()
   const navigate = useNavigate()
@@ -48,7 +70,19 @@ export default function NotificationBell() {
 
   const openBell = () => {
     setOpen((prev) => !prev)
-    if (!open) load()
+    if (!open) {
+      load().then(() => {
+        // Mark every unread notification as read when the bell is opened.
+        supabase
+          .from('notifications')
+          .update({ is_read: true })
+          .eq('user_id', profile.id)
+          .eq('is_read', false)
+          .then(({ error }) => {
+            if (!error) setItems((prev) => prev.map((i) => ({ ...i, is_read: true })))
+          })
+      })
+    }
   }
 
   const handleClick = async (n) => {
@@ -57,7 +91,7 @@ export default function NotificationBell() {
       setItems((prev) => prev.map((i) => (i.id === n.id ? { ...i, is_read: true } : i)))
     }
     setOpen(false)
-    if (n.link) navigate(n.link)
+    navigate(resolveLink(n.link))
   }
 
   const renderList = () =>

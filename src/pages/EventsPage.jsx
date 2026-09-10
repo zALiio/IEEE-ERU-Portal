@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import { supabase } from '../lib/supabaseClient'
-import { Sun, Moon, ArrowLeft, Calendar, MapPin, Video, Plus, X, Check, UserX } from 'lucide-react'
+import { Sun, Moon, ArrowLeft, Calendar, MapPin, Video, Plus, X, Check, UserX, Pencil, Trash2 } from 'lucide-react'
 
 const fmtDate = (iso) =>
   new Date(iso).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
@@ -27,6 +27,7 @@ export default function EventsPage() {
   const [location, setLocation] = useState('')
   const [eventDate, setEventDate] = useState('')
   const [points, setPoints] = useState(10)
+  const [editingId, setEditingId] = useState(null)
   const [submitting, setSubmitting] = useState(false)
 
   const load = async () => {
@@ -84,28 +85,64 @@ export default function EventsPage() {
     await load()
   }
 
+  const resetForm = () => {
+    setTitle(''); setDescription(''); setLocation(''); setEventDate(''); setPoints(10)
+    setLocationType('in_person'); setShowForm(false); setEditingId(null); setError('')
+  }
+
+  const startEdit = (ev) => {
+    setEditingId(ev.id)
+    setTitle(ev.title)
+    setDescription(ev.description || '')
+    setLocationType(ev.location_type || 'in_person')
+    setLocation(ev.location || '')
+    // Format ISO datetime-local value
+    setEventDate(ev.event_date ? ev.event_date.slice(0, 16) : '')
+    setPoints(ev.points ?? 10)
+    setShowForm(true)
+  }
+
+  const removeEvent = async (id) => {
+    if (!confirm('Delete this event?')) return
+    const { data: target } = await supabase
+      .from('portal_events')
+      .select('id, title')
+      .eq('id', id)
+      .single()
+    const { error: err } = await supabase.from('portal_events').delete().eq('id', id)
+    if (err) { setError(err.message); return }
+    if (target) {
+      const { error: notifErr } = await supabase
+        .from('notifications')
+        .delete()
+        .ilike('message', `%${target.title}%`)
+      if (notifErr) console.warn('Failed to clean up event notifications:', notifErr.message)
+    }
+    await load()
+  }
+
   const createEvent = async (e) => {
     e.preventDefault()
     setError('')
     if (!title || !eventDate) { setError('Title and date are required'); return }
     setSubmitting(true)
 
-    const { error } = await supabase.from('portal_events').insert({
+    const payload = {
       title,
       description: description || null,
       location_type: locationType,
       location: location || null,
       event_date: new Date(eventDate).toISOString(),
       points: Number(points),
-      created_by: profile.id,
-    })
+    }
+
+    const { error } = editingId
+      ? await supabase.from('portal_events').update(payload).eq('id', editingId)
+      : await supabase.from('portal_events').insert({ ...payload, created_by: profile.id })
 
     setSubmitting(false)
     if (error) { setError(error.message); return }
-
-    setTitle(''); setDescription(''); setLocation(''); setEventDate(''); setPoints(10)
-    setLocationType('in_person')
-    setShowForm(false)
+    resetForm()
     await load()
   }
 
@@ -165,7 +202,7 @@ export default function EventsPage() {
             </div>
             {error && <p className="text-red-400 text-xs">{error}</p>}
             <button type="submit" disabled={submitting} className="btn-primary w-full text-sm disabled:opacity-50">
-              {submitting ? 'Creating…' : 'Create Event'}
+              {submitting ? (editingId ? 'Updating…' : 'Creating…') : (editingId ? 'Update Event' : 'Create Event')}
             </button>
           </form>
         )}
@@ -188,7 +225,19 @@ export default function EventsPage() {
                     <div key={ev.id} className="glass p-5">
                       <div className="flex items-start justify-between gap-4">
                         <div className="min-w-0 flex-1">
-                          <p className="font-semibold">{ev.title}</p>
+                          <div className="flex items-center gap-2 min-w-0">
+                        <p className="font-semibold truncate">{ev.title}</p>
+                        {isManager && (
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <button onClick={() => startEdit(ev)} className="text-foreground/40 hover:text-primary transition-colors">
+                              <Pencil size={14} />
+                            </button>
+                            <button onClick={() => removeEvent(ev.id)} className="text-foreground/40 hover:text-red-400 transition-colors">
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        )}
+                      </div>
                           <p className="text-foreground/40 text-xs mt-1">{fmtDate(ev.event_date)} · {ev.points} pts</p>
                           <div className="flex items-center gap-1.5 text-xs text-foreground/50 mt-1">
                             {ev.location_type === 'online' ? <Video size={12} /> : <MapPin size={12} />}

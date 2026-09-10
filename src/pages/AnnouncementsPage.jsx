@@ -65,7 +65,33 @@ export default function AnnouncementsPage() {
 
   const remove = async (id) => {
     if (!confirm('Delete this announcement?')) return
-    await supabase.from('portal_announcements').delete().eq('id', id)
+
+    // Grab the announcement first so we can clean up its notifications.
+    const { data: target } = await supabase
+      .from('portal_announcements')
+      .select('id, title')
+      .eq('id', id)
+      .single()
+
+    const { error } = await supabase
+      .from('portal_announcements')
+      .delete()
+      .eq('id', id)
+    if (error) {
+      setError(error.message)
+      return
+    }
+
+    // Remove any notifications still pointing at this announcement.
+    if (target) {
+      const { error: notifErr } = await supabase
+        .from('notifications')
+        .delete()
+        .ilike('message', `%${target.title}%`)
+      if (notifErr) {
+        console.warn('Failed to clean up notifications:', notifErr.message)
+      }
+    }
     await load()
   }
 
