@@ -7,10 +7,12 @@ import AnnouncementsFeed from '../components/AnnouncementsFeed'
 import MemberDashboard from './dashboards/MemberDashboard'
 import LeaderDashboard from './dashboards/LeaderDashboard'
 import ExcomAdminDashboard from './dashboards/ExcomAdminDashboard'
+import useBrowserNotifications from '../hooks/useBrowserNotifications'
 
 export default function DashboardPage() {
   const { isDark, toggleTheme } = useTheme()
   const { profile, signOut } = useAuth()
+  useBrowserNotifications(profile?.id)
 
   const renderRoleView = () => {
     switch (profile?.role) {
