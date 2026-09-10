@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
-import { Users, Plus, X, BookUser, ClipboardCheck, Check, Trophy, Calendar } from 'lucide-react'
+import { Users, BookUser, ClipboardCheck, Check, Trophy, Calendar, ClipboardList, X } from 'lucide-react'
 import NavDrawer from '../../components/NavDrawer'
 
 export default function LeaderDashboard() {
@@ -10,16 +10,8 @@ export default function LeaderDashboard() {
   const [members, setMembers] = useState([])
   const [pending, setPending] = useState([])
   const [loading, setLoading] = useState(true)
-  const [showForm, setShowForm] = useState(false)
   const [error, setError] = useState('')
   const [confirmingId, setConfirmingId] = useState(null)
-
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [points, setPoints] = useState(10)
-  const [assignedTo, setAssignedTo] = useState('')
-  const [dueDate, setDueDate] = useState('')
-  const [submitting, setSubmitting] = useState(false)
 
   const loadTeam = async () => {
     setLoading(true)
@@ -72,38 +64,6 @@ export default function LeaderDashboard() {
     await loadTeam()
   }
 
-  const assignTask = async (e) => {
-    e.preventDefault()
-    setError('')
-    if (!assignedTo) {
-      setError('Pick a team member')
-      return
-    }
-    setSubmitting(true)
-
-    const { error } = await supabase.from('tasks').insert({
-      assigned_to: assignedTo,
-      assigned_by: profile.id,
-      title,
-      description: description || null,
-      points: Number(points),
-      due_date: dueDate || null,
-    })
-
-    setSubmitting(false)
-    if (error) {
-      setError(error.message)
-      return
-    }
-
-    setTitle('')
-    setDescription('')
-    setPoints(10)
-    setAssignedTo('')
-    setDueDate('')
-    setShowForm(false)
-  }
-
   return (
     <div className="w-full max-w-2xl">
       <div className="flex items-start justify-between gap-3 mb-6">
@@ -114,6 +74,9 @@ export default function LeaderDashboard() {
           </h2>
         </div>
         <div className="hidden lg:flex items-center gap-2 flex-wrap">
+          <Link to="/tasks" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
+            <ClipboardList size={14} /> Tasks
+          </Link>
           <Link to="/leaderboard" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
             <Trophy size={14} /> Leaderboard
           </Link>
@@ -123,74 +86,16 @@ export default function LeaderDashboard() {
           <Link to="/directory" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
             <BookUser size={14} /> Directory
           </Link>
-          <button
-            onClick={() => setShowForm((prev) => !prev)}
-            className="btn-primary text-xs px-4 py-2 flex items-center gap-2"
-          >
-            {showForm ? <X size={14} /> : <Plus size={14} />}
-            {showForm ? 'Cancel' : 'Assign Task'}
-          </button>
         </div>
         <NavDrawer
           items={[
+            { label: 'Tasks', icon: ClipboardList, to: '/tasks' },
             { label: 'Leaderboard', icon: Trophy, to: '/leaderboard' },
             { label: 'Events', icon: Calendar, to: '/events' },
             { label: 'Directory', icon: BookUser, to: '/directory' },
-            { label: showForm ? 'Cancel' : 'Assign Task', icon: showForm ? X : Plus, onClick: () => setShowForm((p) => !p), primary: true },
           ]}
         />
       </div>
-
-      {showForm && (
-        <form onSubmit={assignTask} className="glass p-6 mb-6 space-y-3">
-          <select
-            value={assignedTo}
-            onChange={(e) => setAssignedTo(e.target.value)}
-            required
-            className="w-full glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
-          >
-            <option value="" disabled>Assign to…</option>
-            {members.filter((m) => m.id !== profile.id).map((m) => (
-              <option key={m.id} value={m.id} className="bg-background">{m.full_name}</option>
-            ))}
-          </select>
-          <input
-            type="text"
-            placeholder="Task title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            className="w-full glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
-          />
-          <textarea
-            placeholder="Description (optional)"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={2}
-            className="w-full glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm resize-none"
-          />
-          <div className="flex gap-3">
-            <input
-              type="number"
-              min={0}
-              placeholder="Points"
-              value={points}
-              onChange={(e) => setPoints(e.target.value)}
-              className="w-1/2 glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
-            />
-            <input
-              type="date"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-              className="w-1/2 glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
-            />
-          </div>
-          {error && <p className="text-red-400 text-xs">{error}</p>}
-          <button type="submit" disabled={submitting} className="btn-primary w-full text-sm disabled:opacity-50">
-            {submitting ? 'Assigning…' : 'Assign Task'}
-          </button>
-        </form>
-      )}
 
       {pending.length > 0 && (
         <div className="mb-8">

@@ -14,6 +14,7 @@ import EventsPage from './pages/EventsPage'
 import ProfilePage from './pages/ProfilePage'
 import AnalyticsPage from './pages/AnalyticsPage'
 import AnnouncementsPage from './pages/AnnouncementsPage'
+import TasksPage from './pages/TasksPage'
 
 function App() {
   return (
@@ -69,6 +70,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AnnouncementsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/tasks"
+              element={
+                <ProtectedRoute>
+                  <TasksPage />
                 </ProtectedRoute>
               }
             />

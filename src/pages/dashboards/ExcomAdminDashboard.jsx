@@ -2,32 +2,21 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
-import { Building2, Users, BookUser, ClipboardCheck, Check, Trophy, Plus, X, Calendar, BarChart3 } from 'lucide-react'
+import { Building2, Users, BookUser, ClipboardCheck, Check, Trophy, X, Calendar, BarChart3, ClipboardList } from 'lucide-react'
 import NavDrawer from '../../components/NavDrawer'
 
 export default function ExcomAdminDashboard() {
   const { profile } = useAuth()
   const [teams, setTeams] = useState([])
   const [pending, setPending] = useState([])
-  const [assignable, setAssignable] = useState([])
   const [profilesById, setProfilesById] = useState({})
   const [loading, setLoading] = useState(true)
   const [confirmingId, setConfirmingId] = useState(null)
   const [error, setError] = useState('')
 
-  const [showForm, setShowForm] = useState(false)
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [points, setPoints] = useState(10)
-  const [assignedTo, setAssignedTo] = useState('')
-  const [dueDate, setDueDate] = useState('')
-  const [submitting, setSubmitting] = useState(false)
-
   const load = async () => {
     setLoading(true)
     const { data: teamRows } = await supabase.from('teams').select('id, name').order('name')
-    const teamsById = {}
-    for (const t of teamRows ?? []) teamsById[t.id] = t
 
     const { data: profileRows } = await supabase
       .from('profiles')
@@ -38,14 +27,6 @@ export default function ExcomAdminDashboard() {
     const byId = {}
     for (const p of profileRows ?? []) byId[p.id] = p
     setProfilesById(byId)
-
-    // Excom/Admin can assign to any active member or leader (not other Excom/Admin,
-    // who don't belong to a team and aren't task recipients).
-    setAssignable(
-      (profileRows ?? [])
-        .filter((p) => p.role === 'member' || p.role === 'leader')
-        .map((p) => ({ ...p, teamName: teamsById[p.team_id]?.name ?? 'No team' }))
-    )
 
     const withStats = (teamRows ?? []).map((team) => {
       const members = (profileRows ?? []).filter((p) => p.team_id === team.id)
@@ -97,38 +78,6 @@ export default function ExcomAdminDashboard() {
     await load()
   }
 
-  const assignTask = async (e) => {
-    e.preventDefault()
-    setError('')
-    if (!assignedTo) {
-      setError('Pick someone to assign this to')
-      return
-    }
-    setSubmitting(true)
-
-    const { error } = await supabase.from('tasks').insert({
-      assigned_to: assignedTo,
-      assigned_by: profile.id,
-      title,
-      description: description || null,
-      points: Number(points),
-      due_date: dueDate || null,
-    })
-
-    setSubmitting(false)
-    if (error) {
-      setError(error.message)
-      return
-    }
-
-    setTitle('')
-    setDescription('')
-    setPoints(10)
-    setAssignedTo('')
-    setDueDate('')
-    setShowForm(false)
-  }
-
   return (
     <div className="w-full max-w-2xl">
       <div className="flex items-start justify-between gap-3 mb-6">
@@ -139,6 +88,9 @@ export default function ExcomAdminDashboard() {
           </h2>
         </div>
         <div className="hidden lg:flex items-center gap-2 flex-wrap">
+          <Link to="/tasks" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
+            <ClipboardList size={14} /> Tasks
+          </Link>
           <Link to="/leaderboard" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
             <Trophy size={14} /> Leaderboard
           </Link>
@@ -154,78 +106,18 @@ export default function ExcomAdminDashboard() {
           <Link to="/approve" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
             <Users size={14} /> Approve Members
           </Link>
-          <button
-            onClick={() => setShowForm((prev) => !prev)}
-            className="btn-primary text-xs px-4 py-2 flex items-center gap-2"
-          >
-            {showForm ? <X size={14} /> : <Plus size={14} />}
-            {showForm ? 'Cancel' : 'Assign Task'}
-          </button>
         </div>
         <NavDrawer
           items={[
+            { label: 'Tasks', icon: ClipboardList, to: '/tasks' },
             { label: 'Leaderboard', icon: Trophy, to: '/leaderboard' },
             { label: 'Events', icon: Calendar, to: '/events' },
             { label: 'Directory', icon: BookUser, to: '/directory' },
             { label: 'Analytics', icon: BarChart3, to: '/analytics' },
             { label: 'Approve Members', icon: Users, to: '/approve' },
-            { label: showForm ? 'Cancel' : 'Assign Task', icon: showForm ? X : Plus, onClick: () => setShowForm((p) => !p), primary: true },
           ]}
         />
       </div>
-
-      {showForm && (
-        <form onSubmit={assignTask} className="glass p-6 mb-6 space-y-3">
-          <select
-            value={assignedTo}
-            onChange={(e) => setAssignedTo(e.target.value)}
-            required
-            className="w-full glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
-          >
-            <option value="" disabled>Assign to…</option>
-            {assignable.map((m) => (
-              <option key={m.id} value={m.id} className="bg-background">
-                {m.full_name} · {m.role} · {m.teamName}
-              </option>
-            ))}
-          </select>
-          <input
-            type="text"
-            placeholder="Task title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            className="w-full glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
-          />
-          <textarea
-            placeholder="Description (optional)"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={2}
-            className="w-full glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm resize-none"
-          />
-          <div className="flex gap-3">
-            <input
-              type="number"
-              min={0}
-              placeholder="Points"
-              value={points}
-              onChange={(e) => setPoints(e.target.value)}
-              className="w-1/2 glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
-            />
-            <input
-              type="date"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-              className="w-1/2 glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
-            />
-          </div>
-          {error && <p className="text-red-400 text-xs">{error}</p>}
-          <button type="submit" disabled={submitting} className="btn-primary w-full text-sm disabled:opacity-50">
-            {submitting ? 'Assigning…' : 'Assign Task'}
-          </button>
-        </form>
-      )}
 
       {pending.length > 0 && (
         <div className="mb-8">
