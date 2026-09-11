@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, ShieldCheck, Eye, EyeOff } from 'lucide-react'
+import { FadeIn } from '../components/FadeIn'
 import logo from '../assets/img/falg-blue.webp'
 
 export default function LoginPage() {
@@ -41,7 +42,7 @@ export default function LoginPage() {
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <div className="glass p-10 max-w-md w-full text-center">
+      <FadeIn className="glass p-10 max-w-md w-full text-center">
         <img src={logo} alt="IEEE ERU" className="mx-auto mb-6 h-14 w-14 object-contain" />
         <h1 className="text-3xl font-black uppercase tracking-tight mb-2 glow-text">
           IEEE ERU Portal
@@ -92,7 +93,7 @@ export default function LoginPage() {
           Don't have an account?{' '}
           <Link to="/signup" className="text-primary hover:underline">Sign up</Link>
         </p>
-      </div>
+      </FadeIn>
     </div>
   )
 }

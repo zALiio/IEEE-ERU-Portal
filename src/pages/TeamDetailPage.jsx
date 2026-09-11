@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, ArrowLeft, Users, X, ClipboardList, History, Crown, Shield } from 'lucide-react'
+import { FadeIn } from '../components/FadeIn'
 
 const TASK_STATUS_STYLES = {
   todo: 'text-foreground/40',
@@ -99,7 +100,7 @@ export default function TeamDetailPage() {
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <div className="max-w-2xl w-full">
+      <FadeIn className="max-w-4xl w-full">
         <Link
           to="/"
           className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors"
@@ -163,7 +164,7 @@ export default function TeamDetailPage() {
             })}
           </div>
         )}
-      </div>
+      </FadeIn>
 
       {selectedMember && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center px-4 z-50" onClick={closeMember}>

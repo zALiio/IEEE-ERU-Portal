@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, ArrowLeft, Trophy, Medal } from 'lucide-react'
+import { FadeIn } from '../components/FadeIn'
 
 const RANK_STYLES = {
   0: 'text-yellow-400',
@@ -52,7 +53,7 @@ export default function LeaderboardPage() {
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <div className="max-w-2xl w-full">
+      <FadeIn className="max-w-4xl w-full">
         <Link
           to="/"
           className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors"
@@ -110,7 +111,7 @@ export default function LeaderboardPage() {
             ))}
           </div>
         )}
-      </div>
+      </FadeIn>
     </div>
   )
 }

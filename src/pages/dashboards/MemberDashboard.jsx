@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
-import { Circle, PlayCircle, Send, Clock, CheckCircle2, Award, Trophy, Calendar } from 'lucide-react'
+import { Circle, PlayCircle, Send, Clock, CheckCircle2, Award, Trophy, Calendar, ClipboardList } from 'lucide-react'
+import { FadeIn, Stagger, StaggerItem } from '../../components/FadeIn'
 
 const STATUS_FLOW = {
   todo: { next: 'in_progress', label: 'Start', icon: PlayCircle },
@@ -81,13 +82,21 @@ export default function MemberDashboard() {
   }, [tasks])
 
   return (
-    <div className="w-full max-w-2xl">
-      <div className="glass p-6 mb-6 flex items-center justify-between">
+    <div className="w-full max-w-4xl">
+      <FadeIn>
+        <div className="glass p-6 mb-6 flex items-center justify-between">
         <div>
           <p className="text-foreground/50 text-xs uppercase tracking-[0.2em]">Total Points</p>
           <p className="text-3xl font-black glow-text">{profile?.points ?? 0}</p>
         </div>
         <div className="flex items-center gap-3">
+          <Link
+            to="/tasks"
+            className="glass-pill p-3 hover:bg-primary/10 transition-colors"
+            aria-label="Tasks"
+          >
+            <ClipboardList size={20} className="text-primary" />
+          </Link>
           <Link
             to="/events"
             className="glass-pill p-3 hover:bg-primary/10 transition-colors"
@@ -105,6 +114,7 @@ export default function MemberDashboard() {
           <Award className="text-primary" size={32} />
         </div>
       </div>
+      </FadeIn>
 
       <h2 className="text-lg font-bold uppercase tracking-tight mb-3 text-foreground/70">Your Tasks</h2>
 
@@ -115,50 +125,52 @@ export default function MemberDashboard() {
           <p className="text-foreground/40 text-sm">No tasks assigned yet.</p>
         </div>
       ) : (
-        <div className="space-y-3">
+        <Stagger className="space-y-3">
           {tasks.map((t) => {
             const flow = STATUS_FLOW[t.status]
             const Icon = flow?.icon
             return (
-              <div key={t.id} className={`glass p-5 flex items-center justify-between gap-4 ${isOverdue(t) ? 'border border-red-500/40' : ''}`}>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <Circle size={8} className={`fill-current ${STATUS_STYLES[t.status]}`} />
-                    <p className="font-semibold truncate">{t.title}</p>
+              <StaggerItem key={t.id}>
+                <div className={`glass p-5 flex items-center justify-between gap-4 ${isOverdue(t) ? 'border border-red-500/40' : ''}`}>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <Circle size={8} className={`fill-current ${STATUS_STYLES[t.status]}`} />
+                      <p className="font-semibold truncate">{t.title}</p>
+                    </div>
+                    {t.description && (
+                      <p className="text-foreground/40 text-xs mt-1 truncate">{t.description}</p>
+                    )}
+                    {t.status === 'in_progress' && t.reject_note && (
+                      <p className="text-red-400 text-xs mt-1">Rejected: {t.reject_note}</p>
+                    )}
+                    <p className={`text-xs mt-1 ${isOverdue(t) ? 'text-red-400 font-semibold' : 'text-foreground/30'}`}>
+                      {t.points} pts{t.due_date ? ` · due ${t.due_date}${isOverdue(t) ? ' (overdue)' : ''}` : ''}
+                    </p>
                   </div>
-                  {t.description && (
-                    <p className="text-foreground/40 text-xs mt-1 truncate">{t.description}</p>
+                  {flow && (
+                    <button
+                      onClick={() => advance(t)}
+                      disabled={busyId === t.id}
+                      className="btn-primary text-xs px-4 py-2 flex items-center gap-2 shrink-0 disabled:opacity-50"
+                    >
+                      <Icon size={14} /> {flow.label}
+                    </button>
                   )}
-                  {t.status === 'in_progress' && t.reject_note && (
-                    <p className="text-red-400 text-xs mt-1">Rejected: {t.reject_note}</p>
+                  {t.status === 'submitted' && (
+                    <span className={`text-xs font-semibold shrink-0 flex items-center gap-1.5 ${STATUS_STYLES.submitted}`}>
+                      <Clock size={14} /> {STATUS_LABELS.submitted}
+                    </span>
                   )}
-                  <p className={`text-xs mt-1 ${isOverdue(t) ? 'text-red-400 font-semibold' : 'text-foreground/30'}`}>
-                    {t.points} pts{t.due_date ? ` · due ${t.due_date}${isOverdue(t) ? ' (overdue)' : ''}` : ''}
-                  </p>
+                  {t.status === 'confirmed' && (
+                    <span className={`text-xs font-semibold shrink-0 flex items-center gap-1.5 ${STATUS_STYLES.confirmed}`}>
+                      <CheckCircle2 size={14} /> {STATUS_LABELS.confirmed}
+                    </span>
+                  )}
                 </div>
-                {flow && (
-                  <button
-                    onClick={() => advance(t)}
-                    disabled={busyId === t.id}
-                    className="btn-primary text-xs px-4 py-2 flex items-center gap-2 shrink-0 disabled:opacity-50"
-                  >
-                    <Icon size={14} /> {flow.label}
-                  </button>
-                )}
-                {t.status === 'submitted' && (
-                  <span className={`text-xs font-semibold shrink-0 flex items-center gap-1.5 ${STATUS_STYLES.submitted}`}>
-                    <Clock size={14} /> {STATUS_LABELS.submitted}
-                  </span>
-                )}
-                {t.status === 'confirmed' && (
-                  <span className={`text-xs font-semibold shrink-0 flex items-center gap-1.5 ${STATUS_STYLES.confirmed}`}>
-                    <CheckCircle2 size={14} /> {STATUS_LABELS.confirmed}
-                  </span>
-                )}
-              </div>
+              </StaggerItem>
             )
           })}
-        </div>
+        </Stagger>
       )}
     </div>
   )

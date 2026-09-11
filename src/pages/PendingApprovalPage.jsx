@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
 import { Sun, Moon, Clock } from 'lucide-react'
+import { FadeIn } from '../components/FadeIn'
 
 export default function PendingApprovalPage() {
   const { isDark, toggleTheme } = useTheme()
@@ -23,7 +24,7 @@ export default function PendingApprovalPage() {
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <div className="glass p-10 max-w-md w-full text-center">
+      <FadeIn className="glass p-10 max-w-md w-full text-center">
         <Clock className="mx-auto mb-6 text-primary" size={40} />
         <h1 className="text-2xl font-black uppercase tracking-tight mb-2 glow-text">
           Awaiting Approval
@@ -36,7 +37,7 @@ export default function PendingApprovalPage() {
         <button onClick={handleSignOut} className="btn-primary w-full">
           Sign Out
         </button>
-      </div>
+      </FadeIn>
     </div>
   )
 }

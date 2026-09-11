@@ -15,6 +15,7 @@ const KNOWN_ROUTES = [
   '/profile',
   '/approve',
   '/team',
+  '/tasks',
   '/login',
   '/signup',
   '/pending',

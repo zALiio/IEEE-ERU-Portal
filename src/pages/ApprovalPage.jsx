@@ -4,6 +4,7 @@ import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, ArrowLeft, Check, X, Users } from 'lucide-react'
+import { FadeIn } from '../components/FadeIn'
 
 const ROLE_OPTIONS = ['member', 'leader', 'excom', 'admin']
 
@@ -102,7 +103,7 @@ export default function ApprovalPage() {
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <div className="max-w-2xl w-full">
+      <FadeIn className="max-w-4xl w-full">
         <Link
           to="/"
           className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors"
@@ -173,7 +174,7 @@ export default function ApprovalPage() {
             ))}
           </div>
         )}
-      </div>
+      </FadeIn>
     </div>
   )
 }

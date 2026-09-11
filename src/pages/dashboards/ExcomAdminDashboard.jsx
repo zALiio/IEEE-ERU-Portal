@@ -172,21 +172,22 @@ export default function ExcomAdminDashboard() {
       {loading ? (
         <p className="text-foreground/40 text-sm">Loading…</p>
       ) : (
-        <div className="space-y-3">
+        <Stagger className="space-y-3">
           {teams.map((t) => (
-            <Link
-              key={t.id}
-              to={`/team/${t.id}`}
-              className="glass p-5 flex items-center justify-between hover:bg-primary/10 transition-colors"
-            >
-              <div>
-                <p className="font-semibold">{t.name}</p>
-                <p className="text-foreground/40 text-xs">{t.memberCount} active member{t.memberCount === 1 ? '' : 's'}</p>
-              </div>
-              <p className="text-primary font-bold">{t.totalPoints} pts</p>
-            </Link>
+            <StaggerItem key={t.id}>
+              <Link
+                to={`/team/${t.id}`}
+                className="glass p-5 flex items-center justify-between hover:bg-primary/10 transition-colors"
+              >
+                <div>
+                  <p className="font-semibold">{t.name}</p>
+                  <p className="text-foreground/40 text-xs">{t.memberCount} active member{t.memberCount === 1 ? '' : 's'}</p>
+                </div>
+                <p className="text-primary font-bold">{t.totalPoints} pts</p>
+              </Link>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       )}
     </div>
   )

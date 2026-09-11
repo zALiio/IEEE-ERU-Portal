@@ -352,8 +352,39 @@ function TaskFormModal({ task, teams, allMembers, profile, onClose, onSaved }) {
       ? await supabase.from('tasks').update(payload).eq('id', task.id)
       : await supabase.from('tasks').insert({ ...payload, status: 'todo', assigned_by: profile.id })
 
+    if (err) { setSubmitting(false); setError(err.message); return }
+
+    // Send notifications on new task creation
+    if (!isEdit && assignedTo) {
+      const assigneeName = allMembers.find((m) => m.id === assignedTo)?.full_name ?? 'A member'
+      const taskTitle = title.trim()
+
+      // Notify the assigned member
+      await supabase.from('notifications').insert({
+        user_id: assignedTo,
+        message: `You have been assigned a new task: "${taskTitle}"`,
+        link: '/tasks',
+      })
+
+      // Notify all excom/admin members
+      const { data: managers } = await supabase
+        .from('profiles')
+        .select('id')
+        .in('role', ['excom', 'admin'])
+        .neq('id', profile.id)
+
+      if (managers?.length) {
+        await supabase.from('notifications').insert(
+          managers.map((m) => ({
+            user_id: m.id,
+            message: `${assigneeName} has been assigned a new task: "${taskTitle}"`,
+            link: '/tasks',
+          }))
+        )
+      }
+    }
+
     setSubmitting(false)
-    if (err) { setError(err.message); return }
     onSaved()
   }
 

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, UserPlus, Eye, EyeOff } from 'lucide-react'
+import { FadeIn } from '../components/FadeIn'
 
 export default function SignupPage() {
   const { isDark, toggleTheme } = useTheme()
@@ -61,7 +62,7 @@ export default function SignupPage() {
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <div className="glass p-10 max-w-md w-full">
+      <FadeIn className="glass p-10 max-w-md w-full">
         <div className="text-center mb-8">
           <UserPlus className="mx-auto mb-4 text-primary" size={36} />
           <h1 className="text-2xl font-black uppercase tracking-tight glow-text">
@@ -134,7 +135,7 @@ export default function SignupPage() {
           Already have an account?{' '}
           <Link to="/login" className="text-primary hover:underline">Log in</Link>
         </p>
-      </div>
+      </FadeIn>
     </div>
   )
 }
