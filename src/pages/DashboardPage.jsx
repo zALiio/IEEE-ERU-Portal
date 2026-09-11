@@ -4,6 +4,7 @@ import { Sun, Moon, LogOut } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import NotificationBell from '../components/NotificationBell'
 import AnnouncementsFeed from '../components/AnnouncementsFeed'
+import { FadeIn } from '../components/FadeIn'
 import MemberDashboard from './dashboards/MemberDashboard'
 import LeaderDashboard from './dashboards/LeaderDashboard'
 import ExcomAdminDashboard from './dashboards/ExcomAdminDashboard'
@@ -28,8 +29,8 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
-      <div className="w-full max-w-2xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+    <div className="min-h-screen bg-background flex flex-col items-center px-4 sm:px-6 py-16">
+      <FadeIn className="w-full max-w-4xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <Link to="/profile" className="min-w-0 hover:opacity-80 transition-opacity">
           <h1 className="text-xl font-black uppercase tracking-tight glow-text truncate">
             {profile?.full_name}
@@ -54,10 +55,14 @@ export default function DashboardPage() {
             <LogOut size={14} /> Sign Out
           </button>
         </div>
-      </div>
+      </FadeIn>
 
-      <AnnouncementsFeed />
-      {renderRoleView()}
+      <FadeIn delay={0.1}>
+        <AnnouncementsFeed />
+      </FadeIn>
+      <FadeIn delay={0.18}>
+        {renderRoleView()}
+      </FadeIn>
     </div>
   )
 }

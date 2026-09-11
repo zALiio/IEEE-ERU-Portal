@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
 import { Building2, Users, BookUser, ClipboardCheck, Check, Trophy, X, Calendar, BarChart3, ClipboardList } from 'lucide-react'
 import NavDrawer from '../../components/NavDrawer'
+import { FadeIn, Stagger, StaggerItem } from '../../components/FadeIn'
 
 export default function ExcomAdminDashboard() {
   const { profile } = useAuth()
@@ -79,33 +80,13 @@ export default function ExcomAdminDashboard() {
   }
 
   return (
-    <div className="w-full max-w-2xl">
-      <div className="flex items-start justify-between gap-3 mb-6">
+    <div className="w-full max-w-4xl">
+      <div className="flex items-center justify-between gap-3 mb-4">
         <div className="flex items-center gap-3">
           <Building2 className="text-primary" size={24} />
           <h2 className="text-lg font-bold uppercase tracking-tight text-foreground/70">
             All Teams
           </h2>
-        </div>
-        <div className="hidden lg:flex items-center gap-2 flex-wrap">
-          <Link to="/tasks" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
-            <ClipboardList size={14} /> Tasks
-          </Link>
-          <Link to="/leaderboard" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
-            <Trophy size={14} /> Leaderboard
-          </Link>
-          <Link to="/events" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
-            <Calendar size={14} /> Events
-          </Link>
-          <Link to="/directory" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
-            <BookUser size={14} /> Directory
-          </Link>
-          <Link to="/analytics" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
-            <BarChart3 size={14} /> Analytics
-          </Link>
-          <Link to="/approve" className="glass-pill text-xs px-4 py-2 flex items-center gap-2 hover:bg-primary/10 transition-colors">
-            <Users size={14} /> Approve Members
-          </Link>
         </div>
         <NavDrawer
           items={[
@@ -118,6 +99,26 @@ export default function ExcomAdminDashboard() {
           ]}
         />
       </div>
+      <div className="hidden sm:grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6">
+        <Link to="/tasks" className="glass-pill text-xs px-4 py-2.5 flex items-center justify-center gap-2 hover:bg-primary/10 transition-colors">
+          <ClipboardList size={14} /> Tasks
+        </Link>
+        <Link to="/leaderboard" className="glass-pill text-xs px-4 py-2.5 flex items-center justify-center gap-2 hover:bg-primary/10 transition-colors">
+          <Trophy size={14} /> Leaderboard
+        </Link>
+        <Link to="/events" className="glass-pill text-xs px-4 py-2.5 flex items-center justify-center gap-2 hover:bg-primary/10 transition-colors">
+          <Calendar size={14} /> Events
+        </Link>
+        <Link to="/directory" className="glass-pill text-xs px-4 py-2.5 flex items-center justify-center gap-2 hover:bg-primary/10 transition-colors">
+          <BookUser size={14} /> Directory
+        </Link>
+        <Link to="/analytics" className="glass-pill text-xs px-4 py-2.5 flex items-center justify-center gap-2 hover:bg-primary/10 transition-colors">
+          <BarChart3 size={14} /> Analytics
+        </Link>
+        <Link to="/approve" className="glass-pill text-xs px-4 py-2.5 flex items-center justify-center gap-2 hover:bg-primary/10 transition-colors">
+          <Users size={14} /> Approve Members
+        </Link>
+      </div>
 
       {pending.length > 0 && (
         <div className="mb-8">
@@ -127,44 +128,46 @@ export default function ExcomAdminDashboard() {
               Pending Confirmation
             </h2>
           </div>
-          <div className="space-y-3">
+          <Stagger className="space-y-3">
             {pending.map((t) => {
               const assignee = profilesById[t.assigned_to]
               return (
-                <div key={t.id} className="glass p-5 flex items-center justify-between gap-4 border border-blue-400/20">
-                  <div className="min-w-0 flex-1">
-                    <p className="font-semibold truncate">{t.title}</p>
-                    <p className="text-foreground/40 text-xs mt-1">
-                      {assignee?.full_name ?? 'Unknown member'} · {t.points} pts
-                    </p>
-                    {t.proof_url && (
-                      <a href={t.proof_url} target="_blank" rel="noreferrer" className="text-blue-400 text-xs underline mt-1 inline-block">
-                        View Proof
-                      </a>
-                    )}
+                <StaggerItem key={t.id}>
+                  <div className="glass p-5 flex items-center justify-between gap-4 border border-blue-400/20">
+                    <div className="min-w-0 flex-1">
+                      <p className="font-semibold truncate">{t.title}</p>
+                      <p className="text-foreground/40 text-xs mt-1">
+                        {assignee?.full_name ?? 'Unknown member'} · {t.points} pts
+                      </p>
+                      {t.proof_url && (
+                        <a href={t.proof_url} target="_blank" rel="noreferrer" className="text-blue-400 text-xs underline mt-1 inline-block">
+                          View Proof
+                        </a>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => confirmTask(t.id)}
+                      disabled={confirmingId === t.id}
+                      className="btn-primary text-xs px-4 py-2 flex items-center gap-2 shrink-0 disabled:opacity-50"
+                    >
+                      <Check size={14} /> {confirmingId === t.id ? 'Confirming…' : 'Confirm'}
+                    </button>
+                    <button
+                      onClick={() => rejectTask(t.id)}
+                      disabled={confirmingId === t.id}
+                      className="glass-pill text-xs px-4 py-2 flex items-center gap-2 shrink-0 text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                    >
+                      <X size={14} /> Reject
+                    </button>
                   </div>
-                  <button
-                    onClick={() => confirmTask(t.id)}
-                    disabled={confirmingId === t.id}
-                    className="btn-primary text-xs px-4 py-2 flex items-center gap-2 shrink-0 disabled:opacity-50"
-                  >
-                    <Check size={14} /> {confirmingId === t.id ? 'Confirming…' : 'Confirm'}
-                  </button>
-                  <button
-                    onClick={() => rejectTask(t.id)}
-                    disabled={confirmingId === t.id}
-                    className="glass-pill text-xs px-4 py-2 flex items-center gap-2 shrink-0 text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50"
-                  >
-                    <X size={14} /> Reject
-                  </button>
-                </div>
+                </StaggerItem>
               )
             })}
-          </div>
+          </Stagger>
         </div>
       )}
 
-      {error && !showForm && <p className="text-red-400 text-xs mb-3">{error}</p>}
+      {error && <p className="text-red-400 text-xs mb-3">{error}</p>}
 
       {loading ? (
         <p className="text-foreground/40 text-sm">Loading…</p>
