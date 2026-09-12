@@ -4,6 +4,9 @@ import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
 import { Circle, PlayCircle, Send, Clock, CheckCircle2, Award, Trophy, Calendar, ClipboardList } from 'lucide-react'
 import { FadeIn, Stagger, StaggerItem } from '../../components/FadeIn'
+import SectionLabel from '../../components/SectionLabel'
+import AnimatedNumber from '../../components/AnimatedNumber'
+import MembersMarquee from '../../components/MembersMarquee'
 
 const STATUS_FLOW = {
   todo: { next: 'in_progress', label: 'Start', icon: PlayCircle },
@@ -84,10 +87,12 @@ export default function MemberDashboard() {
   return (
     <div className="w-full max-w-4xl">
       <FadeIn>
-        <div className="glass p-6 mb-6 flex items-center justify-between">
+        <div className="glass stat-card p-6 mb-8 flex items-center justify-between">
         <div>
           <p className="text-foreground/50 text-xs uppercase tracking-[0.2em]">Total Points</p>
-          <p className="text-3xl font-black glow-text">{profile?.points ?? 0}</p>
+          <p className="text-3xl font-black glow-text">
+            <AnimatedNumber value={profile?.points ?? 0} />
+          </p>
         </div>
         <div className="flex items-center gap-3">
           <Link
@@ -116,7 +121,9 @@ export default function MemberDashboard() {
       </div>
       </FadeIn>
 
-      <h2 className="text-lg font-bold uppercase tracking-tight mb-3 text-foreground/70">Your Tasks</h2>
+      <div className="mb-3">
+        <SectionLabel>Your Tasks</SectionLabel>
+      </div>
 
       {loading ? (
         <p className="text-foreground/40 text-sm">Loading…</p>
@@ -172,6 +179,8 @@ export default function MemberDashboard() {
           })}
         </Stagger>
       )}
+
+      <MembersMarquee className="mt-12" />
     </div>
   )
 }

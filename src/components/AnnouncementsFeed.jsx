@@ -24,7 +24,7 @@ export default function AnnouncementsFeed() {
   if (loading) return null
 
   return (
-    <Link to="/announcements" className="w-full max-w-2xl mb-6 block glass p-4 hover:bg-primary/5 transition-colors">
+    <Link to="/announcements" className="w-full mb-6 block glass p-4 hover:bg-primary/5 transition-colors">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 min-w-0">
           <Megaphone className="text-primary shrink-0" size={16} />

@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { Sun, Moon, Clock } from 'lucide-react'
 import { FadeIn } from '../components/FadeIn'
 
+
 export default function PendingApprovalPage() {
   const { isDark, toggleTheme } = useTheme()
   const { signOut, profile } = useAuth()
@@ -15,16 +16,16 @@ export default function PendingApprovalPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 relative">
       <button
         onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors"
+        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
         aria-label="Toggle theme"
       >
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <FadeIn className="glass p-10 max-w-md w-full text-center">
+      <FadeIn className="glass p-10 max-w-md w-full text-center relative z-10">
         <Clock className="mx-auto mb-6 text-primary" size={40} />
         <h1 className="text-2xl font-black uppercase tracking-tight mb-2 glow-text">
           Awaiting Approval

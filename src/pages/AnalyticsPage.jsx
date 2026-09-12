@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, ArrowLeft, BarChart3 } from 'lucide-react'
 import { FadeIn } from '../components/FadeIn'
 
+
 export default function AnalyticsPage() {
   const { isDark, toggleTheme } = useTheme()
   const [rows, setRows] = useState([])
@@ -48,10 +49,10 @@ export default function AnalyticsPage() {
   const barColor = (pct) => (pct === null ? 'bg-foreground/10' : pct >= 70 ? 'bg-green-400' : pct >= 40 ? 'bg-amber-400' : 'bg-red-400')
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
+    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
       <button
         onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors"
+        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
         aria-label="Toggle theme"
       >
         {isDark ? <Sun size={18} /> : <Moon size={18} />}

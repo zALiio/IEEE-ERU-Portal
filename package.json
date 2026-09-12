@@ -13,10 +13,11 @@
     "@supabase/supabase-js": "^2.112.3",
     "@tailwindcss/vite": "^4.3.3",
     "framer-motion": "^12.43.0",
-    "react-easy-crop": "^5.1.1",
+    "gsap": "^3.15.0",
     "lucide-react": "^0.577.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-easy-crop": "^5.1.1",
     "react-router-dom": "^7.18.2"
   },
   "devDependencies": {

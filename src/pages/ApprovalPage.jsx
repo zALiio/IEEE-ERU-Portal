@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, ArrowLeft, Check, X, Users } from 'lucide-react'
 import { FadeIn } from '../components/FadeIn'
 
+
 const ROLE_OPTIONS = ['member', 'leader', 'excom', 'admin']
 
 export default function ApprovalPage() {
@@ -94,10 +95,10 @@ export default function ApprovalPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
+    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
       <button
         onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors"
+        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
         aria-label="Toggle theme"
       >
         {isDark ? <Sun size={18} /> : <Moon size={18} />}

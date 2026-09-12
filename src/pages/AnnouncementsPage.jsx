@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabaseClient'
 import { Megaphone, Pin, Plus, X, Sun, Moon, ArrowLeft, Pencil, Trash2 } from 'lucide-react'
 import { FadeIn } from '../components/FadeIn'
 
+
 export default function AnnouncementsPage() {
   const { profile } = useAuth()
   const { isDark, toggleTheme } = useTheme()
@@ -67,40 +68,36 @@ export default function AnnouncementsPage() {
   const remove = async (id) => {
     if (!confirm('Delete this announcement?')) return
 
-    // Grab the announcement first so we can clean up its notifications.
-    const { data: target } = await supabase
+    // Fetch title FIRST, then delete, then clean up notifications
+    const { data: target, error: fetchErr } = await supabase
       .from('portal_announcements')
       .select('id, title')
       .eq('id', id)
       .single()
+    if (fetchErr) { setError(fetchErr.message); return }
 
     const { error } = await supabase
       .from('portal_announcements')
       .delete()
       .eq('id', id)
-    if (error) {
-      setError(error.message)
-      return
-    }
+    if (error) { setError(error.message); return }
 
     // Remove any notifications still pointing at this announcement.
-    if (target) {
+    if (target?.title) {
       const { error: notifErr } = await supabase
         .from('notifications')
         .delete()
         .ilike('message', `%${target.title}%`)
-      if (notifErr) {
-        console.warn('Failed to clean up notifications:', notifErr.message)
-      }
+      if (notifErr) console.warn('Failed to clean up notifications:', notifErr.message)
     }
     await load()
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
+    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
       <button
         onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors"
+        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
         aria-label="Toggle theme"
       >
         {isDark ? <Sun size={18} /> : <Moon size={18} />}

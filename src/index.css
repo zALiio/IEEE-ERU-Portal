@@ -10,6 +10,7 @@
   --color-gold-glow: rgba(212, 175, 55, 0.1);
   --color-background: #030712;
   --color-foreground: #f8fafc;
+  --color-foreground-rgb: 248,250,252;
   --color-dark-background: #030712;
   --color-dark-background-rgb: 3,7,18;
 
@@ -39,7 +40,20 @@
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+@utility glass-glow {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.glass:hover, .glass-glow:hover {
+  border-color: rgba(0, 91, 152, 0.35);
+  box-shadow: 0 0 24px rgba(0, 91, 152, 0.08);
 }
 
 [data-theme="light"] .glass {
@@ -75,6 +89,14 @@
       linear-gradient(rgba(0, 122, 204, 0.1) 1px, transparent 1px),
       linear-gradient(90deg, rgba(0, 122, 204, 0.1) 1px, transparent 1px);
     background-size: 40px 40px;
+  }
+
+  body::after {
+    content: "";
+    @apply fixed inset-0 z-[-1] pointer-events-none;
+    background:
+      radial-gradient(ellipse 70% 40% at 50% 0%, rgba(0, 91, 152, 0.12) 0%, transparent 70%),
+      radial-gradient(circle at 80% 80%, rgba(0, 122, 204, 0.05) 0%, transparent 50%);
   }
 
   [data-theme="light"] body::before {
@@ -120,8 +142,11 @@
   color: rgba(var(--color-dark-background-rgb), 0.9) !important;
 }
 
-/* Broad fallback: ensure any remaining literal-white text becomes visible in light theme */
-[data-theme="light"] body, [data-theme="light"] body * {
+/* Broad fallback: ensure any remaining literal-white text becomes visible in light theme.
+   Elements carrying a Tailwind text-* color utility keep their natural color so semantic
+   colors still mean something in light mode (status green/red/amber, links, medals). */
+[data-theme="light"] body,
+[data-theme="light"] body *:not([class*="text-"]) {
   color: var(--color-dark-background) !important;
 }
 
@@ -136,6 +161,7 @@
            shadow-[0_4px_14px_0_var(--color-primary-glow)]
            hover:translate-y-[-2px] hover:shadow-[0_6px_20px_rgba(0,91,152,0.4)]
            active:scale-95;
+    background-image: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%);
   }
 
   [data-theme="light"] .btn-primary {
@@ -151,7 +177,7 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 10px var(--color-primary-glow));
+    filter: drop-shadow(0 0 12px var(--color-primary-glow)) drop-shadow(0 0 30px rgba(0, 91, 152, 0.15));
   }
 
   [data-theme="light"] .glow-text {
@@ -160,6 +186,12 @@
     background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 8px rgba(0, 102, 178, 0.2));
+  }
+
+  .tech-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--color-primary) 50%, transparent 100%);
+    opacity: 0.2;
   }
 }
 
@@ -179,4 +211,190 @@
 
 [data-theme="light"] ::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 102, 178, 0.4);
+}
+
+[data-theme="light"] .glass:hover,
+[data-theme="light"] .glass-glow:hover {
+  border-color: rgba(0, 102, 178, 0.3);
+  box-shadow: 0 0 24px rgba(0, 102, 178, 0.06);
+}
+
+[data-theme="light"] body::after {
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(0, 102, 178, 0.06) 0%, transparent 70%),
+    radial-gradient(circle at 80% 80%, rgba(0, 122, 204, 0.03) 0%, transparent 50%);
+}
+
+/* ============ Portal polish (from ieee-eru.org) ============ */
+
+/* -- Section labels: blue dot + uppercase monospace -- */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.section-label-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  box-shadow: 0 0 8px var(--color-primary-glow);
+  flex-shrink: 0;
+}
+.section-label-text {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(var(--color-foreground-rgb), 0.5);
+  font-weight: 500;
+}
+
+/* -- Wave dividers -- */
+.wave-divider {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  opacity: 0.9;
+}
+
+/* -- Scroll-to-top floating button -- */
+.scroll-top-btn {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 60;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 91, 152, 0.35);
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+}
+.scroll-top-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 91, 152, 0.5);
+}
+.scroll-top-btn:active {
+  transform: scale(0.95);
+}
+.scroll-top-btn--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+[data-theme="light"] .scroll-top-btn {
+  box-shadow: 0 8px 24px rgba(0, 102, 178, 0.3);
+  /* keep the arrow light — it sits on a blue chip in both themes */
+  color: #fff !important;
+}
+
+/* -- Members marquee banner -- */
+.members-marquee {
+  width: 100%;
+  overflow: hidden;
+  user-select: none;
+}
+.marquee-track {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+  will-change: transform;
+  animation: ieee-marquee 36s linear infinite;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground-rgb), 0.32);
+}
+.marquee-track span {
+  display: inline-block;
+  padding-right: 1em;
+}
+@keyframes ieee-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.members-marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* -- Stat cards: count-up friendly, hover lift -- */
+.stat-card {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 91, 152, 0.12);
+  border-color: rgba(0, 91, 152, 0.4);
+}
+[data-theme="light"] .stat-card:hover {
+  box-shadow: 0 16px 40px rgba(0, 102, 178, 0.14);
+}
+
+/* -- Leaderboard medals: gold / silver / bronze, tuned for dark AND light themes -- */
+.medal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+.medal-gold   { color: #facc15; background: rgba(250, 204, 21, 0.16); }
+.medal-silver { color: #e2e8f0; background: rgba(226, 232, 240, 0.16); }
+.medal-bronze { color: #f59e0b; background: rgba(245, 158, 11, 0.18); }
+[data-theme="light"] .medal-gold   { color: #a16207 !important; background: rgba(161, 98, 7, 0.14); }
+[data-theme="light"] .medal-silver { color: #64748b !important; background: rgba(100, 116, 139, 0.15); }
+[data-theme="light"] .medal-bronze { color: #b45309 !important; background: rgba(180, 83, 9, 0.16); }
+
+/* -- Energy core: expanding concentric rings -- */
+.energy-core {
+  position: relative;
+  pointer-events: none;
+}
+.energy-core-pulse,
+.energy-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+}
+.energy-core-pulse {
+  background: radial-gradient(circle, rgba(0, 122, 204, 0.4) 0%, transparent 70%);
+  box-shadow: 0 0 18px var(--color-primary-glow);
+  animation: ieee-pulse-ring 4.2s ease-out infinite;
+}
+.energy-ring {
+  border: 1px solid rgba(0, 122, 204, 0.4);
+  animation: ieee-pulse-ring 4.2s ease-out infinite;
+}
+@keyframes ieee-pulse-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(var(--ring-scale, 24));
+    opacity: 0;
+  }
+}
+.energy-core--muted .energy-ring,
+.energy-core--muted .energy-core-pulse {
+  opacity: 0.12;
+}
+[data-theme="light"] .energy-ring {
+  border-color: rgba(0, 102, 178, 0.35);
+}
+[data-theme="light"] .energy-core-pulse {
+  background: radial-gradient(circle, rgba(0, 102, 178, 0.3) 0%, transparent 70%);
 }

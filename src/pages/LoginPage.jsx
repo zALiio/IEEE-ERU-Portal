@@ -1,13 +1,19 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
+import { useWelcome } from '../context/WelcomeContext'
 import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, ShieldCheck, Eye, EyeOff } from 'lucide-react'
 import { FadeIn } from '../components/FadeIn'
+import EnergyCore from '../components/EnergyCore'
+import { useMagnetic } from '../hooks/useMagnetic'
+
 import logo from '../assets/img/falg-blue.webp'
 
 export default function LoginPage() {
   const { isDark, toggleTheme } = useTheme()
+  const { startWelcome } = useWelcome()
   const navigate = useNavigate()
 
   const [email, setEmail] = useState('')
@@ -15,13 +21,15 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const logoRef = useRef(null)
+  const { ref: magnetRef, style: magnetStyle, onMouseEnter, onMouseMove, onMouseLeave } = useMagnetic()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
     setSubmitting(true)
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
     setSubmitting(false)
 
     if (error) {
@@ -29,21 +37,35 @@ export default function LoginPage() {
       return
     }
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('full_name')
+      .eq('id', data.user.id)
+      .single()
+
+    const rect = logoRef.current?.getBoundingClientRect()
+    startWelcome(profile?.full_name || email.split('@')[0], rect)
     navigate('/')
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4">
+    <div className="h-dvh bg-background flex flex-col items-center justify-center px-4 relative overflow-hidden">
+      <EnergyCore
+        size={520}
+        parallax
+        className="opacity-60"
+        style={{ position: 'fixed', left: '50%', top: '50%' }}
+      />
       <button
         onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors"
+        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
         aria-label="Toggle theme"
       >
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <FadeIn className="glass p-10 max-w-md w-full text-center">
-        <img src={logo} alt="IEEE ERU" className="mx-auto mb-6 h-14 w-14 object-contain" />
+      <FadeIn className="glass p-10 max-w-md w-full text-center relative z-10">
+        <img ref={logoRef} src={logo} alt="IEEE ERU" className="mx-auto mb-8 h-24 w-24 object-contain" />
         <h1 className="text-3xl font-black uppercase tracking-tight mb-2 glow-text">
           IEEE ERU Portal
         </h1>
@@ -84,9 +106,18 @@ export default function LoginPage() {
             <p className="text-red-400 text-xs text-center">{error}</p>
           )}
 
-          <button type="submit" disabled={submitting} className="btn-primary w-full disabled:opacity-50">
+          <motion.button
+            ref={magnetRef}
+            style={magnetStyle}
+            onMouseEnter={onMouseEnter}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
+            type="submit"
+            disabled={submitting}
+            className="btn-primary w-full disabled:opacity-50"
+          >
             {submitting ? 'Logging in…' : 'Log In'}
-          </button>
+          </motion.button>
         </form>
 
         <p className="text-foreground/40 text-xs text-center mt-6">

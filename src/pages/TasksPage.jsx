@@ -8,6 +8,7 @@ import {
   AlertTriangle, ChevronDown, Filter,
 } from 'lucide-react'
 
+
 const STATUSES = [
   { key: 'todo', label: 'To Do' },
   { key: 'in_progress', label: 'In Progress' },
@@ -125,9 +126,9 @@ export default function TasksPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
+    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
       <button onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors" aria-label="Toggle theme">
+        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10" aria-label="Toggle theme">
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 

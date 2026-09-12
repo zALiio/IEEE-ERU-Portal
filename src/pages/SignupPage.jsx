@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, UserPlus, Eye, EyeOff } from 'lucide-react'
 import { FadeIn } from '../components/FadeIn'
 
+
 export default function SignupPage() {
   const { isDark, toggleTheme } = useTheme()
   const navigate = useNavigate()
@@ -53,16 +54,16 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 relative">
       <button
         onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors"
+        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
         aria-label="Toggle theme"
       >
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <FadeIn className="glass p-10 max-w-md w-full">
+      <FadeIn className="glass p-10 max-w-md w-full relative z-10">
         <div className="text-center mb-8">
           <UserPlus className="mx-auto mb-4 text-primary" size={36} />
           <h1 className="text-2xl font-black uppercase tracking-tight glow-text">

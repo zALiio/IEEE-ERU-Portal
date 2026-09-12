@@ -5,6 +5,9 @@ import { useTheme } from '../context/ThemeContext'
 import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, ArrowLeft, Calendar, MapPin, Video, Plus, X, Check, UserX, Pencil, Trash2 } from 'lucide-react'
 import { FadeIn } from '../components/FadeIn'
+import SectionLabel from '../components/SectionLabel'
+import ScrollToTopButton from '../components/ScrollToTopButton'
+
 
 const fmtDate = (iso) =>
   new Date(iso).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
@@ -105,14 +108,18 @@ export default function EventsPage() {
 
   const removeEvent = async (id) => {
     if (!confirm('Delete this event?')) return
-    const { data: target } = await supabase
+    // Fetch title FIRST, then delete, then clean up notifications
+    const { data: target, error: fetchErr } = await supabase
       .from('portal_events')
       .select('id, title')
       .eq('id', id)
       .single()
+    if (fetchErr) { setError(fetchErr.message); return }
+
     const { error: err } = await supabase.from('portal_events').delete().eq('id', id)
     if (err) { setError(err.message); return }
-    if (target) {
+
+    if (target?.title) {
       const { error: notifErr } = await supabase
         .from('notifications')
         .delete()
@@ -152,10 +159,10 @@ export default function EventsPage() {
   const past = events.filter((e) => new Date(e.event_date) < now)
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
+    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
       <button
         onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors"
+        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
         aria-label="Toggle theme"
       >
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
@@ -214,7 +221,9 @@ export default function EventsPage() {
           <p className="text-foreground/40 text-sm">Loading…</p>
         ) : (
           <>
-            <h2 className="text-sm font-bold uppercase tracking-wide text-foreground/50 mb-3">Upcoming</h2>
+            <div className="mb-3">
+              <SectionLabel small>Upcoming Events</SectionLabel>
+            </div>
             {upcoming.length === 0 ? (
               <p className="text-foreground/40 text-sm mb-8">No upcoming events.</p>
             ) : (
@@ -301,7 +310,9 @@ export default function EventsPage() {
 
             {past.length > 0 && (
               <>
-                <h2 className="text-sm font-bold uppercase tracking-wide text-foreground/50 mb-3">Past</h2>
+                <div className="mb-3">
+                  <SectionLabel small>Past Events</SectionLabel>
+                </div>
                 <div className="space-y-3">
                   {past.map((ev) => {
                     const mine = myRsvps[ev.id]
@@ -321,6 +332,7 @@ export default function EventsPage() {
           </>
         )}
       </FadeIn>
+      <ScrollToTopButton />
     </div>
   )
 }

@@ -4,6 +4,9 @@ import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
 import { Building2, Users, BookUser, ClipboardCheck, Check, Trophy, X, Calendar, BarChart3, ClipboardList } from 'lucide-react'
 import NavDrawer from '../../components/NavDrawer'
+import SectionLabel from '../../components/SectionLabel'
+import AnimatedNumber from '../../components/AnimatedNumber'
+import MembersMarquee from '../../components/MembersMarquee'
 import { FadeIn, Stagger, StaggerItem } from '../../components/FadeIn'
 
 export default function ExcomAdminDashboard() {
@@ -124,16 +127,14 @@ export default function ExcomAdminDashboard() {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-3">
             <ClipboardCheck className="text-blue-400" size={18} />
-            <h2 className="text-lg font-bold uppercase tracking-tight text-foreground/70">
-              Pending Confirmation
-            </h2>
+            <SectionLabel small>Pending Confirmation</SectionLabel>
           </div>
-          <Stagger className="space-y-3">
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {pending.map((t) => {
               const assignee = profilesById[t.assigned_to]
               return (
                 <StaggerItem key={t.id}>
-                  <div className="glass p-5 flex items-center justify-between gap-4 border border-blue-400/20">
+                  <div className="glass p-5 flex items-center justify-between gap-4 border border-blue-400/20 h-full">
                     <div className="min-w-0 flex-1">
                       <p className="font-semibold truncate">{t.title}</p>
                       <p className="text-foreground/40 text-xs mt-1">
@@ -145,20 +146,22 @@ export default function ExcomAdminDashboard() {
                         </a>
                       )}
                     </div>
-                    <button
-                      onClick={() => confirmTask(t.id)}
-                      disabled={confirmingId === t.id}
-                      className="btn-primary text-xs px-4 py-2 flex items-center gap-2 shrink-0 disabled:opacity-50"
-                    >
-                      <Check size={14} /> {confirmingId === t.id ? 'Confirming…' : 'Confirm'}
-                    </button>
-                    <button
-                      onClick={() => rejectTask(t.id)}
-                      disabled={confirmingId === t.id}
-                      className="glass-pill text-xs px-4 py-2 flex items-center gap-2 shrink-0 text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50"
-                    >
-                      <X size={14} /> Reject
-                    </button>
+                    <div className="flex flex-col gap-2 shrink-0">
+                      <button
+                        onClick={() => confirmTask(t.id)}
+                        disabled={confirmingId === t.id}
+                        className="btn-primary text-xs px-4 py-2 flex items-center gap-2 shrink-0 disabled:opacity-50"
+                      >
+                        <Check size={14} /> {confirmingId === t.id ? 'Confirming…' : 'Confirm'}
+                      </button>
+                      <button
+                        onClick={() => rejectTask(t.id)}
+                        disabled={confirmingId === t.id}
+                        className="glass-pill text-xs px-4 py-2 flex items-center gap-2 shrink-0 text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                      >
+                        <X size={14} /> Reject
+                      </button>
+                    </div>
                   </div>
                 </StaggerItem>
               )
@@ -172,22 +175,30 @@ export default function ExcomAdminDashboard() {
       {loading ? (
         <p className="text-foreground/40 text-sm">Loading…</p>
       ) : (
-        <Stagger className="space-y-3">
-          {teams.map((t) => (
-            <StaggerItem key={t.id}>
-              <Link
-                to={`/team/${t.id}`}
-                className="glass p-5 flex items-center justify-between hover:bg-primary/10 transition-colors"
-              >
-                <div>
-                  <p className="font-semibold">{t.name}</p>
-                  <p className="text-foreground/40 text-xs">{t.memberCount} active member{t.memberCount === 1 ? '' : 's'}</p>
-                </div>
-                <p className="text-primary font-bold">{t.totalPoints} pts</p>
-              </Link>
-            </StaggerItem>
-          ))}
-        </Stagger>
+        <>
+          <div className="mb-3">
+            <SectionLabel>Active Teams</SectionLabel>
+          </div>
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {teams.map((t) => (
+              <StaggerItem key={t.id}>
+                <Link
+                  to={`/team/${t.id}`}
+                  className="glass-glow p-5 flex items-center justify-between hover:bg-primary/10 transition-colors h-full"
+                >
+                  <div>
+                    <p className="font-semibold">{t.name}</p>
+                    <p className="text-foreground/40 text-xs">
+                      <AnimatedNumber value={t.memberCount} /> active member{t.memberCount === 1 ? '' : 's'}
+                    </p>
+                  </div>
+                  <p className="text-primary font-bold"><AnimatedNumber value={t.totalPoints} /> pts</p>
+                </Link>
+              </StaggerItem>
+            ))}
+          </Stagger>
+          <MembersMarquee className="mt-12" />
+        </>
       )}
     </div>
   )

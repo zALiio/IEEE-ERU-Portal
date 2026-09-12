@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, ArrowLeft, Users, X, ClipboardList, History, Crown, Shield } from 'lucide-react'
 import { FadeIn } from '../components/FadeIn'
 
+
 const TASK_STATUS_STYLES = {
   todo: 'text-foreground/40',
   in_progress: 'text-amber-400',
@@ -91,10 +92,10 @@ export default function TeamDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
+    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
       <button
         onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors"
+        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
         aria-label="Toggle theme"
       >
         {isDark ? <Sun size={18} /> : <Moon size={18} />}

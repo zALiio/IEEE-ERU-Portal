@@ -7,6 +7,7 @@ import { supabase } from '../lib/supabaseClient'
 import getCroppedBlob from '../lib/cropImage'
 import { Sun, Moon, ArrowLeft, User, Upload, Mail, Calendar, Lock } from 'lucide-react'
 
+
 export default function ProfilePage() {
   const { isDark, toggleTheme } = useTheme()
   const { profile, refreshProfile } = useAuth()
@@ -104,10 +105,10 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
+    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
       <button
         onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors"
+        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
         aria-label="Toggle theme"
       >
         {isDark ? <Sun size={18} /> : <Moon size={18} />}

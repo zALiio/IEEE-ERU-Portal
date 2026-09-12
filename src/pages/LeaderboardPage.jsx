@@ -5,10 +5,11 @@ import { supabase } from '../lib/supabaseClient'
 import { Sun, Moon, ArrowLeft, Trophy, Medal } from 'lucide-react'
 import { FadeIn } from '../components/FadeIn'
 
-const RANK_STYLES = {
-  0: 'text-yellow-400',
-  1: 'text-foreground/60',
-  2: 'text-amber-600',
+
+const RANK_MEDALS = {
+  0: 'medal-gold',
+  1: 'medal-silver',
+  2: 'medal-bronze',
 }
 
 export default function LeaderboardPage() {
@@ -29,6 +30,7 @@ export default function LeaderboardPage() {
         .from('profiles')
         .select('id, full_name, role, points, team_id, teams!profiles_team_id_fkey(name)')
         .eq('status', 'active')
+        .eq('role', 'member')
         .order('points', { ascending: false })
 
       if (error) {
@@ -44,10 +46,10 @@ export default function LeaderboardPage() {
   const visible = teamFilter ? members.filter((m) => m.team_id === teamFilter) : members
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
+    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
       <button
         onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors"
+        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
         aria-label="Toggle theme"
       >
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
@@ -92,9 +94,11 @@ export default function LeaderboardPage() {
             {visible.map((m, i) => (
               <div key={m.id} className="glass p-5 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-4 min-w-0">
-                  <div className="w-8 shrink-0 flex items-center justify-center">
+                  <div className="w-9 shrink-0 flex items-center justify-center">
                     {i < 3 ? (
-                      <Medal className={RANK_STYLES[i]} size={22} />
+                      <span className={`medal ${RANK_MEDALS[i]}`}>
+                        <Medal size={20} />
+                      </span>
                     ) : (
                       <span className="text-foreground/40 text-sm font-bold">{i + 1}</span>
                     )}

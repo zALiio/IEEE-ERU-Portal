@@ -4,7 +4,12 @@ import { Sun, Moon, LogOut } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import NotificationBell from '../components/NotificationBell'
 import AnnouncementsFeed from '../components/AnnouncementsFeed'
+import ScrollToTopButton from '../components/ScrollToTopButton'
+import Wave from '../components/Wave'
 import { FadeIn } from '../components/FadeIn'
+
+import logo from '../assets/img/ieee-eru-full.webp'
+
 import MemberDashboard from './dashboards/MemberDashboard'
 import LeaderDashboard from './dashboards/LeaderDashboard'
 import ExcomAdminDashboard from './dashboards/ExcomAdminDashboard'
@@ -29,21 +34,26 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 sm:px-6 py-16">
-      <FadeIn className="w-full max-w-4xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+    <div className="min-h-screen bg-background flex flex-col items-center px-4 sm:px-6 py-8 sm:py-12 relative">
+      <FadeIn className="w-full max-w-4xl grid grid-cols-[1fr_auto_1fr] items-center gap-4 mb-8">
         <Link to="/profile" className="min-w-0 hover:opacity-80 transition-opacity">
-          <h1 className="text-xl font-black uppercase tracking-tight glow-text truncate">
+          <h1 className="dashboard-header-name text-xl font-black uppercase tracking-tight glow-text truncate">
             {profile?.full_name}
           </h1>
           <p className="text-foreground/40 text-xs uppercase tracking-[0.2em] mt-1 truncate">
             {profile?.role} · {profile?.teams?.name ?? 'No team'}
           </p>
         </Link>
-        <div className="flex items-center gap-2 shrink-0">
+        <img
+          src={logo}
+          alt="IEEE ERU"
+          className="dashboard-header-logo h-24 w-24 object-contain pointer-events-none select-none justify-self-center"
+        />
+        <div className="flex items-center gap-2 shrink-0 justify-self-end">
           <NotificationBell />
           <button
             onClick={toggleTheme}
-            className="p-3 glass-pill hover:bg-primary/10 transition-colors"
+            className="p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
             aria-label="Toggle theme"
           >
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
@@ -57,12 +67,18 @@ export default function DashboardPage() {
         </div>
       </FadeIn>
 
-      <FadeIn delay={0.1}>
+      <div className="tech-divider w-full max-w-4xl my-6" />
+
+      <FadeIn delay={0.1} className="w-full max-w-4xl">
         <AnnouncementsFeed />
       </FadeIn>
-      <FadeIn delay={0.18}>
+
+      <Wave className="w-full max-w-4xl my-6" height={28} />
+
+      <FadeIn delay={0.18} className="w-full max-w-4xl">
         {renderRoleView()}
       </FadeIn>
+      <ScrollToTopButton />
     </div>
   )
 }

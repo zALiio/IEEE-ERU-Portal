@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import { FadeIn } from '../components/FadeIn'
 
+
 const ROLE_OPTIONS = ['member', 'leader', 'excom', 'admin']
 const FOUNDER_ROLES = ['excom', 'admin']
 
@@ -51,10 +52,10 @@ export default function MemberDirectoryPage() {
   }, [myProfile])
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16">
+    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
       <button
         onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors"
+        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
         aria-label="Toggle theme"
       >
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
@@ -139,6 +140,10 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
   const [confirmAction, setConfirmAction] = useState(null) // 'warning1' | 'warning2' | 'terminate' | null
 
   const availableRoles = isAdmin ? ROLE_OPTIONS : ROLE_OPTIONS.filter((r) => r !== 'admin')
+  // Team transfer should only be hidden if the member is CURRENTLY an excom/admin
+  // (they don't belong to teams). Current member/leader roles CAN be transferred.
+  const memberHasNoTeam = FOUNDER_ROLES.includes(member.role)
+  // The "no team assignment" note should appear when NEW role is excom/admin
   const newRoleHasNoTeam = FOUNDER_ROLES.includes(newRole)
 
   useEffect(() => {
@@ -352,7 +357,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
             </div>
 
             {/* Team transfer — hidden entirely for Excom/Admin, who don't belong to any team */}
-            {!newRoleHasNoTeam && (
+            {!memberHasNoTeam && (
               <div className="glass p-4 mb-4">
                 <p className="text-foreground/50 text-xs uppercase tracking-wide mb-2 flex items-center gap-2">
                   <Shuffle size={13} /> Transfer Team

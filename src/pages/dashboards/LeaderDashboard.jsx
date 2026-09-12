@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
-import { Users, BookUser, ClipboardCheck, Check, Trophy, Calendar, ClipboardList, X } from 'lucide-react'
+import { Users, BookUser, ClipboardCheck, Check, Trophy, Calendar, ClipboardList, X, Users2, Award } from 'lucide-react'
 import NavDrawer from '../../components/NavDrawer'
+import SectionLabel from '../../components/SectionLabel'
+import AnimatedNumber from '../../components/AnimatedNumber'
+import MembersMarquee from '../../components/MembersMarquee'
 import { Stagger, StaggerItem } from '../../components/FadeIn'
 
 export default function LeaderDashboard() {
@@ -98,20 +101,47 @@ export default function LeaderDashboard() {
         </Link>
       </div>
 
+      <Stagger className="grid grid-cols-2 gap-3 mb-8">
+        <StaggerItem>
+          <div className="glass stat-card p-5 flex items-center gap-4 h-full">
+            <div className="p-3 rounded-full glass-pill text-primary shrink-0">
+              <Users2 size={22} />
+            </div>
+            <div>
+              <p className="text-lg font-black leading-none">
+                <AnimatedNumber value={members.length} />
+              </p>
+              <p className="text-foreground/40 text-xs uppercase tracking-[0.2em] mt-1">Team Members</p>
+            </div>
+          </div>
+        </StaggerItem>
+        <StaggerItem>
+          <div className="glass stat-card p-5 flex items-center gap-4 h-full">
+            <div className="p-3 rounded-full glass-pill text-primary shrink-0">
+              <Award size={22} />
+            </div>
+            <div>
+              <p className="text-lg font-black leading-none">
+                <AnimatedNumber value={members.reduce((s, m) => s + (m.points ?? 0), 0)} />
+              </p>
+              <p className="text-foreground/40 text-xs uppercase tracking-[0.2em] mt-1">Team Points</p>
+            </div>
+          </div>
+        </StaggerItem>
+      </Stagger>
+
       {pending.length > 0 && (
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-3">
             <ClipboardCheck className="text-blue-400" size={18} />
-            <h2 className="text-lg font-bold uppercase tracking-tight text-foreground/70">
-              Pending Confirmation
-            </h2>
+            <SectionLabel small>Pending Confirmation</SectionLabel>
           </div>
-          <Stagger className="space-y-3">
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {pending.map((t) => {
               const assignee = members.find((m) => m.id === t.assigned_to)
               return (
                 <StaggerItem key={t.id}>
-                  <div className="glass p-5 flex items-center justify-between gap-4 border border-blue-400/20">
+                  <div className="glass p-5 flex items-center justify-between gap-4 border border-blue-400/20 h-full">
                     <div className="min-w-0 flex-1">
                       <p className="font-semibold truncate">{t.title}</p>
                       <p className="text-foreground/40 text-xs mt-1">
@@ -123,20 +153,22 @@ export default function LeaderDashboard() {
                         </a>
                       )}
                     </div>
-                    <button
-                      onClick={() => confirmTask(t.id)}
-                      disabled={confirmingId === t.id}
-                      className="btn-primary text-xs px-4 py-2 flex items-center gap-2 shrink-0 disabled:opacity-50"
-                    >
-                      <Check size={14} /> {confirmingId === t.id ? 'Confirming…' : 'Confirm'}
-                    </button>
-                    <button
-                      onClick={() => rejectTask(t.id)}
-                      disabled={confirmingId === t.id}
-                      className="glass-pill text-xs px-4 py-2 flex items-center gap-2 shrink-0 text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50"
-                    >
-                      <X size={14} /> Reject
-                    </button>
+                    <div className="flex flex-col gap-2 shrink-0">
+                      <button
+                        onClick={() => confirmTask(t.id)}
+                        disabled={confirmingId === t.id}
+                        className="btn-primary text-xs px-4 py-2 flex items-center gap-2 shrink-0 disabled:opacity-50"
+                      >
+                        <Check size={14} /> {confirmingId === t.id ? 'Confirming…' : 'Confirm'}
+                      </button>
+                      <button
+                        onClick={() => rejectTask(t.id)}
+                        disabled={confirmingId === t.id}
+                        className="glass-pill text-xs px-4 py-2 flex items-center gap-2 shrink-0 text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50"
+                      >
+                        <X size={14} /> Reject
+                      </button>
+                    </div>
                   </div>
                 </StaggerItem>
               )
@@ -154,20 +186,27 @@ export default function LeaderDashboard() {
           <p className="text-foreground/40 text-sm">No active members on your team yet.</p>
         </div>
       ) : (
-        <Stagger className="space-y-3">
-          {members.map((m) => (
-            <StaggerItem key={m.id}>
-              <div className="glass p-5 flex items-center justify-between">
-                <div>
-                  <p className="font-semibold">{m.full_name}</p>
-                  <p className="text-foreground/40 text-xs uppercase tracking-wide">{m.role}</p>
+        <>
+          <div className="mb-3">
+            <SectionLabel>Team Members</SectionLabel>
+          </div>
+          <Stagger className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {members.map((m) => (
+              <StaggerItem key={m.id}>
+                <div className="glass p-5 flex items-center justify-between h-full">
+                  <div>
+                    <p className="font-semibold">{m.full_name}</p>
+                    <p className="text-foreground/40 text-xs uppercase tracking-wide">{m.role}</p>
+                  </div>
+                  <p className="text-primary font-bold">{m.points} pts</p>
                 </div>
-                <p className="text-primary font-bold">{m.points} pts</p>
-              </div>
-            </StaggerItem>
-          ))}
-        </Stagger>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </>
       )}
+
+      <MembersMarquee className="mt-12" />
     </div>
   )
 }
