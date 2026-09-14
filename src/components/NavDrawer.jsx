@@ -11,15 +11,17 @@ export default function NavDrawer({ items, fixed = false }) {
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className={`lg:hidden glass-pill p-3 hover:bg-primary/10 transition-colors ${
-          fixed ? 'fixed top-4 right-4 z-[60]' : ''
-        }`}
-        aria-label="Open menu"
-      >
-        <Menu size={18} />
-      </button>
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          className={`lg:hidden glass-pill p-3 hover:bg-primary/10 transition-colors ${
+            fixed ? 'fixed top-4 right-4 z-[60]' : ''
+          }`}
+          aria-label="Open menu"
+        >
+          <Menu size={18} />
+        </button>
+      )}
 
       <AnimatePresence>
         {open && (

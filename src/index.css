@@ -303,7 +303,7 @@
   gap: 0;
   white-space: nowrap;
   will-change: transform;
-  animation: ieee-marquee 36s linear infinite;
+  animation: ieee-marquee 15s linear infinite;
   font-family: Georgia, 'Times New Roman', serif;
   font-style: italic;
   font-size: 1.05rem;
