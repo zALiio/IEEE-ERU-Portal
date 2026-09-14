@@ -125,15 +125,16 @@ export default function WelcomeOverlay() {
 
   const nm = nameMetrics
 
-  // Responsive logo size: scale with viewport, capped to prevent overflow on small screens
-  const logoSize = Math.min(208, Math.min(window.innerWidth * 0.4, window.innerHeight * 0.35))
+  // Responsive logo size: scale with viewport, capped to prevent overflow on small screens.
+  // Reduced 208→160 so the whole welcome scene reads smaller while staying balanced.
+  const logoSize = Math.min(160, Math.min(window.innerWidth * 0.35, window.innerHeight * 0.3))
 
   // Welcome-scene vertical stack — compute from measured heights so everything
   // stays centered regardless of viewport or font size.
-  const labelH = labelMetrics?.h ?? 34
-  const nameH = nm?.h ?? 80
-  const GAP_LOGO_LABEL = 16
-  const GAP_LABEL_NAME = 10
+  const labelH = labelMetrics?.h ?? 28
+  const nameH = nm?.h ?? 56
+  const GAP_LOGO_LABEL = 12
+  const GAP_LABEL_NAME = 8
   const totalH = logoSize + GAP_LOGO_LABEL + labelH + GAP_LABEL_NAME + nameH
   const stackTop = cy - totalH / 2
 
@@ -230,10 +231,10 @@ export default function WelcomeOverlay() {
         <motion.div
           className="absolute rounded-full blur-[120px] pointer-events-none"
           style={{
-            width: 460,
-            height: 460,
-            x: cx - 230,
-            y: logoCenterY - 230,
+            width: 380,
+            height: 380,
+            x: cx - 190,
+            y: logoCenterY - 190,
             background: 'radial-gradient(circle, rgba(0,91,152,0.28) 0%, transparent 70%)',
             willChange: 'opacity, transform',
           }}
@@ -288,7 +289,7 @@ export default function WelcomeOverlay() {
       {/* "Welcome back" — fades away during the fly-out */}
       <motion.p
         ref={labelRef}
-        className="text-foreground/40 text-[28px] uppercase tracking-[0.25em] m-0"
+        className="text-foreground/40 text-[22px] uppercase tracking-[0.25em] m-0"
         style={{ position: 'fixed', left: 0, top: 0, x: labelX, y: labelY, zIndex: 10, willChange: 'transform, opacity' }}
         animate={labelAnimate}
       >
@@ -298,7 +299,7 @@ export default function WelcomeOverlay() {
       {/* Name — hidden while measured, greets, then flies to the header name */}
       <motion.div
         ref={nameRef}
-        className="text-[36px] sm:text-[60px] md:text-[72px] font-black uppercase tracking-tight glow-text whitespace-nowrap m-0 max-w-[90vw] overflow-hidden text-ellipsis"
+        className="text-[28px] sm:text-[44px] md:text-[52px] font-black uppercase tracking-tight glow-text whitespace-nowrap m-0 max-w-[90vw] overflow-hidden text-ellipsis"
         style={{
           position: 'fixed',
           left: 0,
