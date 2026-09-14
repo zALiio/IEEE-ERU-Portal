@@ -20,21 +20,40 @@ export default function WelcomeOverlay() {
   const nameRef = useRef(null)
   const labelRef = useRef(null)
 
-  // ---- Viewport center: measured live, re-measured on resize so a mid-animation
-  // address-bar show/hide on mobile can't leave the scene off-center. ----
+  // window.innerHeight/innerWidth are the LAYOUT viewport on mobile Chrome — they
+  // do not shrink when the address bar is visible. window.visualViewport is the
+  // actual visible area, which is what centering needs to match, or the scene
+  // renders centered on a viewport bigger than what's on screen and sits low.
+  const getViewport = () => ({
+    width: window.visualViewport?.width ?? window.innerWidth,
+    height: window.visualViewport?.height ?? window.innerHeight,
+  })
+
+  // ---- Viewport center: measured live, re-measured on resize/scroll so a
+  // mid-animation address-bar show/hide can't leave the scene off-center. ----
   useLayoutEffect(() => {
     if (!active) return
-    const measure = () => setCenter({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
+    const measure = () => {
+      const v = getViewport()
+      setCenter({ x: v.width / 2, y: v.height / 2 })
+    }
     measure()
+    window.visualViewport?.addEventListener('resize', measure)
+    window.visualViewport?.addEventListener('scroll', measure)
     window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
+    return () => {
+      window.visualViewport?.removeEventListener('resize', measure)
+      window.visualViewport?.removeEventListener('scroll', measure)
+      window.removeEventListener('resize', measure)
+    }
   }, [active])
 
   // ---- Measure once: login-logo start rect + hidden welcome text metrics ----
   useLayoutEffect(() => {
     if (!active) return
-    const cx = window.innerWidth / 2
-    const cy = window.innerHeight / 2
+    const { width: vw, height: vh } = getViewport()
+    const cx = vw / 2
+    const cy = vh / 2
     setLoginLogo(
       logoRect && logoRect.width > 0
         ? { x: logoRect.x, y: logoRect.y, width: logoRect.width, height: logoRect.height }
@@ -136,7 +155,8 @@ export default function WelcomeOverlay() {
 
   // Responsive logo size: scale with viewport, capped to prevent overflow on small screens.
   // Reduced 208→160 so the whole welcome scene reads smaller while staying balanced.
-  const logoSize = Math.min(160, Math.min(window.innerWidth * 0.35, window.innerHeight * 0.3))
+  const vp = getViewport()
+  const logoSize = Math.min(160, Math.min(vp.width * 0.35, vp.height * 0.3))
 
   // Welcome-scene vertical stack — compute from measured heights so everything
   // stays centered regardless of viewport or font size.
