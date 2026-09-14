@@ -137,7 +137,7 @@ function AnimatedPage({ children }) {
       key={location.pathname}
       exit={{ opacity: 0 }}
       transition={{ duration: 0 }}
-      className="min-h-screen"
+      className="min-h-dvh"
     >
       {children}
     </motion.div>

@@ -20,12 +20,21 @@ export default function WelcomeOverlay() {
   const nameRef = useRef(null)
   const labelRef = useRef(null)
 
+  // ---- Viewport center: measured live, re-measured on resize so a mid-animation
+  // address-bar show/hide on mobile can't leave the scene off-center. ----
+  useLayoutEffect(() => {
+    if (!active) return
+    const measure = () => setCenter({ x: window.innerWidth / 2, y: window.innerHeight / 2 })
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [active])
+
   // ---- Measure once: login-logo start rect + hidden welcome text metrics ----
   useLayoutEffect(() => {
     if (!active) return
     const cx = window.innerWidth / 2
     const cy = window.innerHeight / 2
-    setCenter({ x: cx, y: cy })
     setLoginLogo(
       logoRect && logoRect.width > 0
         ? { x: logoRect.x, y: logoRect.y, width: logoRect.width, height: logoRect.height }
