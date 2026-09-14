@@ -6,7 +6,7 @@ export default function ProtectedRoute({ children, allowedRoles }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-dvh flex items-center justify-center bg-background">
         <div className="text-foreground/50 text-sm uppercase tracking-[0.3em]">Loading…</div>
       </div>
     )

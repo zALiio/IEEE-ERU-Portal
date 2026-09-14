@@ -16,7 +16,7 @@ export default function PendingApprovalPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 relative">
+    <div className="min-h-dvh bg-background flex flex-col items-center justify-center px-4 relative">
       <button
         onClick={toggleTheme}
         className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"

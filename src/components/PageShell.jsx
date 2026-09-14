@@ -8,7 +8,7 @@ import { FadeIn } from './FadeIn'
 export default function PageShell({ backTo = '/', backLabel = 'Back to dashboard', width = 'max-w-4xl', children }) {
   const { isDark, toggleTheme } = useTheme()
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
+    <div className="min-h-dvh bg-background flex flex-col items-center px-4 py-16 relative">
       <button
         onClick={toggleTheme}
         className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"

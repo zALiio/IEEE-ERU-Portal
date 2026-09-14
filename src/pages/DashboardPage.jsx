@@ -34,7 +34,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 sm:px-6 py-8 sm:py-12 relative">
+    <div className="min-h-dvh bg-background flex flex-col items-center px-4 sm:px-6 py-8 sm:py-12 relative">
       <FadeIn className="w-full max-w-4xl flex flex-col sm:grid sm:grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-4 mb-8">
         <img
           src={logo}
