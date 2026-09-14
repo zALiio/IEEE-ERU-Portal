@@ -1,8 +1,8 @@
 // Lightweight SVG wave divider between sections (pattern from ieee-eru.org)
-export default function Wave({ flip = false, className = '', height = 34 }) {
+export default function Wave({ className = '', height = 34 }) {
   return (
     <div
-      className={`wave-divider ${flip ? 'wave-divider--flip' : ''} ${className}`}
+      className={`wave-divider ${className}`}
       style={{ height }}
       aria-hidden="true"
     >
@@ -27,14 +27,6 @@ export default function Wave({ flip = false, className = '', height = 34 }) {
           strokeWidth="1"
           opacity="0.5"
         />
-        {flip && (
-          <path
-            d="M0,6 C180,-6 340,22 520,6 C700,-8 880,20 1080,8 C1240,0 1360,14 1440,8"
-            fill="none"
-            stroke="url(#ieee-wave-grad)"
-            strokeWidth="1.5"
-          />
-        )}
       </svg>
     </div>
   )

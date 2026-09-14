@@ -1,21 +1,17 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { useTheme } from '../context/ThemeContext'
 import { supabase } from '../lib/supabaseClient'
-import { Sun, Moon, ArrowLeft, Calendar, MapPin, Video, Plus, X, Check, UserX, Pencil, Trash2 } from 'lucide-react'
-import { FadeIn } from '../components/FadeIn'
+import { Calendar, MapPin, Video, Plus, X, Check, UserX, Pencil, Trash2 } from 'lucide-react'
+import PageShell from '../components/PageShell'
 import SectionLabel from '../components/SectionLabel'
 import ScrollToTopButton from '../components/ScrollToTopButton'
-
-
-const fmtDate = (iso) =>
-  new Date(iso).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })
+import { isManager } from '../lib/permissions'
+import { removeNotificationsMatching } from '../lib/notifications'
+import { formatDateTime } from '../lib/formatDate'
 
 export default function EventsPage() {
-  const { isDark, toggleTheme } = useTheme()
   const { profile } = useAuth()
-  const isManager = profile?.role === 'excom' || profile?.role === 'admin'
+  const canManage = isManager(profile)
 
   const [events, setEvents] = useState([])
   const [myRsvps, setMyRsvps] = useState({}) // event_id -> rsvp row
@@ -50,7 +46,7 @@ export default function EventsPage() {
     for (const r of myRows ?? []) mine[r.event_id] = r
     setMyRsvps(mine)
 
-    if (isManager) {
+    if (canManage) {
       const { data: allRsvps } = await supabase
         .from('portal_event_rsvps')
         .select('id, event_id, status, profile_id, profiles(full_name)')
@@ -120,10 +116,7 @@ export default function EventsPage() {
     if (err) { setError(err.message); return }
 
     if (target?.title) {
-      const { error: notifErr } = await supabase
-        .from('notifications')
-        .delete()
-        .ilike('message', `%${target.title}%`)
+      const { error: notifErr } = await removeNotificationsMatching(target.title)
       if (notifErr) console.warn('Failed to clean up event notifications:', notifErr.message)
     }
     await load()
@@ -159,26 +152,13 @@ export default function EventsPage() {
   const past = events.filter((e) => new Date(e.event_date) < now)
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
-      <button
-        onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
-        aria-label="Toggle theme"
-      >
-        {isDark ? <Sun size={18} /> : <Moon size={18} />}
-      </button>
-
-      <FadeIn className="max-w-4xl w-full">
-        <Link to="/" className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors">
-          <ArrowLeft size={16} /> Back to dashboard
-        </Link>
-
+    <PageShell>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div className="flex items-center gap-3">
             <Calendar className="text-primary" size={28} />
             <h1 className="text-2xl font-black uppercase tracking-tight glow-text">Events</h1>
           </div>
-          {isManager && (
+          {canManage && (
             <button onClick={() => setShowForm((p) => !p)} className="btn-primary text-xs px-4 py-2 flex items-center gap-2 w-fit">
               {showForm ? <X size={14} /> : <Plus size={14} />}
               {showForm ? 'Cancel' : 'Create Event'}
@@ -192,21 +172,21 @@ export default function EventsPage() {
               className="w-full glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm" />
             <textarea placeholder="Description (optional)" value={description} onChange={(e) => setDescription(e.target.value)} rows={2}
               className="w-full glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm resize-none" />
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <select value={locationType} onChange={(e) => setLocationType(e.target.value)}
-                className="w-1/2 glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm">
+                className="w-full sm:w-1/2 glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm">
                 <option value="in_person" className="bg-background">In Person</option>
                 <option value="online" className="bg-background">Online</option>
               </select>
               <input type="text" placeholder={locationType === 'online' ? 'Meeting link' : 'Address / room'} value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-1/2 glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm" />
+                className="w-full sm:w-1/2 glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm" />
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <input type="datetime-local" value={eventDate} onChange={(e) => setEventDate(e.target.value)} required
-                className="w-1/2 glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm" />
+                className="w-full sm:w-1/2 glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm" />
               <input type="number" min={0} placeholder="Points" value={points} onChange={(e) => setPoints(e.target.value)}
-                className="w-1/2 glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm" />
+                className="w-full sm:w-1/2 glass-pill px-4 py-2.5 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm" />
             </div>
             {error && <p className="text-red-400 text-xs">{error}</p>}
             <button type="submit" disabled={submitting} className="btn-primary w-full text-sm disabled:opacity-50">
@@ -237,7 +217,7 @@ export default function EventsPage() {
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 min-w-0">
                         <p className="font-semibold truncate">{ev.title}</p>
-                        {isManager && (
+                        {canManage && (
                           <div className="flex items-center gap-1.5 shrink-0">
                             <button onClick={() => startEdit(ev)} className="text-foreground/40 hover:text-primary transition-colors">
                               <Pencil size={14} />
@@ -248,7 +228,7 @@ export default function EventsPage() {
                           </div>
                         )}
                       </div>
-                          <p className="text-foreground/40 text-xs mt-1">{fmtDate(ev.event_date)} · {ev.points} pts</p>
+                          <p className="text-foreground/40 text-xs mt-1">{formatDateTime(ev.event_date)} · {ev.points} pts</p>
                           <div className="flex items-center gap-1.5 text-xs text-foreground/50 mt-1">
                             {ev.location_type === 'online' ? <Video size={12} /> : <MapPin size={12} />}
                             {ev.location_type === 'online' && ev.location ? (
@@ -276,7 +256,7 @@ export default function EventsPage() {
                         </div>
                       </div>
 
-                      {isManager && (
+                      {canManage && (
                         <div className="mt-3 pt-3 border-t border-foreground/10">
                           <button onClick={() => setExpandedId(expandedId === ev.id ? null : ev.id)} className="text-xs text-foreground/50 underline">
                             {expandedId === ev.id ? 'Hide' : 'Manage'} attendance ({rsvps.length})
@@ -320,7 +300,7 @@ export default function EventsPage() {
                       <div key={ev.id} className="glass p-5 opacity-60 flex items-center justify-between gap-4">
                         <div className="min-w-0">
                           <p className="font-semibold truncate">{ev.title}</p>
-                          <p className="text-foreground/40 text-xs mt-1">{fmtDate(ev.event_date)}</p>
+                          <p className="text-foreground/40 text-xs mt-1">{formatDateTime(ev.event_date)}</p>
                         </div>
                         {mine && <span className="text-xs text-foreground/50 shrink-0 uppercase">{mine.status}</span>}
                       </div>
@@ -331,8 +311,7 @@ export default function EventsPage() {
             )}
           </>
         )}
-      </FadeIn>
       <ScrollToTopButton />
-    </div>
+    </PageShell>
   )
 }

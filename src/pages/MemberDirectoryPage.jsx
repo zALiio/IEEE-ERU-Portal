@@ -1,27 +1,43 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabaseClient'
-import {
-  Sun, Moon, ArrowLeft, Users, ChevronRight, X, Plus, Minus,
-  AlertTriangle, UserX, Shuffle, ShieldCheck,
-} from 'lucide-react'
-import { FadeIn } from '../components/FadeIn'
+import { Users, ChevronRight, X, Plus, Minus, AlertTriangle, UserX, Shuffle, ShieldCheck } from 'lucide-react'
+import PageShell from '../components/PageShell'
+import Modal from '../components/Modal'
+import ConfirmDialog from '../components/ConfirmDialog'
+import { isManager, grantableRoles, FOUNDER_ROLES } from '../lib/permissions'
+import { applyPointsDelta } from '../lib/points'
 
-
-const ROLE_OPTIONS = ['member', 'leader', 'excom', 'admin']
-const FOUNDER_ROLES = ['excom', 'admin']
+// Disciplinary-action confirmation copy, driven by the shared ConfirmDialog.
+const CONFIRM_COPY = {
+  warning1: {
+    title: 'Issue First Warning?',
+    body: (name) => `${name} will receive a first warning and lose 10 points.`,
+    confirmLabel: 'Issue Warning',
+    confirmClass: 'bg-amber-500/20 text-amber-400 hover:bg-amber-500/30',
+  },
+  warning2: {
+    title: 'Issue Second Warning?',
+    body: (name) => `${name} will receive a second warning and lose 25 points.`,
+    confirmLabel: 'Issue Warning',
+    confirmClass: 'bg-orange-500/20 text-orange-400 hover:bg-orange-500/30',
+  },
+  terminate: {
+    title: 'Terminate Member?',
+    body: (name) => `${name} will be marked terminated, immediately blocked from logging in, and hidden from active lists. This can be reversed later directly in the database if needed.`,
+    confirmLabel: 'Terminate',
+    confirmClass: 'bg-red-500/20 text-red-400 hover:bg-red-500/30',
+  },
+}
 
 export default function MemberDirectoryPage() {
-  const { isDark, toggleTheme } = useTheme()
   const { profile: myProfile } = useAuth()
   const [members, setMembers] = useState([])
   const [teams, setTeams] = useState([])
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState(null)
 
-  const canManage = myProfile?.role === 'excom' || myProfile?.role === 'admin'
+  const canManage = isManager(myProfile)
 
   const loadMembers = async () => {
     setLoading(true)
@@ -52,22 +68,8 @@ export default function MemberDirectoryPage() {
   }, [myProfile])
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
-      <button
-        onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
-        aria-label="Toggle theme"
-      >
-        {isDark ? <Sun size={18} /> : <Moon size={18} />}
-      </button>
-
-      <FadeIn className="max-w-4xl w-full">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors"
-        >
-          <ArrowLeft size={16} /> Back to dashboard
-        </Link>
+    <>
+      <PageShell>
 
         <div className="flex items-center gap-3 mb-8">
           <Users className="text-primary" size={28} />
@@ -104,14 +106,14 @@ export default function MemberDirectoryPage() {
             ))}
           </div>
         )}
-      </FadeIn>
+      </PageShell>
 
       {selected && (
         <MemberDetailModal
           member={selected}
           teams={teams}
           canManage={canManage}
-          isAdmin={myProfile?.role === 'admin'}
+          profile={myProfile}
           onClose={() => setSelected(null)}
           onMemberChanged={() => {
             setSelected(null)
@@ -119,11 +121,11 @@ export default function MemberDirectoryPage() {
           }}
         />
       )}
-    </div>
+    </>
   )
 }
 
-function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMemberChanged }) {
+function MemberDetailModal({ member, teams, canManage, profile, onClose, onMemberChanged }) {
   const [tasks, setTasks] = useState([])
   const [log, setLog] = useState([])
   const [loading, setLoading] = useState(true)
@@ -139,7 +141,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
 
   const [confirmAction, setConfirmAction] = useState(null) // 'warning1' | 'warning2' | 'terminate' | null
 
-  const availableRoles = isAdmin ? ROLE_OPTIONS : ROLE_OPTIONS.filter((r) => r !== 'admin')
+  const availableRoles = grantableRoles(profile)
   // Team transfer should only be hidden if the member is CURRENTLY an excom/admin
   // (they don't belong to teams). Current member/leader roles CAN be transferred.
   const memberHasNoTeam = FOUNDER_ROLES.includes(member.role)
@@ -179,22 +181,14 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
     }
     setBusy(true)
 
-    const { error: logError } = await supabase.from('points_log').insert({
-      task_id: null,
-      profile_id: member.id,
+    const { error } = await applyPointsDelta({
+      profileId: member.id,
+      basePoints: member.points,
       points: amount,
       note: adjustNote.trim(),
-      entry_type: 'adjustment',
     })
-    if (logError) { setError(logError.message); setBusy(false); return }
-
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .update({ points: member.points + amount })
-      .eq('id', member.id)
-
     setBusy(false)
-    if (profileError) { setError(profileError.message); return }
+    if (error) { setError(error.message); return }
 
     setAdjustAmount('')
     setAdjustNote('')
@@ -249,23 +243,16 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
     const amount = level === 1 ? -10 : -25
     const label = level === 1 ? 'First Warning' : 'Second Warning'
 
-    const { error: logError } = await supabase.from('points_log').insert({
-      task_id: null,
-      profile_id: member.id,
+    const { error } = await applyPointsDelta({
+      profileId: member.id,
+      basePoints: member.points,
       points: amount,
       note: `${label} issued — ${Math.abs(amount)} points deducted`,
-      entry_type: 'warning',
+      entryType: 'warning',
     })
-    if (logError) { setError(logError.message); setBusy(false); return }
-
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .update({ points: member.points + amount })
-      .eq('id', member.id)
-
     setBusy(false)
     setConfirmAction(null)
-    if (profileError) { setError(profileError.message); return }
+    if (error) { setError(error.message); return }
     onMemberChanged()
   }
 
@@ -288,8 +275,8 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center px-4 z-50" onClick={onClose}>
-      <div className="glass p-6 max-w-lg w-full max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+    <>
+      <Modal onClose={onClose} panelClassName="max-w-lg w-full max-h-[85vh] overflow-y-auto">
         <div className="flex items-start justify-between mb-6">
           <div>
             <h2 className="text-xl font-black uppercase tracking-tight glow-text">{member.full_name}</h2>
@@ -386,13 +373,13 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
             {/* Points adjustment */}
             <form onSubmit={submitAdjustment} className="glass p-4 mb-4 space-y-2">
               <p className="text-foreground/50 text-xs uppercase tracking-wide mb-2">Adjust Points</p>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="number"
                   placeholder="+10 or -5"
                   value={adjustAmount}
                   onChange={(e) => setAdjustAmount(e.target.value)}
-                  className="w-28 glass-pill px-3 py-2 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
+                  className="w-full sm:w-28 glass-pill px-3 py-2 bg-transparent outline-none focus:ring-1 focus:ring-primary text-sm"
                 />
                 <input
                   type="text"
@@ -404,7 +391,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
                 <button
                   type="submit"
                   disabled={busy}
-                  className="btn-primary px-4 text-sm flex items-center gap-1 disabled:opacity-50"
+                  className="btn-primary px-4 py-2 sm:py-0 text-sm flex items-center justify-center gap-1 disabled:opacity-50"
                 >
                   {Number(adjustAmount) < 0 ? <Minus size={14} /> : <Plus size={14} />}
                 </button>
@@ -479,12 +466,14 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
             </div>
           </>
         )}
-      </div>
+      </Modal>
 
       {confirmAction && (
         <ConfirmDialog
-          action={confirmAction}
-          memberName={member.full_name}
+          title={CONFIRM_COPY[confirmAction].title}
+          body={CONFIRM_COPY[confirmAction].body(member.full_name)}
+          confirmLabel={CONFIRM_COPY[confirmAction].confirmLabel}
+          confirmClassName={CONFIRM_COPY[confirmAction].confirmClass}
           busy={busy}
           onCancel={() => setConfirmAction(null)}
           onConfirm={() => {
@@ -494,53 +483,7 @@ function MemberDetailModal({ member, teams, canManage, isAdmin, onClose, onMembe
           }}
         />
       )}
-    </div>
+    </>
   )
 }
 
-function ConfirmDialog({ action, memberName, busy, onCancel, onConfirm }) {
-  const copy = {
-    warning1: {
-      title: 'Issue First Warning?',
-      body: `${memberName} will receive a first warning and lose 10 points.`,
-      confirmLabel: 'Issue Warning',
-      confirmClass: 'bg-amber-500/20 text-amber-400 hover:bg-amber-500/30',
-    },
-    warning2: {
-      title: 'Issue Second Warning?',
-      body: `${memberName} will receive a second warning and lose 25 points.`,
-      confirmLabel: 'Issue Warning',
-      confirmClass: 'bg-orange-500/20 text-orange-400 hover:bg-orange-500/30',
-    },
-    terminate: {
-      title: 'Terminate Member?',
-      body: `${memberName} will be marked terminated, immediately blocked from logging in, and hidden from active lists. This can be reversed later directly in the database if needed.`,
-      confirmLabel: 'Terminate',
-      confirmClass: 'bg-red-500/20 text-red-400 hover:bg-red-500/30',
-    },
-  }[action]
-
-  return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center px-4 z-[60]" onClick={onCancel}>
-      <div className="glass p-6 max-w-sm w-full" onClick={(e) => e.stopPropagation()}>
-        <h3 className="font-bold text-lg mb-2">{copy.title}</h3>
-        <p className="text-foreground/60 text-sm mb-6">{copy.body}</p>
-        <div className="flex gap-3">
-          <button
-            onClick={onCancel}
-            className="flex-1 glass-pill py-2.5 text-sm hover:bg-white/5 transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={onConfirm}
-            disabled={busy}
-            className={`flex-1 rounded-full py-2.5 text-sm font-semibold transition-colors disabled:opacity-50 ${copy.confirmClass}`}
-          >
-            {busy ? 'Working…' : copy.confirmLabel}
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}

@@ -2,30 +2,12 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabaseClient'
-import { Circle, PlayCircle, Send, Clock, CheckCircle2, Award, Trophy, Calendar, ClipboardList } from 'lucide-react'
+import { Circle, Clock, CheckCircle2, Award, Trophy, Calendar, ClipboardList } from 'lucide-react'
 import { FadeIn, Stagger, StaggerItem } from '../../components/FadeIn'
 import SectionLabel from '../../components/SectionLabel'
 import AnimatedNumber from '../../components/AnimatedNumber'
 import MembersMarquee from '../../components/MembersMarquee'
-
-const STATUS_FLOW = {
-  todo: { next: 'in_progress', label: 'Start', icon: PlayCircle },
-  in_progress: { next: 'submitted', label: 'Submit', icon: Send },
-  submitted: null,
-  confirmed: null,
-}
-
-const STATUS_STYLES = {
-  todo: 'text-foreground/40',
-  in_progress: 'text-amber-400',
-  submitted: 'text-blue-400',
-  confirmed: 'text-green-400',
-}
-
-const STATUS_LABELS = {
-  submitted: 'Awaiting confirmation',
-  confirmed: 'Confirmed',
-}
+import { STATUS_FLOW, STATUS_STYLES, STATUS_LABELS } from '../../lib/taskStatus'
 
 const isOverdue = (task) =>
   task.due_date && task.status !== 'submitted' && task.status !== 'confirmed' && new Date(task.due_date) < new Date().setHours(0, 0, 0, 0)
@@ -87,14 +69,14 @@ export default function MemberDashboard() {
   return (
     <div className="w-full max-w-4xl">
       <FadeIn>
-        <div className="glass stat-card p-6 mb-8 flex items-center justify-between">
+        <div className="glass stat-card p-6 mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <p className="text-foreground/50 text-xs uppercase tracking-[0.2em]">Total Points</p>
           <p className="text-3xl font-black glow-text">
             <AnimatedNumber value={profile?.points ?? 0} />
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 justify-center sm:justify-end">
           <Link
             to="/tasks"
             className="glass-pill p-3 hover:bg-primary/10 transition-colors"

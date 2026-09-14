@@ -1,21 +1,14 @@
 import { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { useTheme } from '../context/ThemeContext'
+import { useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
-import { Sun, Moon, ArrowLeft, Users, X, ClipboardList, History, Crown, Shield } from 'lucide-react'
-import { FadeIn } from '../components/FadeIn'
+import { Users, X, ClipboardList, History, Crown, Shield } from 'lucide-react'
+import PageShell from '../components/PageShell'
+import Modal from '../components/Modal'
+import { STATUS_STYLES } from '../lib/taskStatus'
 
-
-const TASK_STATUS_STYLES = {
-  todo: 'text-foreground/40',
-  in_progress: 'text-amber-400',
-  submitted: 'text-blue-400',
-  confirmed: 'text-green-400',
-}
 
 export default function TeamDetailPage() {
   const { teamId } = useParams()
-  const { isDark, toggleTheme } = useTheme()
 
   const [team, setTeam] = useState(null)
   const [members, setMembers] = useState([])
@@ -92,22 +85,8 @@ export default function TeamDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
-      <button
-        onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
-        aria-label="Toggle theme"
-      >
-        {isDark ? <Sun size={18} /> : <Moon size={18} />}
-      </button>
-
-      <FadeIn className="max-w-4xl w-full">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors"
-        >
-          <ArrowLeft size={16} /> Back to dashboard
-        </Link>
+    <>
+      <PageShell>
 
         <div className="flex items-center gap-3 mb-8">
           <Users className="text-primary" size={28} />
@@ -165,14 +144,10 @@ export default function TeamDetailPage() {
             })}
           </div>
         )}
-      </FadeIn>
+      </PageShell>
 
       {selectedMember && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center px-4 z-50" onClick={closeMember}>
-          <div
-            className="glass p-6 max-w-lg w-full max-h-[80vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <Modal onClose={closeMember} panelClassName="max-w-lg w-full max-h-[80vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-lg font-black uppercase tracking-tight">{selectedMember.full_name}</h2>
@@ -199,7 +174,7 @@ export default function TeamDetailPage() {
                       {memberTasks.map((t) => (
                         <div key={t.id} className="glass-pill px-4 py-2.5 flex items-center justify-between gap-3">
                           <p className="text-sm truncate">{t.title}</p>
-                          <span className={`text-xs font-semibold shrink-0 ${TASK_STATUS_STYLES[t.status] ?? 'text-foreground/40'}`}>
+                          <span className={`text-xs font-semibold shrink-0 ${STATUS_STYLES[t.status] ?? 'text-foreground/40'}`}>
                             {t.status}
                           </span>
                         </div>
@@ -233,9 +208,8 @@ export default function TeamDetailPage() {
                 </div>
               </>
             )}
-          </div>
-        </div>
+        </Modal>
       )}
-    </div>
+    </>
   )
 }

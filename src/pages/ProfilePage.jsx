@@ -1,15 +1,14 @@
 import { useState, useCallback } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Cropper from 'react-easy-crop'
 import { useAuth } from '../context/AuthContext'
-import { useTheme } from '../context/ThemeContext'
 import { supabase } from '../lib/supabaseClient'
 import getCroppedBlob from '../lib/cropImage'
-import { Sun, Moon, ArrowLeft, User, Upload, Mail, Calendar, Lock } from 'lucide-react'
+import { User, Upload, Mail, Calendar, Lock } from 'lucide-react'
+import PageShell from '../components/PageShell'
 
 
 export default function ProfilePage() {
-  const { isDark, toggleTheme } = useTheme()
   const { profile, refreshProfile } = useAuth()
   const navigate = useNavigate()
   const [fullName, setFullName] = useState(profile?.full_name ?? '')
@@ -105,19 +104,8 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
-      <button
-        onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
-        aria-label="Toggle theme"
-      >
-        {isDark ? <Sun size={18} /> : <Moon size={18} />}
-      </button>
-
-      <div className="max-w-md w-full">
-        <Link to="/" className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors">
-          <ArrowLeft size={16} /> Back to dashboard
-        </Link>
+    <>
+      <PageShell width="max-w-md">
 
         <div className="flex items-center gap-3 mb-6">
           <User className="text-primary" size={28} />
@@ -179,7 +167,7 @@ export default function ProfilePage() {
             {pwSaving ? 'Updating…' : 'Update Password'}
           </button>
         </form>
-      </div>
+      </PageShell>
 
       {imageSrc && (
         <div className="fixed inset-0 bg-black/80 z-50 flex flex-col items-center justify-center p-4">
@@ -208,6 +196,6 @@ export default function ProfilePage() {
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }

@@ -25,7 +25,7 @@ export default function PendingApprovalPage() {
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <FadeIn className="glass p-10 max-w-md w-full text-center relative z-10">
+      <FadeIn className="glass p-6 sm:p-10 max-w-md w-full text-center relative z-10">
         <Clock className="mx-auto mb-6 text-primary" size={40} />
         <h1 className="text-2xl font-black uppercase tracking-tight mb-2 glow-text">
           Awaiting Approval

@@ -125,21 +125,31 @@ export default function WelcomeOverlay() {
 
   const nm = nameMetrics
 
-  // Welcome-scene vertical stack (positions are element TOP offsets).
-  // ×2 full logo: 208px tall, centered → its bottom edge sits at cy+104.
-  // Label goes 16px under it; name 10px under the label.
-  const labelY = cy + 120
-  const nameY = labelY + (labelMetrics?.h ?? 34) + 10
+  // Responsive logo size: scale with viewport, capped to prevent overflow on small screens
+  const logoSize = Math.min(208, Math.min(window.innerWidth * 0.4, window.innerHeight * 0.35))
+
+  // Welcome-scene vertical stack — compute from measured heights so everything
+  // stays centered regardless of viewport or font size.
+  const labelH = labelMetrics?.h ?? 34
+  const nameH = nm?.h ?? 80
+  const GAP_LOGO_LABEL = 16
+  const GAP_LABEL_NAME = 10
+  const totalH = logoSize + GAP_LOGO_LABEL + labelH + GAP_LABEL_NAME + nameH
+  const stackTop = cy - totalH / 2
+
+  const logoCenterY = stackTop + logoSize / 2
+  const labelY = stackTop + logoSize + GAP_LOGO_LABEL
+  const nameY = labelY + labelH + GAP_LABEL_NAME
 
   // ---- Logo: lift off from the login card, hold center, fly to header ----
   const logoAnimate = {
     logo: {
-      x: cx - 44, y: cy - 44, width: 88, height: 88,
+      x: cx - 44, y: logoCenterY - 44, width: 88, height: 88,
       rotate: 720,
       transition: { duration: 0.5, ease: POP },
     },
     welcome: {
-      x: cx - 44, y: cy - 56, width: 88, height: 88,
+      x: cx - 44, y: logoCenterY - 44, width: 88, height: 88,
       rotate: 720, opacity: 0, scale: 1.15,
       transition: { duration: 0.35, ease: EASE },
     },
@@ -151,7 +161,7 @@ export default function WelcomeOverlay() {
   const fullLogoAnimate = {
     logo: { x: ll.x, y: ll.y, width: ll.width, height: ll.height, opacity: 0, scale: 0.85 },
     welcome: {
-      x: cx - 104, y: cy - 104, width: 208, height: 208,
+      x: cx - logoSize / 2, y: logoCenterY - logoSize / 2, width: logoSize, height: logoSize,
       rotate: 0, opacity: 1, scale: 1,
       transition: { duration: 0.4, ease: EASE },
     },
@@ -223,7 +233,7 @@ export default function WelcomeOverlay() {
             width: 460,
             height: 460,
             x: cx - 230,
-            y: cy - 230,
+            y: logoCenterY - 230,
             background: 'radial-gradient(circle, rgba(0,91,152,0.28) 0%, transparent 70%)',
             willChange: 'opacity, transform',
           }}
@@ -288,7 +298,7 @@ export default function WelcomeOverlay() {
       {/* Name — hidden while measured, greets, then flies to the header name */}
       <motion.div
         ref={nameRef}
-        className="text-[60px] sm:text-[72px] font-black uppercase tracking-tight glow-text whitespace-nowrap m-0"
+        className="text-[36px] sm:text-[60px] md:text-[72px] font-black uppercase tracking-tight glow-text whitespace-nowrap m-0 max-w-[90vw] overflow-hidden text-ellipsis"
         style={{
           position: 'fixed',
           left: 0,

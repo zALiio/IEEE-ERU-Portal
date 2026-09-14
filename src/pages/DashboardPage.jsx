@@ -35,21 +35,21 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center px-4 sm:px-6 py-8 sm:py-12 relative">
-      <FadeIn className="w-full max-w-4xl grid grid-cols-[1fr_auto_1fr] items-center gap-4 mb-8">
-        <Link to="/profile" className="min-w-0 hover:opacity-80 transition-opacity">
-          <h1 className="dashboard-header-name text-xl font-black uppercase tracking-tight glow-text truncate">
+      <FadeIn className="w-full max-w-4xl flex flex-col sm:grid sm:grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-4 mb-8">
+        <img
+          src={logo}
+          alt="IEEE ERU"
+          className="dashboard-header-logo h-20 w-20 sm:h-24 sm:w-24 object-contain pointer-events-none select-none justify-self-center order-1 sm:order-2"
+        />
+        <Link to="/profile" className="min-w-0 hover:opacity-80 transition-opacity order-2 sm:order-1 text-center sm:text-left w-full sm:w-auto">
+          <h1 className="dashboard-header-name text-lg sm:text-xl font-black uppercase tracking-tight glow-text truncate">
             {profile?.full_name}
           </h1>
           <p className="text-foreground/40 text-xs uppercase tracking-[0.2em] mt-1 truncate">
             {profile?.role} · {profile?.teams?.name ?? 'No team'}
           </p>
         </Link>
-        <img
-          src={logo}
-          alt="IEEE ERU"
-          className="dashboard-header-logo h-24 w-24 object-contain pointer-events-none select-none justify-self-center"
-        />
-        <div className="flex items-center gap-2 shrink-0 justify-self-end">
+        <div className="flex items-center gap-2 shrink-0 justify-self-center sm:justify-self-end order-3">
           <NotificationBell />
           <button
             onClick={toggleTheme}
@@ -60,9 +60,9 @@ export default function DashboardPage() {
           </button>
           <button
             onClick={signOut}
-            className="glass-pill px-4 py-2.5 flex items-center gap-2 text-xs hover:bg-primary/10 transition-colors"
+            className="glass-pill p-3 sm:px-4 sm:py-2.5 flex items-center gap-2 text-xs hover:bg-primary/10 transition-colors"
           >
-            <LogOut size={14} /> Sign Out
+            <LogOut size={14} /> <span className="hidden sm:inline">Sign Out</span>
           </button>
         </div>
       </FadeIn>

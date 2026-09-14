@@ -1,0 +1,2180 @@
+[
+  {
+    "role": "member",
+    "vp": "phone-320",
+    "route": "/",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-320___.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-320",
+    "route": "/tasks",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-320___tasks.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-320",
+    "route": "/leaderboard",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-320___leaderboard.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-320",
+    "route": "/events",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-320___events.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-320",
+    "route": "/announcements",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-320___announcements.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-320",
+    "route": "/profile",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-320___profile.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-360",
+    "route": "/",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-360___.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-360",
+    "route": "/tasks",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-360___tasks.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-360",
+    "route": "/leaderboard",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-360___leaderboard.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-360",
+    "route": "/events",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-360___events.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-360",
+    "route": "/announcements",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-360___announcements.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-360",
+    "route": "/profile",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-360___profile.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-375",
+    "route": "/",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-375___.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-375",
+    "route": "/tasks",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-375___tasks.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-375",
+    "route": "/leaderboard",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-375___leaderboard.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-375",
+    "route": "/events",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-375___events.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-375",
+    "route": "/announcements",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-375___announcements.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-375",
+    "route": "/profile",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-375___profile.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-390",
+    "route": "/",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-390___.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-390",
+    "route": "/tasks",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-390___tasks.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-390",
+    "route": "/leaderboard",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-390___leaderboard.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-390",
+    "route": "/events",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-390___events.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-390",
+    "route": "/announcements",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-390___announcements.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-390",
+    "route": "/profile",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-390___profile.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-430",
+    "route": "/",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-430___.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-430",
+    "route": "/tasks",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-430___tasks.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-430",
+    "route": "/leaderboard",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-430___leaderboard.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-430",
+    "route": "/events",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-430___events.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-430",
+    "route": "/announcements",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-430___announcements.png"
+  },
+  {
+    "role": "member",
+    "vp": "phone-430",
+    "route": "/profile",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "member__phone-430___profile.png"
+  },
+  {
+    "role": "member",
+    "vp": "fold-small",
+    "route": "/",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "member__fold-small___.png"
+  },
+  {
+    "role": "member",
+    "vp": "fold-small",
+    "route": "/tasks",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "member__fold-small___tasks.png"
+  },
+  {
+    "role": "member",
+    "vp": "fold-small",
+    "route": "/leaderboard",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "member__fold-small___leaderboard.png"
+  },
+  {
+    "role": "member",
+    "vp": "fold-small",
+    "route": "/events",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "member__fold-small___events.png"
+  },
+  {
+    "role": "member",
+    "vp": "fold-small",
+    "route": "/announcements",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "member__fold-small___announcements.png"
+  },
+  {
+    "role": "member",
+    "vp": "fold-small",
+    "route": "/profile",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "member__fold-small___profile.png"
+  },
+  {
+    "role": "member",
+    "vp": "fold-large",
+    "route": "/",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "member__fold-large___.png"
+  },
+  {
+    "role": "member",
+    "vp": "fold-large",
+    "route": "/tasks",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "member__fold-large___tasks.png"
+  },
+  {
+    "role": "member",
+    "vp": "fold-large",
+    "route": "/leaderboard",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "member__fold-large___leaderboard.png"
+  },
+  {
+    "role": "member",
+    "vp": "fold-large",
+    "route": "/events",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "member__fold-large___events.png"
+  },
+  {
+    "role": "member",
+    "vp": "fold-large",
+    "route": "/announcements",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "member__fold-large___announcements.png"
+  },
+  {
+    "role": "member",
+    "vp": "fold-large",
+    "route": "/profile",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "member__fold-large___profile.png"
+  },
+  {
+    "role": "member",
+    "vp": "tablet-768",
+    "route": "/",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "member__tablet-768___.png"
+  },
+  {
+    "role": "member",
+    "vp": "tablet-768",
+    "route": "/tasks",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "member__tablet-768___tasks.png"
+  },
+  {
+    "role": "member",
+    "vp": "tablet-768",
+    "route": "/leaderboard",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "member__tablet-768___leaderboard.png"
+  },
+  {
+    "role": "member",
+    "vp": "tablet-768",
+    "route": "/events",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "member__tablet-768___events.png"
+  },
+  {
+    "role": "member",
+    "vp": "tablet-768",
+    "route": "/announcements",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "member__tablet-768___announcements.png"
+  },
+  {
+    "role": "member",
+    "vp": "tablet-768",
+    "route": "/profile",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "member__tablet-768___profile.png"
+  },
+  {
+    "role": "member",
+    "vp": "ipad-834",
+    "route": "/",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "member__ipad-834___.png"
+  },
+  {
+    "role": "member",
+    "vp": "ipad-834",
+    "route": "/tasks",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "member__ipad-834___tasks.png"
+  },
+  {
+    "role": "member",
+    "vp": "ipad-834",
+    "route": "/leaderboard",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "member__ipad-834___leaderboard.png"
+  },
+  {
+    "role": "member",
+    "vp": "ipad-834",
+    "route": "/events",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "member__ipad-834___events.png"
+  },
+  {
+    "role": "member",
+    "vp": "ipad-834",
+    "route": "/announcements",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "member__ipad-834___announcements.png"
+  },
+  {
+    "role": "member",
+    "vp": "ipad-834",
+    "route": "/profile",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "member__ipad-834___profile.png"
+  },
+  {
+    "role": "member",
+    "vp": "ipad-1024",
+    "route": "/",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "member__ipad-1024___.png"
+  },
+  {
+    "role": "member",
+    "vp": "ipad-1024",
+    "route": "/tasks",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "member__ipad-1024___tasks.png"
+  },
+  {
+    "role": "member",
+    "vp": "ipad-1024",
+    "route": "/leaderboard",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "member__ipad-1024___leaderboard.png"
+  },
+  {
+    "role": "member",
+    "vp": "ipad-1024",
+    "route": "/events",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "member__ipad-1024___events.png"
+  },
+  {
+    "role": "member",
+    "vp": "ipad-1024",
+    "route": "/announcements",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "member__ipad-1024___announcements.png"
+  },
+  {
+    "role": "member",
+    "vp": "ipad-1024",
+    "route": "/profile",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "member__ipad-1024___profile.png"
+  },
+  {
+    "role": "member",
+    "vp": "desktop-1280",
+    "route": "/",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "member__desktop-1280___.png"
+  },
+  {
+    "role": "member",
+    "vp": "desktop-1280",
+    "route": "/tasks",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "member__desktop-1280___tasks.png"
+  },
+  {
+    "role": "member",
+    "vp": "desktop-1280",
+    "route": "/leaderboard",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "member__desktop-1280___leaderboard.png"
+  },
+  {
+    "role": "member",
+    "vp": "desktop-1280",
+    "route": "/events",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "member__desktop-1280___events.png"
+  },
+  {
+    "role": "member",
+    "vp": "desktop-1280",
+    "route": "/announcements",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "member__desktop-1280___announcements.png"
+  },
+  {
+    "role": "member",
+    "vp": "desktop-1280",
+    "route": "/profile",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "member__desktop-1280___profile.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-320",
+    "route": "/",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-320___.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-320",
+    "route": "/tasks",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-320___tasks.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-320",
+    "route": "/leaderboard",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-320___leaderboard.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-320",
+    "route": "/events",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-320___events.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-320",
+    "route": "/directory",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-320___directory.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-320",
+    "route": "/profile",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-320___profile.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-360",
+    "route": "/",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-360___.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-360",
+    "route": "/tasks",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-360___tasks.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-360",
+    "route": "/leaderboard",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-360___leaderboard.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-360",
+    "route": "/events",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-360___events.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-360",
+    "route": "/directory",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-360___directory.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-360",
+    "route": "/profile",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-360___profile.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-375",
+    "route": "/",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-375___.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-375",
+    "route": "/tasks",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-375___tasks.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-375",
+    "route": "/leaderboard",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-375___leaderboard.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-375",
+    "route": "/events",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-375___events.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-375",
+    "route": "/directory",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-375___directory.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-375",
+    "route": "/profile",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-375___profile.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-390",
+    "route": "/",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-390___.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-390",
+    "route": "/tasks",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-390___tasks.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-390",
+    "route": "/leaderboard",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-390___leaderboard.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-390",
+    "route": "/events",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-390___events.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-390",
+    "route": "/directory",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-390___directory.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-390",
+    "route": "/profile",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-390___profile.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-430",
+    "route": "/",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-430___.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-430",
+    "route": "/tasks",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-430___tasks.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-430",
+    "route": "/leaderboard",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-430___leaderboard.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-430",
+    "route": "/events",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-430___events.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-430",
+    "route": "/directory",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-430___directory.png"
+  },
+  {
+    "role": "leader",
+    "vp": "phone-430",
+    "route": "/profile",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__phone-430___profile.png"
+  },
+  {
+    "role": "leader",
+    "vp": "fold-small",
+    "route": "/",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__fold-small___.png"
+  },
+  {
+    "role": "leader",
+    "vp": "fold-small",
+    "route": "/tasks",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__fold-small___tasks.png"
+  },
+  {
+    "role": "leader",
+    "vp": "fold-small",
+    "route": "/leaderboard",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__fold-small___leaderboard.png"
+  },
+  {
+    "role": "leader",
+    "vp": "fold-small",
+    "route": "/events",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__fold-small___events.png"
+  },
+  {
+    "role": "leader",
+    "vp": "fold-small",
+    "route": "/directory",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__fold-small___directory.png"
+  },
+  {
+    "role": "leader",
+    "vp": "fold-small",
+    "route": "/profile",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__fold-small___profile.png"
+  },
+  {
+    "role": "leader",
+    "vp": "fold-large",
+    "route": "/",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__fold-large___.png"
+  },
+  {
+    "role": "leader",
+    "vp": "fold-large",
+    "route": "/tasks",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__fold-large___tasks.png"
+  },
+  {
+    "role": "leader",
+    "vp": "fold-large",
+    "route": "/leaderboard",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__fold-large___leaderboard.png"
+  },
+  {
+    "role": "leader",
+    "vp": "fold-large",
+    "route": "/events",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__fold-large___events.png"
+  },
+  {
+    "role": "leader",
+    "vp": "fold-large",
+    "route": "/directory",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__fold-large___directory.png"
+  },
+  {
+    "role": "leader",
+    "vp": "fold-large",
+    "route": "/profile",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__fold-large___profile.png"
+  },
+  {
+    "role": "leader",
+    "vp": "tablet-768",
+    "route": "/",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__tablet-768___.png"
+  },
+  {
+    "role": "leader",
+    "vp": "tablet-768",
+    "route": "/tasks",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__tablet-768___tasks.png"
+  },
+  {
+    "role": "leader",
+    "vp": "tablet-768",
+    "route": "/leaderboard",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__tablet-768___leaderboard.png"
+  },
+  {
+    "role": "leader",
+    "vp": "tablet-768",
+    "route": "/events",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__tablet-768___events.png"
+  },
+  {
+    "role": "leader",
+    "vp": "tablet-768",
+    "route": "/directory",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__tablet-768___directory.png"
+  },
+  {
+    "role": "leader",
+    "vp": "tablet-768",
+    "route": "/profile",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__tablet-768___profile.png"
+  },
+  {
+    "role": "leader",
+    "vp": "ipad-834",
+    "route": "/",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__ipad-834___.png"
+  },
+  {
+    "role": "leader",
+    "vp": "ipad-834",
+    "route": "/tasks",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__ipad-834___tasks.png"
+  },
+  {
+    "role": "leader",
+    "vp": "ipad-834",
+    "route": "/leaderboard",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__ipad-834___leaderboard.png"
+  },
+  {
+    "role": "leader",
+    "vp": "ipad-834",
+    "route": "/events",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__ipad-834___events.png"
+  },
+  {
+    "role": "leader",
+    "vp": "ipad-834",
+    "route": "/directory",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__ipad-834___directory.png"
+  },
+  {
+    "role": "leader",
+    "vp": "ipad-834",
+    "route": "/profile",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__ipad-834___profile.png"
+  },
+  {
+    "role": "leader",
+    "vp": "ipad-1024",
+    "route": "/",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__ipad-1024___.png"
+  },
+  {
+    "role": "leader",
+    "vp": "ipad-1024",
+    "route": "/tasks",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__ipad-1024___tasks.png"
+  },
+  {
+    "role": "leader",
+    "vp": "ipad-1024",
+    "route": "/leaderboard",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__ipad-1024___leaderboard.png"
+  },
+  {
+    "role": "leader",
+    "vp": "ipad-1024",
+    "route": "/events",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__ipad-1024___events.png"
+  },
+  {
+    "role": "leader",
+    "vp": "ipad-1024",
+    "route": "/directory",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__ipad-1024___directory.png"
+  },
+  {
+    "role": "leader",
+    "vp": "ipad-1024",
+    "route": "/profile",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__ipad-1024___profile.png"
+  },
+  {
+    "role": "leader",
+    "vp": "desktop-1280",
+    "route": "/",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__desktop-1280___.png"
+  },
+  {
+    "role": "leader",
+    "vp": "desktop-1280",
+    "route": "/tasks",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__desktop-1280___tasks.png"
+  },
+  {
+    "role": "leader",
+    "vp": "desktop-1280",
+    "route": "/leaderboard",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__desktop-1280___leaderboard.png"
+  },
+  {
+    "role": "leader",
+    "vp": "desktop-1280",
+    "route": "/events",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__desktop-1280___events.png"
+  },
+  {
+    "role": "leader",
+    "vp": "desktop-1280",
+    "route": "/directory",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__desktop-1280___directory.png"
+  },
+  {
+    "role": "leader",
+    "vp": "desktop-1280",
+    "route": "/profile",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "leader__desktop-1280___profile.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-320",
+    "route": "/",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-320___.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-320",
+    "route": "/tasks",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-320___tasks.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-320",
+    "route": "/leaderboard",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-320___leaderboard.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-320",
+    "route": "/events",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-320___events.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-320",
+    "route": "/directory",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-320___directory.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-320",
+    "route": "/analytics",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-320___analytics.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-320",
+    "route": "/approve",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-320___approve.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-320",
+    "route": "/team/t1",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-320___team_t1.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-320",
+    "route": "/announcements",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-320___announcements.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-320",
+    "route": "/profile",
+    "width": 320,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-320___profile.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-360",
+    "route": "/",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-360___.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-360",
+    "route": "/tasks",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-360___tasks.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-360",
+    "route": "/leaderboard",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-360___leaderboard.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-360",
+    "route": "/events",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-360___events.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-360",
+    "route": "/directory",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-360___directory.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-360",
+    "route": "/analytics",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-360___analytics.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-360",
+    "route": "/approve",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-360___approve.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-360",
+    "route": "/team/t1",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-360___team_t1.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-360",
+    "route": "/announcements",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-360___announcements.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-360",
+    "route": "/profile",
+    "width": 360,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-360___profile.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-375",
+    "route": "/",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-375___.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-375",
+    "route": "/tasks",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-375___tasks.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-375",
+    "route": "/leaderboard",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-375___leaderboard.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-375",
+    "route": "/events",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-375___events.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-375",
+    "route": "/directory",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-375___directory.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-375",
+    "route": "/analytics",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-375___analytics.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-375",
+    "route": "/approve",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-375___approve.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-375",
+    "route": "/team/t1",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-375___team_t1.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-375",
+    "route": "/announcements",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-375___announcements.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-375",
+    "route": "/profile",
+    "width": 375,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-375___profile.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-390",
+    "route": "/",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-390___.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-390",
+    "route": "/tasks",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-390___tasks.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-390",
+    "route": "/leaderboard",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-390___leaderboard.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-390",
+    "route": "/events",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-390___events.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-390",
+    "route": "/directory",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-390___directory.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-390",
+    "route": "/analytics",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-390___analytics.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-390",
+    "route": "/approve",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-390___approve.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-390",
+    "route": "/team/t1",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-390___team_t1.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-390",
+    "route": "/announcements",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-390___announcements.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-390",
+    "route": "/profile",
+    "width": 390,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-390___profile.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-430",
+    "route": "/",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-430___.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-430",
+    "route": "/tasks",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-430___tasks.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-430",
+    "route": "/leaderboard",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-430___leaderboard.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-430",
+    "route": "/events",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-430___events.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-430",
+    "route": "/directory",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-430___directory.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-430",
+    "route": "/analytics",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-430___analytics.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-430",
+    "route": "/approve",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-430___approve.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-430",
+    "route": "/team/t1",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-430___team_t1.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-430",
+    "route": "/announcements",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-430___announcements.png"
+  },
+  {
+    "role": "excom",
+    "vp": "phone-430",
+    "route": "/profile",
+    "width": 430,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__phone-430___profile.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-small",
+    "route": "/",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-small___.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-small",
+    "route": "/tasks",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-small___tasks.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-small",
+    "route": "/leaderboard",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-small___leaderboard.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-small",
+    "route": "/events",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-small___events.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-small",
+    "route": "/directory",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-small___directory.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-small",
+    "route": "/analytics",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-small___analytics.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-small",
+    "route": "/approve",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-small___approve.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-small",
+    "route": "/team/t1",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-small___team_t1.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-small",
+    "route": "/announcements",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-small___announcements.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-small",
+    "route": "/profile",
+    "width": 655,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-small___profile.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-large",
+    "route": "/",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-large___.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-large",
+    "route": "/tasks",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-large___tasks.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-large",
+    "route": "/leaderboard",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-large___leaderboard.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-large",
+    "route": "/events",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-large___events.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-large",
+    "route": "/directory",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-large___directory.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-large",
+    "route": "/analytics",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-large___analytics.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-large",
+    "route": "/approve",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-large___approve.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-large",
+    "route": "/team/t1",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-large___team_t1.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-large",
+    "route": "/announcements",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-large___announcements.png"
+  },
+  {
+    "role": "excom",
+    "vp": "fold-large",
+    "route": "/profile",
+    "width": 673,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__fold-large___profile.png"
+  },
+  {
+    "role": "excom",
+    "vp": "tablet-768",
+    "route": "/",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__tablet-768___.png"
+  },
+  {
+    "role": "excom",
+    "vp": "tablet-768",
+    "route": "/tasks",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__tablet-768___tasks.png"
+  },
+  {
+    "role": "excom",
+    "vp": "tablet-768",
+    "route": "/leaderboard",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__tablet-768___leaderboard.png"
+  },
+  {
+    "role": "excom",
+    "vp": "tablet-768",
+    "route": "/events",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__tablet-768___events.png"
+  },
+  {
+    "role": "excom",
+    "vp": "tablet-768",
+    "route": "/directory",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__tablet-768___directory.png"
+  },
+  {
+    "role": "excom",
+    "vp": "tablet-768",
+    "route": "/analytics",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__tablet-768___analytics.png"
+  },
+  {
+    "role": "excom",
+    "vp": "tablet-768",
+    "route": "/approve",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__tablet-768___approve.png"
+  },
+  {
+    "role": "excom",
+    "vp": "tablet-768",
+    "route": "/team/t1",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__tablet-768___team_t1.png"
+  },
+  {
+    "role": "excom",
+    "vp": "tablet-768",
+    "route": "/announcements",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__tablet-768___announcements.png"
+  },
+  {
+    "role": "excom",
+    "vp": "tablet-768",
+    "route": "/profile",
+    "width": 768,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__tablet-768___profile.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-834",
+    "route": "/",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-834___.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-834",
+    "route": "/tasks",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-834___tasks.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-834",
+    "route": "/leaderboard",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-834___leaderboard.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-834",
+    "route": "/events",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-834___events.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-834",
+    "route": "/directory",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-834___directory.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-834",
+    "route": "/analytics",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-834___analytics.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-834",
+    "route": "/approve",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-834___approve.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-834",
+    "route": "/team/t1",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-834___team_t1.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-834",
+    "route": "/announcements",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-834___announcements.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-834",
+    "route": "/profile",
+    "width": 834,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-834___profile.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-1024",
+    "route": "/",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-1024___.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-1024",
+    "route": "/tasks",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-1024___tasks.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-1024",
+    "route": "/leaderboard",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-1024___leaderboard.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-1024",
+    "route": "/events",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-1024___events.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-1024",
+    "route": "/directory",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-1024___directory.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-1024",
+    "route": "/analytics",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-1024___analytics.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-1024",
+    "route": "/approve",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-1024___approve.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-1024",
+    "route": "/team/t1",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-1024___team_t1.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-1024",
+    "route": "/announcements",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-1024___announcements.png"
+  },
+  {
+    "role": "excom",
+    "vp": "ipad-1024",
+    "route": "/profile",
+    "width": 1024,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__ipad-1024___profile.png"
+  },
+  {
+    "role": "excom",
+    "vp": "desktop-1280",
+    "route": "/",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__desktop-1280___.png"
+  },
+  {
+    "role": "excom",
+    "vp": "desktop-1280",
+    "route": "/tasks",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__desktop-1280___tasks.png"
+  },
+  {
+    "role": "excom",
+    "vp": "desktop-1280",
+    "route": "/leaderboard",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__desktop-1280___leaderboard.png"
+  },
+  {
+    "role": "excom",
+    "vp": "desktop-1280",
+    "route": "/events",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__desktop-1280___events.png"
+  },
+  {
+    "role": "excom",
+    "vp": "desktop-1280",
+    "route": "/directory",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__desktop-1280___directory.png"
+  },
+  {
+    "role": "excom",
+    "vp": "desktop-1280",
+    "route": "/analytics",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__desktop-1280___analytics.png"
+  },
+  {
+    "role": "excom",
+    "vp": "desktop-1280",
+    "route": "/approve",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__desktop-1280___approve.png"
+  },
+  {
+    "role": "excom",
+    "vp": "desktop-1280",
+    "route": "/team/t1",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__desktop-1280___team_t1.png"
+  },
+  {
+    "role": "excom",
+    "vp": "desktop-1280",
+    "route": "/announcements",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__desktop-1280___announcements.png"
+  },
+  {
+    "role": "excom",
+    "vp": "desktop-1280",
+    "route": "/profile",
+    "width": 1280,
+    "overflow": null,
+    "error": null,
+    "shot": "excom__desktop-1280___profile.png"
+  }
+]

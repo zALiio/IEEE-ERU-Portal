@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { useTheme } from '../context/ThemeContext'
 import { supabase } from '../lib/supabaseClient'
-import { Megaphone, Pin, Plus, X, Sun, Moon, ArrowLeft, Pencil, Trash2 } from 'lucide-react'
-import { FadeIn } from '../components/FadeIn'
+import { Megaphone, Pin, Plus, X, Pencil, Trash2 } from 'lucide-react'
+import PageShell from '../components/PageShell'
+import { isManager } from '../lib/permissions'
+import { removeNotificationsMatching } from '../lib/notifications'
+import { formatDateTime } from '../lib/formatDate'
 
 
 export default function AnnouncementsPage() {
   const { profile } = useAuth()
-  const { isDark, toggleTheme } = useTheme()
-  const isManager = profile?.role === 'excom' || profile?.role === 'admin'
+  const canManage = isManager(profile)
 
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
@@ -84,36 +84,21 @@ export default function AnnouncementsPage() {
 
     // Remove any notifications still pointing at this announcement.
     if (target?.title) {
-      const { error: notifErr } = await supabase
-        .from('notifications')
-        .delete()
-        .ilike('message', `%${target.title}%`)
+      const { error: notifErr } = await removeNotificationsMatching(target.title)
       if (notifErr) console.warn('Failed to clean up notifications:', notifErr.message)
     }
     await load()
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
-      <button
-        onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10"
-        aria-label="Toggle theme"
-      >
-        {isDark ? <Sun size={18} /> : <Moon size={18} />}
-      </button>
+    <PageShell>
 
-      <FadeIn className="max-w-4xl w-full">
-        <Link to="/" className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors">
-          <ArrowLeft size={16} /> Back to dashboard
-        </Link>
-
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div className="flex items-center gap-3">
             <Megaphone className="text-primary" size={28} />
-            <h1 className="text-2xl font-black uppercase tracking-tight glow-text">Announcements</h1>
+            <h1 className="text-xl sm:text-2xl font-black uppercase tracking-tight glow-text">Announcements</h1>
           </div>
-          {isManager && (
+          {canManage && (
             <button onClick={() => (showForm ? resetForm() : setShowForm(true))} className="glass-pill text-xs px-4 py-2 flex items-center gap-1.5 hover:bg-primary/10 transition-colors">
               {showForm ? <X size={12} /> : <Plus size={12} />}
               {showForm ? 'Cancel' : 'New'}
@@ -151,7 +136,7 @@ export default function AnnouncementsPage() {
                     {a.pinned && <Pin size={12} className="text-primary shrink-0" />}
                     <p className="font-semibold text-sm truncate">{a.title}</p>
                   </div>
-                  {isManager && (
+                  {canManage && (
                     <div className="flex items-center gap-2 shrink-0">
                       <button onClick={() => startEdit(a)} className="text-foreground/40 hover:text-primary transition-colors">
                         <Pencil size={14} />
@@ -164,13 +149,12 @@ export default function AnnouncementsPage() {
                 </div>
                 <p className="text-foreground/60 text-xs mt-1.5 whitespace-pre-wrap">{a.body}</p>
                 <p className="text-foreground/30 text-[10px] mt-2">
-                  {new Date(a.created_at).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}
+                  {formatDateTime(a.created_at)}
                 </p>
               </div>
             ))}
           </div>
         )}
-      </FadeIn>
-    </div>
+      </PageShell>
   )
 }

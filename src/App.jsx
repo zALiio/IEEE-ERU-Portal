@@ -19,6 +19,7 @@ import ProfilePage from './pages/ProfilePage'
 import AnalyticsPage from './pages/AnalyticsPage'
 import AnnouncementsPage from './pages/AnnouncementsPage'
 import TasksPage from './pages/TasksPage'
+import { FOUNDER_ROLES } from './lib/permissions'
 
 function App() {
   return (
@@ -42,7 +43,7 @@ function App() {
                 <Route
                   path="/approve"
                   element={
-                    <ProtectedRoute allowedRoles={['excom', 'admin']}>
+                    <ProtectedRoute allowedRoles={FOUNDER_ROLES}>
                       <ApprovalPage />
                     </ProtectedRoute>
                   }
@@ -58,7 +59,7 @@ function App() {
                 <Route
                   path="/team/:teamId"
                   element={
-                    <ProtectedRoute allowedRoles={['excom', 'admin']}>
+                    <ProtectedRoute allowedRoles={FOUNDER_ROLES}>
                       <TeamDetailPage />
                     </ProtectedRoute>
                   }
@@ -90,7 +91,7 @@ function App() {
                 <Route
                   path="/analytics"
                   element={
-                    <ProtectedRoute allowedRoles={['excom', 'admin']}>
+                    <ProtectedRoute allowedRoles={FOUNDER_ROLES}>
                       <AnalyticsPage />
                     </ProtectedRoute>
                   }

@@ -40,7 +40,7 @@ export default function SignupPage() {
       password,
       options: {
         data: { full_name: fullName, team_id: teamId },
-        emailRedirectTo: 'https://hub.ieee-eru.org/'
+        emailRedirectTo: import.meta.env.VITE_EMAIL_REDIRECT_URL ?? 'https://hub.ieee-eru.org/'
       }
     })
     setSubmitting(false)
@@ -63,7 +63,7 @@ export default function SignupPage() {
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <FadeIn className="glass p-10 max-w-md w-full relative z-10">
+      <FadeIn className="glass p-6 sm:p-10 max-w-md w-full relative z-10">
         <div className="text-center mb-8">
           <UserPlus className="mx-auto mb-4 text-primary" size={36} />
           <h1 className="text-2xl font-black uppercase tracking-tight glow-text">

@@ -1,19 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useTheme } from '../context/ThemeContext'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabaseClient'
-import {
-  Sun, Moon, ArrowLeft, ClipboardList, Plus, X, Pencil, Trash2,
-  AlertTriangle, ChevronDown, Filter,
-} from 'lucide-react'
-
-
-const STATUSES = [
-  { key: 'todo', label: 'To Do' },
-  { key: 'in_progress', label: 'In Progress' },
-  { key: 'done', label: 'Done' },
-]
+import { ClipboardList, Plus, X, Pencil, Trash2, AlertTriangle, Filter } from 'lucide-react'
+import PageShell from '../components/PageShell'
+import ConfirmDialog from '../components/ConfirmDialog'
+import { canLead } from '../lib/permissions'
+import { BOARD_COLUMNS } from '../lib/taskStatus'
 
 const PRIORITY_OPTIONS = [
   { key: 'low', label: 'Low', color: 'text-foreground/40' },
@@ -32,9 +24,8 @@ const PRIORITY_ICON = {
 // ---------------------------------------------------------------------------
 
 export default function TasksPage() {
-  const { isDark, toggleTheme } = useTheme()
   const { profile } = useAuth()
-  const isLeader = ['leader', 'excom', 'admin'].includes(profile?.role)
+  const isLeader = canLead(profile)
 
   const [tasks, setTasks] = useState([])
   const [teams, setTeams] = useState([])
@@ -45,6 +36,7 @@ export default function TasksPage() {
   // Modal states
   const [showForm, setShowForm] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const [selectedTask, setSelectedTask] = useState(null)
 
   // Mobile column toggle
@@ -126,17 +118,8 @@ export default function TasksPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-4 py-16 relative">
-      <button onClick={toggleTheme}
-        className="absolute top-6 right-6 p-3 glass-pill hover:bg-primary/10 transition-colors z-10" aria-label="Toggle theme">
-        {isDark ? <Sun size={18} /> : <Moon size={18} />}
-      </button>
-
-      <div className="max-w-4xl w-full">
-        <Link to="/" className="inline-flex items-center gap-2 text-foreground/50 hover:text-foreground/80 text-sm mb-6 transition-colors">
-          <ArrowLeft size={16} /> Back to dashboard
-        </Link>
-
+    <>
+      <PageShell>
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div className="flex items-center gap-3">
             <ClipboardList className="text-primary" size={28} />
@@ -175,7 +158,7 @@ export default function TasksPage() {
           <>
             {/* Mobile: column selector */}
             <div className="flex gap-1 mb-4 sm:hidden">
-              {STATUSES.map((s) => (
+              {BOARD_COLUMNS.map((s) => (
                 <button key={s.key} onClick={() => setMobileCol(s.key)}
                   className={`flex-1 text-xs py-2 rounded-lg transition-colors font-semibold uppercase tracking-wide
                     ${mobileCol === s.key ? 'bg-primary/20 text-primary' : 'glass text-foreground/50'}`}>
@@ -189,7 +172,7 @@ export default function TasksPage() {
 
             {/* Desktop board */}
             <div className="hidden sm:grid sm:grid-cols-3 gap-4">
-              {STATUSES.map((s) => (
+              {BOARD_COLUMNS.map((s) => (
                 <BoardColumn key={s.key} status={s} tasks={tasks}
                   isLeader={isLeader} onStatusChange={handleStatusChange}
                   onEdit={handleEdit} onDelete={handleDelete} />
@@ -199,14 +182,14 @@ export default function TasksPage() {
             {/* Mobile single column */}
             <div className="sm:hidden">
               <BoardColumn
-                status={STATUSES.find((s) => s.key === mobileCol)}
+                status={BOARD_COLUMNS.find((s) => s.key === mobileCol)}
                 tasks={tasks.filter((t) => t.status === mobileCol)}
                 isLeader={isLeader} onStatusChange={handleStatusChange}
                 onEdit={handleEdit} onDelete={handleDelete} />
             </div>
           </>
         )}
-      </div>
+      </PageShell>
 
       {showForm && (
         <TaskFormModal
@@ -215,9 +198,23 @@ export default function TasksPage() {
       )}
 
       {showDeleteConfirm && selectedTask && (
-        <DeleteConfirmModal task={selectedTask} onClose={afterDelete} onConfirmed={afterDelete} />
+        <ConfirmDialog
+          title="Delete Task"
+          body={<>Delete "<span className="font-semibold">{selectedTask.title}</span>"? This cannot be undone.</>}
+          icon={<AlertTriangle size={20} className="text-red-400" />}
+          confirmLabel="Delete"
+          busyLabel="Deleting…"
+          busy={deleting}
+          onCancel={afterDelete}
+          onConfirm={async () => {
+            setDeleting(true)
+            await supabase.from('tasks').delete().eq('id', selectedTask.id)
+            setDeleting(false)
+            afterDelete()
+          }}
+        />
       )}
-    </div>
+    </>
   )
 }
 
@@ -302,7 +299,7 @@ function TaskCard({ task, isLeader, onStatusChange, onEdit, onDelete }) {
 
       {isLeader && (
         <div className="mt-2 pt-2 border-t border-foreground/5 flex gap-1">
-          {STATUSES.filter((s) => s.key !== task.status).slice(0, 2).map((s) => (
+          {BOARD_COLUMNS.filter((s) => s.key !== task.status).slice(0, 2).map((s) => (
             <button key={s.key} onClick={() => onStatusChange(task.id, s.key)}
               className="glass-pill text-[10px] px-2 py-1 text-foreground/40 hover:text-foreground/70 hover:bg-primary/10 transition-colors capitalize">
               → {s.label}
@@ -458,39 +455,3 @@ function TaskFormModal({ task, teams, allMembers, profile, onClose, onSaved }) {
   )
 }
 
-// ---------------------------------------------------------------------------
-// Delete confirmation modal
-// ---------------------------------------------------------------------------
-
-function DeleteConfirmModal({ task, onClose, onConfirmed }) {
-  const [busy, setBusy] = useState(false)
-
-  const confirm = async () => {
-    setBusy(true)
-    await supabase.from('tasks').delete().eq('id', task.id)
-    setBusy(false)
-    onConfirmed()
-  }
-
-  return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center px-4 z-[60]" onClick={onClose}>
-      <div className="glass p-6 max-w-sm w-full" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center gap-3 mb-3">
-          <AlertTriangle size={20} className="text-red-400" />
-          <h3 className="font-bold text-lg">Delete Task</h3>
-        </div>
-        <p className="text-foreground/60 text-sm mb-6">
-          Delete "<span className="font-semibold">{task.title}</span>"? This cannot be undone.
-        </p>
-        <div className="flex gap-3">
-          <button onClick={onClose}
-            className="flex-1 glass-pill py-2.5 text-sm hover:bg-white/5 transition-colors">Cancel</button>
-          <button onClick={confirm} disabled={busy}
-            className="flex-1 rounded-full py-2.5 text-sm font-semibold bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-colors disabled:opacity-50">
-            {busy ? 'Deleting…' : 'Delete'}
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}

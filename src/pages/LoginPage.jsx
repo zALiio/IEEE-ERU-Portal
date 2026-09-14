@@ -64,8 +64,8 @@ export default function LoginPage() {
         {isDark ? <Sun size={18} /> : <Moon size={18} />}
       </button>
 
-      <FadeIn className="glass p-10 max-w-md w-full text-center relative z-10">
-        <img ref={logoRef} src={logo} alt="IEEE ERU" className="mx-auto mb-8 h-24 w-24 object-contain" />
+      <FadeIn className="glass p-6 sm:p-10 max-w-md w-full text-center relative z-10">
+        <img ref={logoRef} src={logo} alt="IEEE ERU" className="mx-auto mb-6 sm:mb-8 h-20 w-20 sm:h-24 sm:w-24 object-contain" />
         <h1 className="text-3xl font-black uppercase tracking-tight mb-2 glow-text">
           IEEE ERU Portal
         </h1>
