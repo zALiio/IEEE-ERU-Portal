@@ -92,6 +92,7 @@ export default function ExcomAdminDashboard() {
           </h2>
         </div>
         <NavDrawer
+          fixed
           items={[
             { label: 'Tasks', icon: ClipboardList, to: '/tasks' },
             { label: 'Leaderboard', icon: Trophy, to: '/leaderboard' },

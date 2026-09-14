@@ -4,14 +4,18 @@ import { Menu, X as CloseIcon } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 // items: [{ label, icon: Component, to?: string, onClick?: () => void, primary?: boolean }]
-export default function NavDrawer({ items }) {
+// fixed: pin the trigger button to the top-right corner of the viewport instead of
+// wherever it sits inline in the layout.
+export default function NavDrawer({ items, fixed = false }) {
   const [open, setOpen] = useState(false)
 
   return (
     <>
       <button
         onClick={() => setOpen(true)}
-        className="lg:hidden glass-pill p-3 hover:bg-primary/10 transition-colors"
+        className={`lg:hidden glass-pill p-3 hover:bg-primary/10 transition-colors ${
+          fixed ? 'fixed top-4 right-4 z-[60]' : ''
+        }`}
         aria-label="Open menu"
       >
         <Menu size={18} />
